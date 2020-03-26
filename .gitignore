@@ -1,3 +1,5 @@
 /.idea/
 /django_movie_site/
 /movies/migrations/
+/movie_shablon/
+media/*
