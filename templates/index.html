@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/home.css">
+    <title>Pro Movie</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
+          <a class="navbar-brand" href="#"><strong>P</strong>ro <strong>M</strong>ovies</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto my-3">
+                <!-- фильмы -->
+              <li class="nav-item active dropdown mr-2">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-film fa-fw mr-2"></i>
+                  Фильмы
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div class="d-lg-flex">
+                        <div>
+                            <div class="dropdown-divider mt-0"></div>
+                            <h6 class="dropdown-header">Жанры</h6>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Боевики</a>
+                            <a class="dropdown-item" href="#">Экшен</a>
+                            <a class="dropdown-item" href="#">Вестерн</a>
+                        </div>
+                        <div>
+                            <div class="dropdown-divider mt-0"></div>
+                            <h6 class="dropdown-header">По годам</h6>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">2020</a>
+                            <a class="dropdown-item" href="#">2019</a>
+                            <a class="dropdown-item" href="#">2018</a>
+                        </div>
+                        <div>
+                            <div class="dropdown-divider mt-0"></div>
+                            <h6 class="dropdown-header">По странам</h6>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Россия</a>
+                            <a class="dropdown-item" href="#">США</a>
+                            <a class="dropdown-item" href="#">Action</a>
+                        </div>
+                    </div>
+                </div>
+              </li>
+                <!-- сериалы -->
+              <li class="nav-item active mr-2">
+                  <a class="nav-link" href="#">
+                      <i class="fas fa-ellipsis-h fa-fw mr-2"></i>
+                      Сериалы
+                  </a>
+              </li>
+                <!-- новинки -->
+              <li class="nav-item active mr-2">
+                  <a class="nav-link" href="#">
+                      <i class="far fa-grin-hearts fa-fw mr-2"></i>
+                      Новинки
+                  </a>
+              </li>
+                <!-- топ -->
+              <li class="nav-item active dropdown mr-2">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-fire fa-fw mr-2"></i>
+                  Топ
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div class="dropdown-divider mt-0"></div>
+                    <a class="dropdown-item dropdown-header" href="#">
+                        <i class="fas fa-fire mr-1"></i>
+                        По годам
+                    </a>
+                    <a class="dropdown-item dropdown-header" href="#">
+                        <i class="fas fa-fire mr-1"></i>
+                        Российская класика
+                    </a>
+                    <a class="dropdown-item dropdown-header" href="#">
+                        <i class="fas fa-fire mr-1"></i>
+                        Зарубежная класика
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">По Рейтингу Кинопоиск</a>
+                    <a class="dropdown-item" href="#">По Рейтингу IMDb</a>
+                    <a class="dropdown-item" href="#">Топ фильмы</a>
+                    <a class="dropdown-item" href="#">Топ Сериалы</a>
+                    <a class="dropdown-item" href="#">Топ Мультфильмы</a>
+                </div>
+              </li>
+                <!-- случайный фильм -->
+              <li class="nav-item active">
+                  <a class="nav-link " href="#">
+                    <i class="fas fa-dice fa-fw mr-1"></i>
+                    Случайны фильм
+                  </a>
+              </li>
+            </ul>
+              <!-- форма поиска -->
+              <form class="form-inline my-2 my-lg-0">
+                <div class="input-group">
+                    <input class="form-control bg-dark border-dark" type="search" placeholder="Search" aria-label="Search">
+                    <span class="input-group-append">
+                        <button class="btn bg-dark search-btn" type="submit"><i class="fa fa-search" ></i></button>
+                    </span>
+                </div>
+            </form>
+          </div>
+        </nav>
+    </header>
+
+
+
+
+    <!-- Popper.JS -->
+    <script src="../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+      <script src="jquery/jquery.min.js"></script>
+      <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- fontawesome JS -->
+      <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+</body>
+</html>

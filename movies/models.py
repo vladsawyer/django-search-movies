@@ -9,7 +9,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 # Create your models here.
 class Categories(MPTTModel):
     title = models.CharField(max_length=150)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     slug = models.SlugField(max_length=160, unique=True)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
@@ -32,6 +32,10 @@ class Likes(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
+    class Meta:
+        verbose_name = "like"
+        verbose_name_plural = "likes"
+
 
 class Comments(MPTTModel):
     text = models.TextField()
@@ -52,19 +56,23 @@ class Comments(MPTTModel):
     def total_likes(self):
         return self.likes.count()
 
+    class Meta:
+        verbose_name = "comment"
+        verbose_name_plural = "comments"
+
 
 class Ratings(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              related_name='ratings',
                              on_delete=models.CASCADE)
-    value = models.PositiveSmallIntegerField(default=0)
+    value = models.PositiveSmallIntegerField(null=True, blank=True)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
     class Meta:
         verbose_name = "rating"
-        verbose_name_plural = "rating"
+        verbose_name_plural = "ratings"
 
 
 class Members(models.Model):
@@ -88,9 +96,8 @@ class Members(models.Model):
 class Movies(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField()
-    tagline = models.CharField(max_length=150, default='')
+    tagline = models.CharField(max_length=150, null=True, blank=True)
     poster = models.ImageField(upload_to="movie/")
-    year = models.DateField()
     country = models.CharField(max_length=50)
     directors = models.ManyToManyField(Members, related_name='film_director')
     actors = models.ManyToManyField(Members, related_name='film_actor')
@@ -116,7 +123,7 @@ class Movies(models.Model):
 
 class PartnerUrls(models.Model):
     name_company = models.CharField(max_length=255)
-    url = models.URLField(null=True)
+    url = models.URLField(null=True, blank=True)
     movie = models.ForeignKey(Movies, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -129,7 +136,7 @@ class PartnerUrls(models.Model):
 
 class MovieShots(models.Model):
     title = models.CharField(max_length=150)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to="movie_shots/")
     movie = models.ForeignKey(Movies, on_delete=models.CASCADE)
 
