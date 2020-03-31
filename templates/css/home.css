@@ -63,20 +63,20 @@ footer {
 /* slider */
 
 .slider-content {
-  position: relative;
-  overflow: auto;
-  height: 400px;
-  border-radius: 1rem;
-  margin: 30px;
-  padding: 2%;
-  background: linear-gradient(45deg, #FC466B, #3F5EFB);
-  background-size: cover;
-  background-origin: border-box;
-   background-position: center center;
-    background-repeat: no-repeat;
-    -o-background-size: cover;
-    -moz-background-size: cover;
-    -webkit-background-size: cover;
+      position: relative;
+      overflow: auto;
+      height: 400px;
+      border-radius: 1rem;
+      margin: 30px;
+      padding: 2%;
+      background: linear-gradient(45deg, #FC466B, #3F5EFB);
+      background-size: cover;
+      background-origin: border-box;
+      background-position: center center;
+      background-repeat: no-repeat;
+      -o-background-size: cover;
+      -moz-background-size: cover;
+      -webkit-background-size: cover;
 }
 
 .slider-card {
@@ -114,7 +114,6 @@ footer {
     display: inline-block;
     margin-right: 10px;
 }
-
 
 .kpsp {
     font-size: 22px;
@@ -155,13 +154,10 @@ footer {
 
 /* main */
 .main-category {
-    /*max-width: 1140px;*/
     margin-top: 8rem;
-    /*height: 10rem;*/
     border-radius: .5rem;
     background-color: #17181f;
     box-sizing: border-box;
-
 }
 
 .main-category div {
@@ -169,8 +165,6 @@ footer {
     padding-bottom: 2.5rem;
     box-sizing: border-box;
     max-height: 10rem;
-
-
 }
 
 .main-category div:hover{
@@ -200,12 +194,7 @@ footer {
     .fa-play {
         font-size: 4rem;
     }
-
-
 }
-
-
-
 
 @media (min-width: 1024px) {
 
@@ -226,7 +215,6 @@ footer {
 
     .nav-item::after {
         --scale: 0;
-
         content: '';
         position: absolute;
         left: 0;
