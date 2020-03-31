@@ -8,18 +8,33 @@
 
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/home.css">
+
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
     <title>Pro Movie</title>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
-          <a class="navbar-brand" href="#"><strong>P</strong>ro <strong>M</strong>ovies</a>
+          <a class="navbar-brand brand" href="#"><strong>P</strong>ro <strong>M</strong>ovies</a>
+
+            <!-- форма поиска для мобильный в navbar -->
+            <div class="col d-lg-none">
+                <form method="post" role="search">
+                    <input class="form-control bg-dark border-dark position-relative" type="search" placeholder="Поиск" aria-label="Search">
+                    <a class="btn btn-search-mob position-absolute" type="submit"><i class="fa fa-search"></i></a>
+                </form>
+            </div>
+
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mx-auto my-3">
+            <ul class="navbar-nav mx-auto ">
                 <!-- фильмы -->
               <li class="nav-item active dropdown mr-2">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -99,35 +114,202 @@
               </li>
                 <!-- случайный фильм -->
               <li class="nav-item active">
-                  <a class="nav-link " href="#">
+                  <a class="nav-link random-film" href="#">
                     <i class="fas fa-dice fa-fw mr-1"></i>
-                    Случайны фильм
+                    Случайный фильм
                   </a>
               </li>
             </ul>
-              <!-- форма поиска -->
-              <form class="form-inline my-2 my-lg-0">
-                <div class="input-group">
-                    <input class="form-control bg-dark border-dark" type="search" placeholder="Search" aria-label="Search">
-                    <span class="input-group-append">
-                        <button class="btn bg-dark search-btn" type="submit"><i class="fa fa-search" ></i></button>
-                    </span>
-                </div>
-            </form>
+
+            <ul class="navbar-nav">
+               <!-- collapse форма поиска -->
+              <li class="nav-item mr-3 d-none d-lg-block">
+                  <a class="nav-link" data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseSearch">
+                      <i class="fa fa-search"></i>
+                  </a>
+              </li>
+                <!-- login -->
+               <li class="nav-item active">
+                  <a class="nav-link" href="#">Войти</a>
+                </li>
+              </ul>
           </div>
         </nav>
     </header>
 
+    <!-- collapse форма поиска -->
+    <section class="container">
+        <div class="row">
+            <div class="col-lg-12 col-xl-12">
+                <div class="collapse" id="collapseSearch">
+                    <div class="card card-body border-0">
+                        <form method="post" role="search">
+                            <input class="form-control bg-dark border-dark position-relative" type="search" placeholder="Поиск" aria-label="Search">
+                            <a class="btn btn-search position-absolute" type="submit"><i class="fa fa-search" ></i></a>
+                        </form>
+                    </div>
+                </div>
+            </div>                                          
+        </div>
+    </section>
+
+    <main>
+        <!-- carousel главная  -->
+        <div class="container-fluid carosel-container mt-4 px-0">
+             <div class="slider center">
+                <div class="slider-card">
+                   <div class="slider-content" style="background-image: url('img/4.jpg');">
+                       <!-- content slide -->
+                       <div class="container">
+                           <!-- info film -->
+                           <div class="row mt-4 mb-5">
+                                <div class="col-lg-8 offset-lg-2 col-sm-10 offset-sm-1 text-white">
+                                   <span class="font-weight-light">17 марта 2020</span>
+                                   <h5 class="mb-0 h5-info-film-slider">Звездные войны: Скайуокер. Восход (2019) <span class="badge badge-warning slider-badge d-none d-xl-inline-block">Фильм</span></h5>
+                                   <em class="font-weight-light">Фантастика, приключения, боевик</em>
+                                </div>
+                           </div>
+
+                           <!-- treller -->
+                            <div class="row justify-content-center align-items-center mb-5 pt-lg-2">
+                                <a href="#"><i class="fas fa-play fa-4x"></i></a>
+                            </div>
+
+                           <!-- rating and ref link -->
+                            <div class="row pt-4">
+                                <div class="col-xl-3 offset-xl-2 col-lg-3 offset-lg-2 col-md-3 offset-md-1 col-sm-4 offset-sm-1 ">
+                                    <div class="imsp" title="IMDb">
+                                        <i class="fab fa-imdb"></i>
+                                        <label class="pl-1" >7.1</label>
+                                    </div>
+
+                                    <div class="kpsp" title="Kinopoisk">
+                                        <span class="kp_sp"></span>
+                                        <label>6.8</label>
+                                    </div>
+                                </div>
+                                <div class="col-xl-5 offset-xl-2 col-lg-5 offset-lg-1  col-md offset-md-1 offset-sm-1 d-none d-sm-inline">
+                                    <a href="#" class="btn btn-success btn-sm border-0">Cмотерь на Wink</a>
+                                    <a href="#" class="btn btn-kp btn-sm">Cмотерь на Кинопоиск</a>
+                                </div>
+                            </div>
+                       </div>
+                   </div>
+                </div>
+
+                <div class="slider-card">
+                   <div class="slider-content">
+                       <!-- content slide -->
+                       <div class="container">
+                           <!-- info film -->
+                           <div class="row mt-4 mb-5">
+                                <div class="col-lg-8 offset-lg-2 col-sm-10 offset-sm-1 text-white">
+                                   <span class="font-weight-light">17 марта 2020</span>
+                                   <h5 class="mb-0 h5-info-film-slider">Звездные войны: Скайуокер. Восход (2019) <span class="badge badge-warning slider-badge d-none d-xl-inline-block">Фильм</span></h5>
+                                   <em class="font-weight-light">Фантастика, приключения, боевик</em>
+                                </div>
+                           </div>
+
+                           <!-- treller -->
+                            <div class="row justify-content-center align-items-center mb-5 pt-lg-2">
+                                <a href="#"><i class="fas fa-play fa-4x"></i></a>
+                            </div>
+
+                           <!-- rating and ref link -->
+                            <div class="row pt-4">
+                                <div class="col-xl-3 offset-xl-2 col-lg-3 offset-lg-2 col-md-3 offset-md-1 col-sm-4 offset-sm-1 ">
+                                    <div class="imsp" title="IMDb">
+                                        <i class="fab fa-imdb"></i>
+                                        <label class="pl-1" >7.1</label>
+                                    </div>
+
+                                    <div class="kpsp" title="Kinopoisk">
+                                        <span class="kp_sp"></span>
+                                        <label>6.8</label>
+                                    </div>
+                                </div>
+                                <div class="col-xl-5 offset-xl-2 col-lg-5 offset-lg-1  col-md offset-md-1 offset-sm-1 d-none d-sm-inline">
+                                    <a href="#" class="btn btn-success btn-sm border-0">Cмотерь на Wink</a>
+                                    <a href="#" class="btn btn-kp btn-sm">Cмотерь на Кинопоиск</a>
+                                </div>
+                            </div>
+                       </div>
+                   </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="container">
+            <!-- category -->
+            <div class="row main-category overflow-auto">
+                <div class="col col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center">
+                    <a href="#" class="">
+                        <i class="fas fa-history fa-2x d-block mx-auto fa-fw mb-3"></i>
+                        Ожидаемые фильмы
+                    </a>
+                </div>
+                <div class="col col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center">
+                    <a href="#" class="">
+                        <i class="fas fa-bullhorn fa-2x d-block mx-auto fa-fw mb-3"></i>
+                         Недавние Премьеры
+                    </a>
+                </div>
+                <div class="col col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center">
+                    <a href="#" class="">
+                        <i class="far fa-heart fa-2x d-block mx-auto fa-fw mb-3"></i>
+                        Интересное Сегодня
+                    </a>
+                </div>
+                <div class="col col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center">
+                    <a href="#" class="">
+                        <i class="fas fa-stream fa-2x d-block mx-auto fa-fw mb-3"></i>
+                        Свежие Серии
+                    </a>
+                </div>
+                <div class="col col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center">
+                    <a href="#" class="">
+                        <i class="fas fa-star fa-2x d-block mx-auto fa-fw mb-3"></i>
+                        Фильмы Месяца
+                    </a>
+                </div>
+                <div class="col col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center">
+                    <a href="#" class="">
+                        <i class="far fa-newspaper fa-2x d-block mx-auto fa-fw mb-3"></i>
+                        Анонсы и статьи
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
 
 
+    <footer class="fixed-bottom">
+        <!-- footer content -->
+    </footer>
 
     <!-- Popper.JS -->
     <script src="../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
     <!-- Bootstrap JS -->
       <script src="jquery/jquery.min.js"></script>
       <script src="bootstrap/js/bootstrap.min.js"></script>
+
+        <!-- slider js -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script type="text/javascript">
+        $('.center').slick({
+          arrows: false,
+          centerMode: true,
+          infinite: true,
+          autoplay: true,
+          centerPadding: '60px',
+          speed: 500,
+          variableWidth: true,
+        });
+
+    </script>
     <!-- fontawesome JS -->
-      <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 </body>
