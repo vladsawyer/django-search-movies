@@ -44,7 +44,7 @@ footer {
 }
 
 .dropdown-item:hover {
-    background-color: #e5bc55;
+    background-color: #ffc107;
     color: #000000;
 }
 
@@ -58,7 +58,7 @@ footer {
     right: 1rem;
 }
 
-/* main style */
+/* main */
 
 /* slider */
 
@@ -80,7 +80,7 @@ footer {
 }
 
 .slider-card {
-  width: 1300px;
+  width: 1140px;
   height: 400px;
   border-radius: 1rem;
   overflow: hidden;
@@ -102,14 +102,13 @@ footer {
 }
 
 .slider-badge {
-    background-color: #e5bc55;
     font-size: 10px;
     margin-left: 5px;
     vertical-align: top;
 }
 
 .imsp {
-    color: #e5bc55;
+    color: #ffc107;
     font-size: 22px;
     display: inline-block;
     margin-right: 10px;
@@ -148,13 +147,13 @@ footer {
 }
 
 .fa-play {
-    color: #e5bc55;
+    color: #ffc107;
 }
 /* /slider */
 
-/* main */
 .main-category {
     margin-top: 8rem;
+    margin-bottom: 4rem;
     border-radius: .5rem;
     background-color: #17181f;
     box-sizing: border-box;
@@ -168,7 +167,7 @@ footer {
 }
 
 .main-category div:hover{
-    background-color: #e5bc55;
+    background-color: #ffc107;
     border-radius: .5rem;
 }
 
@@ -221,7 +220,7 @@ footer {
         right: 0;
         top: 100%;
         height: 3px;
-        background: #e5bc55;
+        background: #ffc107;
         transform: scaleX(var(--scale));
         transition: transform .3s cubic-bezier(.535, .05, .355, 1);
     }
