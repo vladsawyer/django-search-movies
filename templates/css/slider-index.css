@@ -1,0 +1,181 @@
+
+
+.movie_card {
+  position: relative;
+  display: block;
+  height: 400px;
+  object-fit: cover;
+  margin: 30px;
+  overflow: hidden;
+  border-radius: 10px;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.slider-card {
+  max-width: 1140px;
+  border-radius: 1rem;
+  overflow: hidden;
+  bottom: 0;
+}
+
+.center .slick-center .movie_card .info-content{
+  -moz-transform:scale(0.8);
+  -ms-transform:scale(0.8);
+  -o-transform:scale(0.8);
+  -webkit-transform:scale(0.8);
+  transform:scale(0.8);
+}
+
+.center .movie_card .info-content{
+   transition: all 300ms ease;
+}
+
+.center .slick-center .movie_card{
+  -moz-transform:scale(1.3);
+  -ms-transform:scale(1.3);
+  -o-transform:scale(1.3);
+  -webkit-transform:scale(1.3);
+  transform:scale(1.3);
+  opacity:1;
+}
+
+.center .movie_card{
+  opacity:0.8;
+  transition: all 300ms ease;
+  bottom: 0;
+}
+
+.movie_card .info_section {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-blend-mode: multiply;
+  z-index: 2;
+  border-radius: 10px;
+}
+.movie_card .info_section .movie_header {
+  position: relative;
+  padding: 24px;
+  height: 40%;
+}
+.movie_card .info_section .movie_header h2 {
+  color: #fff;
+  font-weight: 400;
+}
+.movie_card .info_section .movie_header h5 {
+  color: #ffc107;
+  font-weight: 400;
+}
+.movie_card .info_section .movie_header .minutes {
+  display: inline-block;
+  margin-top: 10px;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+}
+.movie_card .info_section .movie_header .type {
+  display: inline-block;
+  color: #cee4fd;
+  margin-left: 10px;
+}
+.movie_card .info_section .movie_header .locandina {
+  position: relative;
+  float: left;
+  margin-right: 20px;
+  height: 140px;
+  box-shadow: 0 0 20px -10px rgba(0, 0, 0, 0.5);
+}
+.movie_card .info_section .movie_desc {
+  padding: 0 25px 25px;
+  height: 50%;
+}
+.movie_card .info_section .movie_desc .text {
+  color: #cfd6e1;
+}
+.movie_card .info_section .movie_social {
+  height: 10%;
+  padding-left: 15px;
+  padding-bottom: 20px;
+}
+.movie_card .info_section .movie_social ul {
+  list-style: none;
+  padding: 0;
+}
+.movie_card .info_section .movie_social ul li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.movie_card .blur_back {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  height: 100%;
+  right: 0;
+  background-size: cover;
+  border-radius: 11px;
+}
+
+@media screen and (min-width: 768px) {
+  .movie_header {
+    width: 60%;
+  }
+
+  .movie_desc {
+    width: 50%;
+  }
+
+  .info_section {
+    background: -webkit-gradient(linear, left top, right top, color-stop(50%, #0d0d0c), to(transparent));
+    background: linear-gradient(to right, #0d0d0c 50%, transparent 100%);
+  }
+
+  .blur_back {
+    width: 80%;
+    background-position: -100% 10% !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  .movie_card {
+    width: 95%;
+    margin: 70px auto;
+    min-height: 350px;
+    height: auto;
+  }
+
+  .blur_back {
+    width: 100%;
+    background-position: 50% 50% !important;
+  }
+
+  .movie_header {
+    width: 100%;
+    margin-top: 85px;
+  }
+
+  .movie_desc {
+    width: 100%;
+  }
+
+  .info_section {
+    background: -webkit-gradient(linear, left bottom, left top, color-stop(50%, #141413), to(transparent));
+    background: linear-gradient(to top, #141413 50%, transparent 100%);
+    display: inline-grid;
+  }
+}
+
+
+
+.bright_back {
+  background: url("https://occ-0-2433-448.1.nflxso.net/art/cd5c9/3e192edf2027c536e25bb5d3b6ac93ced77cd5c9.jpg");
+}
+
+.tomb_back {
+  background: url("https://fsmedia.imgix.net/cd/c9/5e/ba/4817/4d9a/93f0/c776ec32ecbc/lara-crofts-neck-looks-unnatural-in-the-new-poster-for-tomb-raider.png");
+}
+
+.ave_back {
+  background: url("https://www.gannett-cdn.com/-mm-/c03fd140debe8ad4c05cf81a5cad7ad61a12ce52/c=0-1580-2985-3266&r=x803&c=1600x800/local/-/media/2017/06/09/USATODAY/USATODAY/636326272873599176-Black-Panther-Teaser.jpg");
+}
