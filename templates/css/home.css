@@ -1,16 +1,17 @@
+@import url('https://fonts.googleapis.com/css?family=PT+Sans');
 
 body {
     margin: 0;
     padding: 0;
+    font-family: 'PT Sans', sans-serif;
     box-sizing: border-box;
     background-color: #16151a;
 }
 
-
 /* header style */
 header {
     background-color: rgba(19, 18, 23, 0.8);
-    min-height: 60px;
+    min-height: 3.75rem;
 }
 
 footer {
@@ -21,9 +22,6 @@ footer {
     background: none;
 }
 
-.nav-search {
-    position: absolute;
-}
 /*.navbar-brand strong{*/
 /*    font-size: 32px;*/
 /*    color: #e5bc55;*/
@@ -36,7 +34,7 @@ footer {
 }
 
 .nav-item {
-    font-size: 18px;
+    font-size: 1.125em;
 }
 
 .fa-search{
@@ -65,29 +63,6 @@ footer {
 
 /* main */
 
-.imsp {
-    color: #ffc107;
-    font-size: 22px;
-    display: inline-block;
-    margin-right: 10px;
-}
-
-.kpsp {
-    font-size: 22px;
-    color: #ec5b29;
-    display: inline-block;
-}
-
-.kp_sp {
-    background: url(../img/kp_sp.png) no-repeat 0 0;
-    background-size: 22px;
-    display: inline-block;
-    width: 22px;
-    height: 22px;
-    vertical-align: middle;
-    margin-bottom: 5px;
-}
-
 .btn-kp {
     background-color: #ec5b29;
     border: none;
@@ -104,16 +79,11 @@ footer {
     box-shadow: 0 0 0 0.2rem rgba(236, 91, 41, 0.36);
 }
 
-.fa-play {
-    color: #ffc107;
-}
-
-
 .main-category {
     margin-top: 4rem;
     margin-bottom: 4rem;
     border-radius: .5rem;
-    background-color: #131217;
+    background-color: #0d0c11;
     box-sizing: border-box;
 }
 
@@ -135,39 +105,77 @@ footer {
 }
 
 .main-category div:hover a {
-    color: #131217;
+    color: #0d0c11;
 }
 
-.regular button.slick-next, .regular button.slick-next:hover {
-  position: absolute;
-  top: 41%;
-  right: 54px;
-  width: 29px;
-  height: 45px;
-  background-image: url("http://maggiesadler.com/wp-content/uploads/2015/10/left-right-arrow.png");
-  background-origin: border-box;
-  background-size: cover;
-  background-repeat: no-repeat;
-   -o-background-size: cover;
-  -moz-background-size: cover;
-  -webkit-background-size: cover;
+.title-section, .title-section:hover{
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.75em;
+    font-weight: 500;
 }
-.regular button.slick-prev, .regular button.slick-prev:hover {
-  position: absolute;
-  top: 41%;
-  left: 54px;
-  z-index: 1;
-  width: 29px;
-  height: 45px;
-  background-image: url("http://maggiesadler.com/wp-content/uploads/2015/10/left-right-arrow.png");
-  -o-background-size: cover;
-  -moz-background-size: cover;
-  -webkit-background-size: cover;
-  background-position-x: right;
+
+/* slider collections */
+.item-collections {
+    background: none;
 }
-.regular .slick-prev:before, .regular .slick-next:before {
-  display: none;
+.item-inner-collection {
+  position: relative;
+  height: 200px;
+  background: none;
+  overflow: hidden;
+  margin: 1rem 0.5rem;
+  border-radius: 1rem;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
 }
+
+.item-inner-collection img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.item-inner-collection:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 20%, transparent 100%);
+    transition: 0.5s;
+    z-index: 0;
+}
+
+.item-inner-collection .title h2 {
+  color: #fff;
+  font-size: 1.4em;
+}
+
+.item-inner-collection .title {
+    position: absolute;
+    bottom: 10%;
+}
+
+.item-inner-collection:hover {
+    -moz-transform: scale(1.03);
+    -o-transform: scale(1.03);
+    -webkit-transform: scale(1.03);
+    transform: scale(1.03);
+}
+
+.prev {
+    position: absolute;
+    background-size: 1.3rem;
+    left: 15%;
+}
+
+
+
+
+/* /slider collections */
+
+
 /* /main */
 
 /* media */
@@ -185,7 +193,7 @@ footer {
 @media (min-width: 1024px) {
 
     .navbar-brand {
-        font-size: 32px;
+        font-size: 2em;
     }
 
     .dropdown:hover .dropdown-menu {
@@ -206,7 +214,7 @@ footer {
         left: 0;
         right: 0;
         top: 100%;
-        height: 3px;
+        height: 0.188rem;
         background: #ffc107;
         transform: scaleX(var(--scale));
         transition: transform .3s cubic-bezier(.535, .05, .355, 1);
