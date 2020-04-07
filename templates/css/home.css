@@ -164,12 +164,31 @@ footer {
     transform: scale(1.03);
 }
 
-.prev {
-    position: absolute;
-    background-size: 1.3rem;
-    left: 15%;
+button.slick-next, button.slick-next:hover {
+  position: absolute;
+  top: 50%;
+  right: -3%;
+  width: 2rem;
+  height: 2.5rem;
+  background-image: url('../img/right-arrow.svg');
+  background-size: 2.5rem;
+  background-repeat: no-repeat;
 }
+button.slick-prev, button.slick-prev:hover {
+  position: absolute;
+  top: 50%;
+  left: -4%;
+  z-index: 1;
+  width: 2rem;
+  height: 2.5rem;
+  background-image: url('../img/left-arrow.svg');
+  background-size: 2.5rem;
+  background-repeat: no-repeat;
 
+}
+.slick-prev:before, .slick-next:before {
+    content: '';
+}
 
 
 

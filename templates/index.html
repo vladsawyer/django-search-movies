@@ -6,12 +6,13 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="css/slider-index.css">
-    <link rel="stylesheet" href="css/card-movies.css">
+
     <!-- Add the slick-theme.css if you want default styling -->
     <link rel="stylesheet" type="text/css" href="../node_modules/slick-carousel/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="../node_modules/slick-carousel/slick/slick-theme.css"/>
+    <link rel="stylesheet" href="css/slider-index.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/card-movies.css">
 
     <title>Pro Movie</title>
 </head>
@@ -1102,7 +1103,7 @@
                 </div>
             </div>
             <div class="row mb-4">
-                <div class="col-12 slider-collections card-deck ">
+                <div class="col-12 slider-collections card-deck p-0 mx-auto">
                     <div class="item-collections card border-0">
                         <div class="item-inner-collection">
                             <img src="https://images.iptv.rt.ru/images/bmkqakdoldaup73kblqg.jpg?height=480&width=752&progressive=true" class="card-img" alt="...">
@@ -1215,8 +1216,16 @@
                       }
                     },
                     {
+                      breakpoint: 830,
+                      settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2
+                      }
+                    },
+                    {
                       breakpoint: 600,
                       settings: {
+                        arrows: false,
                         slidesToShow: 2,
                         slidesToScroll: 2
                       }
@@ -1224,6 +1233,7 @@
                     {
                       breakpoint: 480,
                       settings: {
+                        arrows: false,
                         slidesToShow: 1,
                         slidesToScroll: 1
                       }
