@@ -6,6 +6,7 @@ body {
     font-family: 'PT Sans', sans-serif;
     box-sizing: border-box;
     background-color: #16151a;
+    line-height: 1.3;
 }
 
 /* header style */
@@ -167,7 +168,7 @@ footer {
 button.slick-next, button.slick-next:hover {
   position: absolute;
   top: 50%;
-  right: -3%;
+  right: -3.5%;
   width: 2rem;
   height: 2.5rem;
   background-image: url('../img/right-arrow.svg');
@@ -177,7 +178,7 @@ button.slick-next, button.slick-next:hover {
 button.slick-prev, button.slick-prev:hover {
   position: absolute;
   top: 50%;
-  left: -4%;
+  left: -5%;
   z-index: 1;
   width: 2rem;
   height: 2.5rem;
@@ -189,12 +190,27 @@ button.slick-prev, button.slick-prev:hover {
 .slick-prev:before, .slick-next:before {
     content: '';
 }
-
-
-
 /* /slider collections */
 
+/* news */
+    div.line {
+        height: 0.1rem;
+        width: 100%;
+        background-color: #ffc107;
+    }
+/* /news */
 
+.item-movie {
+    /*background: none;*/
+}
+
+.item-movie .card-movie {
+    margin: 0 0.5rem;
+}
+
+.item-movie .card-movie:hover {
+    transform: none;
+}
 /* /main */
 
 /* media */

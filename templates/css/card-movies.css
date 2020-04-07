@@ -198,8 +198,14 @@
     .card {
         font-size: 12px;
     }
+}
 
+@media screen and (max-width: 1024px){
     .star {
         display: none;
+    }
+
+    .card-movie:hover {
+       transform: none;
     }
 }
