@@ -15,10 +15,6 @@ header {
     min-height: 3.75rem;
 }
 
-footer {
-    background-color: #16151a;
-}
-
 .card-body {
     background: none;
 }
@@ -230,7 +226,7 @@ button.slick-prev, button.slick-prev:hover {
 /* /news */
 
 .item-movie {
-    /*background: none;*/
+    background: none;
 }
 
 .item-movie .card-movie {
@@ -242,9 +238,39 @@ button.slick-prev, button.slick-prev:hover {
 }
 /* /main */
 
+/* footer */
+footer {
+    background-color: #0d0c11;
+}
+
+.footer-info span {
+    opacity: .4;
+    color: #fff;
+}
+
+.footer-link {
+    opacity: .4;
+    color: #fff;
+}
+
+.footer-link:hover{
+    color: #fff;
+    opacity: 1;
+}
+
+
+/* /footer */
+
 /* media */
 
 @media (max-width: 1024px) {
+
+    .footer-info, .footer-links, .social-media {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+    }
+
     .slider-card {
         width: 100vw;
     }

@@ -6,8 +6,6 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-
-    <!-- Add the slick-theme.css if you want default styling -->
     <link rel="stylesheet" type="text/css" href="../node_modules/slick-carousel/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="../node_modules/slick-carousel/slick/slick-theme.css"/>
     <link rel="stylesheet" href="css/slider-index.css">
@@ -153,7 +151,7 @@
 
     <main>
         <!-- slider фильмы главная  -->
-        <section class="container-fluid carosel-container mt-4 px-0">
+        <section class="container-fluid mt-4 px-0">
              <div class="slider center">
                  <div class="slider-card">
                      <div class="movie_card">
@@ -173,9 +171,9 @@
                                 </div>
                               <div class="movie_social">
                                   <ul>
-                                    <li><a href="#" class="btn btn-outline-warning btn-sm">Трейлер</a></li>
-                                    <li><a href="#" class="btn btn-success btn-sm border-0">Cмотерь на Wink</a></li>
-                                    <li><a href="#" class="btn btn-kp btn-sm">Cмотерь на Кинопоиск</a></li>
+                                    <li><a href="#" class="btn btn-outline-warning btn-sm mb-3">Трейлер</a></li>
+                                    <li><a href="#" class="btn btn-success btn-sm border-0 mb-3">Cмотерь на Wink</a></li>
+                                    <li><a href="#" class="btn btn-kp btn-sm mb-3">Cмотерь на Кинопоиск</a></li>
                                   </ul>
                               </div>
                             </div>
@@ -188,7 +186,7 @@
                       <div class="info_section">
                           <div class="info-content">
                             <div class="movie_header">
-                              <img class="locandina d-none d-sm-block" src="https://mr.comingsoon.it/imgdb/locandine/235x336/53750.jpg"/>
+                              <img class="locandina d-none d-sm-block" src="https://mr.comingsoon.it/imgdb/locandine/235x336/53750.jpg" alt=""/>
                               <h2>Расхитительница гробниц</h2>
                               <h5>2018, Рев Утхауга</h5>
                               <span class="minutes">125 min</span>
@@ -201,9 +199,9 @@
                             </div>
                             <div class="movie_social">
                                   <ul>
-                                    <li><a href="#" class="btn btn-outline-warning btn-sm">Трейлер</a></li>
-                                    <li><a href="#" class="btn btn-success btn-sm border-0">Cмотерь на Wink</a></li>
-                                    <li><a href="#" class="btn btn-kp btn-sm">Cмотерь на Кинопоиск</a></li>
+                                    <li><a href="#" class="btn btn-outline-warning btn-sm mb-3">Трейлер</a></li>
+                                    <li><a href="#" class="btn btn-success btn-sm border-0 mb-3">Cмотерь на Wink</a></li>
+                                    <li><a href="#" class="btn btn-kp btn-sm mb-3">Cмотерь на Кинопоиск</a></li>
                                   </ul>
                               </div>
                           </div>
@@ -227,9 +225,9 @@
                             </div>
                             <div class="movie_social">
                                   <ul>
-                                    <li><a href="#" class="btn btn-outline-warning btn-sm">Трейлер</a></li>
-                                    <li><a href="#" class="btn btn-success btn-sm border-0">Cмотерь на Wink</a></li>
-                                    <li><a href="#" class="btn btn-kp btn-sm">Cмотерь на Кинопоиск</a></li>
+                                    <li><a href="#" class="btn btn-outline-warning btn-sm mb-3">Трейлер</a></li>
+                                    <li><a href="#" class="btn btn-success btn-sm border-0 mb-3">Cмотерь на Wink</a></li>
+                                    <li><a href="#" class="btn btn-kp btn-sm mb-3">Cмотерь на Кинопоиск</a></li>
                                   </ul>
                               </div>
                           </div>
@@ -1383,6 +1381,7 @@
                     </div>
                 </div>
             </div>
+            <!-- Рекламный блок в будущем -->
             <!-- Главные новости  на всех общий -->
             <div class="row mb-4 align-items-center">
                 <div class="col-auto">
@@ -1445,19 +1444,30 @@
                     <a href="" class="btn btn-outline-warning">Читать все новости</a>
                 </div>
             </div>
-            <!-- Рекламный блок в будущем -->
-
         </section>
-
-
     </main>
 
-
-    <footer class="fixed-bottom">
+    <footer>
         <!-- footer content -->
+        <div class="container">
+            <div class="row py-4 ">
+                <div class="footer-info col-12 col-xl-3">
+                    <span>&copy; 2020</span>
+                    <a href="/" class="footer-link text-decoration-none ml-2">Search Movies</a>
+                    <span class="badge ml-1">18+</span>
+                </div>
+                <div class="footer-links col-12 col-xl-6 d-xl-flex justify-content-xl-center">
+                    <a href="#" class="footer-link text-decoration-none mr-2">Реклама</a>
+                    <a href="#" class="footer-link text-decoration-none mr-2">Блог</a>
+                    <a href="#" class="footer-link text-decoration-none mr-2">О проекте</a>
+                </div>
+                <div class="social-media col-12 col-xl-3 d-xl-flex justify-content-xl-end">
+                    <a href="#" class="footer-link text-decoration-none mr-2"><i class="fab fa-vk"></i></a>
+                    <a href="#" class="footer-link text-decoration-none mr-2"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+        </div>
     </footer>
-
-
 
     <!-- Bootstrap JS -->
     <script src="jquery/jquery.min.js"></script>
@@ -1523,7 +1533,6 @@
                       }
                     }]
             });
-
             $('.slider-collections').slick({
                 infinite: false,
                 speed: 300,
