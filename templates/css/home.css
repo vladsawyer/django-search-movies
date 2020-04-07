@@ -198,6 +198,35 @@ button.slick-prev, button.slick-prev:hover {
         width: 100%;
         background-color: #ffc107;
     }
+    .card-news .card {
+        background-color: #0d0c11;
+        border: 0;
+        border-radius: 1rem;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+        transition: all 0.4s;
+    }
+
+    .card-news .card img{
+        border-radius: 1rem 1rem 0 0;
+    }
+
+    .card-news .card-footer {
+        background-color: #0d0c11;
+        border: 0;
+        border-radius: 0 0 1rem 1rem;
+    }
+
+    .card-news .card:hover {
+        transform: scale(1.03);
+    }
+
+    .card-news .card .card-title {
+        color: #fff;
+    }
+
+    .card-news .card:hover .card-title {
+        color: #ffc107;
+    }
 /* /news */
 
 .item-movie {
