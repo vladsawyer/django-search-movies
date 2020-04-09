@@ -1,5 +1,5 @@
 /.idea/
-/django_movie_site/settings.py
+/search_movies/settings.py
 /movies/migrations/
 media/*
 __pycache__
