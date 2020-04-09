@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+    <link rel="stylesheet" href="{% static  'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'node_modules/slick-carousel/slick/slick.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'node_modules/slick-carousel/slick/slick-theme.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/slider-index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/card-movies.css' %}">
+
+    <title>Pro Movie</title>
+</head>
+<body>
+    <header class="fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+          <a class="navbar-brand brand" href="#"><strong>S</strong>earch <strong>M</strong>ovies</a>
+
+            <!-- кнопка поиска для мобильных в navbar -->
+            <div class="col d-flex flex-row-reverse d-lg-none">
+               <a class="nav-link" data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseSearch">
+                   <i class="fa fa-search"></i>
+               </a>
+            </div>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto ">
+                <!-- фильмы -->
+              <li class="nav-item active dropdown mr-2">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-film fa-fw mr-2"></i>
+                  Фильмы
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div class="d-lg-flex">
+                        <div>
+                            <div class="dropdown-divider mt-0"></div>
+                            <h6 class="dropdown-header">Жанры</h6>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Боевики</a>
+                            <a class="dropdown-item" href="#">Экшен</a>
+                            <a class="dropdown-item" href="#">Вестерн</a>
+                        </div>
+                        <div>
+                            <div class="dropdown-divider mt-0"></div>
+                            <h6 class="dropdown-header">По годам</h6>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">2020</a>
+                            <a class="dropdown-item" href="#">2019</a>
+                            <a class="dropdown-item" href="#">2018</a>
+                        </div>
+                        <div>
+                            <div class="dropdown-divider mt-0"></div>
+                            <h6 class="dropdown-header">По странам</h6>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Россия</a>
+                            <a class="dropdown-item" href="#">США</a>
+                            <a class="dropdown-item" href="#">Action</a>
+                        </div>
+                    </div>
+                </div>
+              </li>
+                <!-- сериалы -->
+              <li class="nav-item active mr-2">
+                  <a class="nav-link" href="#">
+                      <i class="fas fa-ellipsis-h fa-fw mr-2"></i>
+                      Сериалы
+                  </a>
+              </li>
+                <!-- новинки -->
+              <li class="nav-item active mr-2">
+                  <a class="nav-link" href="#">
+                      <i class="far fa-grin-hearts fa-fw mr-2"></i>
+                      Новинки
+                  </a>
+              </li>
+                <!-- топ -->
+              <li class="nav-item active dropdown mr-2">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-fire fa-fw mr-2"></i>
+                  Топ
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div class="dropdown-divider mt-0"></div>
+                    <a class="dropdown-item dropdown-header" href="#">
+                        <i class="fas fa-fire mr-1"></i>
+                        По годам
+                    </a>
+                    <a class="dropdown-item dropdown-header" href="#">
+                        <i class="fas fa-fire mr-1"></i>
+                        Российская класика
+                    </a>
+                    <a class="dropdown-item dropdown-header" href="#">
+                        <i class="fas fa-fire mr-1"></i>
+                        Зарубежная класика
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">По Рейтингу Кинопоиск</a>
+                    <a class="dropdown-item" href="#">По Рейтингу IMDb</a>
+                    <a class="dropdown-item" href="#">Топ фильмы</a>
+                    <a class="dropdown-item" href="#">Топ Сериалы</a>
+                    <a class="dropdown-item" href="#">Топ Мультфильмы</a>
+                </div>
+              </li>
+                <!-- случайный фильм -->
+              <li class="nav-item active">
+                  <a class="nav-link random-film" href="#">
+                    <i class="fas fa-dice fa-fw mr-1"></i>
+                    Случайный фильм
+                  </a>
+              </li>
+            </ul>
+
+            <ul class="navbar-nav">
+               <!-- collapse форма поиска -->
+              <li class="nav-item mr-3 d-none d-lg-block">
+                  <a class="nav-link" data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseSearch">
+                      <i class="fa fa-search"></i>
+                  </a>
+              </li>
+                <!-- login -->
+               <li class="nav-item active">
+                  <a class="nav-link" href="#">Войти</a>
+                </li>
+              </ul>
+          </div>
+        </nav>
+        <!-- collapse форма поиска -->
+        <section class="container">
+           <div class="row">
+               <div class="col-lg-12 col-xl-12">
+                   <div class="collapse" id="collapseSearch">
+                       <div class="card card-body border-0 nav-search">
+                           <form method="post" role="search">
+                               <input class="form-control bg-dark border-dark position-relative" type="search" placeholder="Поиск" aria-label="Search">
+                               <a class="btn btn-search position-absolute" type="submit"><i class="fa fa-search" ></i></a>
+                           </form>
+                       </div>
+                   </div>
+               </div>
+           </div>
+        </section>
+    </header>
+
+    <main>
+        <!-- slider фильмы главная  -->
+        <section class="container-fluid px-0" style="margin-top: 5rem;">
+             <div class="slider center">
+                 <div class="slider-card">
+                     <div class="movie_card">
+                        <div class="info_section">
+                            <div class="info-content">
+                              <div class="movie_header">
+                                  <img class="locandina d-none d-sm-block" src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg" alt=""/>
+                                  <h2>Яркость</h2>
+                                  <h5>2017, Дэвид Эйер</h5>
+                                  <span class="minutes">117 min</span>
+                                  <p class="type">Экшен, Криминал, Фентези</p>
+                                </div>
+                              <div class="movie_desc">
+                                  <p class="text">
+                                    Действие происходит в мире, где фантастические существа живут бок о бок с людьми. Человек-полицейский вынужден работать с орком, чтобы найти оружие, за которое каждый готов убить.
+                                  </p>
+                                </div>
+                              <div class="movie_social">
+                                  <ul>
+                                    <li><a href="#" class="btn btn-outline-warning btn-sm mb-3">Трейлер</a></li>
+                                    <li><a href="#" class="btn btn-success btn-sm border-0 mb-3">Cмотерь на Wink</a></li>
+                                    <li><a href="#" class="btn btn-kp btn-sm mb-3">Cмотерь на Кинопоиск</a></li>
+                                  </ul>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="blur_back bright_back"></div>
+                     </div>
+                 </div>
+                 <div class="slider-card">
+                     <div class="movie_card">
+                      <div class="info_section">
+                          <div class="info-content">
+                            <div class="movie_header">
+                              <img class="locandina d-none d-sm-block" src="https://mr.comingsoon.it/imgdb/locandine/235x336/53750.jpg" alt=""/>
+                              <h2>Расхитительница гробниц</h2>
+                              <h5>2018, Рев Утхауга</h5>
+                              <span class="minutes">125 min</span>
+                              <p class="type">Экшен, Фентези</p>
+                            </div>
+                            <div class="movie_desc">
+                              <p class="text">
+                                Лара Крофт, отчаянно независимая дочь пропавшего авантюриста, должна выйти за свои пределы, когда она оказывается на острове, где исчез ее отец.
+                              </p>
+                            </div>
+                            <div class="movie_social">
+                                  <ul>
+                                    <li><a href="#" class="btn btn-outline-warning btn-sm mb-3">Трейлер</a></li>
+                                    <li><a href="#" class="btn btn-success btn-sm border-0 mb-3">Cмотерь на Wink</a></li>
+                                    <li><a href="#" class="btn btn-kp btn-sm mb-3">Cмотерь на Кинопоиск</a></li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="blur_back tomb_back"></div>
+                    </div>
+                 </div>
+                 <div class="slider-card">
+                     <div class="movie_card">
+                      <div class="info_section">
+                          <div class="info-content">
+                            <div class="movie_header">
+                              <img class="locandina d-none d-sm-block" src="https://mr.comingsoon.it/imgdb/locandine/235x336/53715.jpg" alt=""/>
+                              <h2>Черная Пантера</h2>
+                              <h5>2018, Райан Куглер</h5>
+                              <span class="minutes">134 min</span>
+                              <p class="type">Экшен, Приключение, Научная Фантастика</p>
+                            </div>
+                            <div class="movie_desc">
+                              <p class="text">Т'Чалла, король Ваканды, восходит на трон в изолированной, технологически развитой африканской стране, но его притязания оспариваются мстительным чужаком, который в детстве был жертвой ошибки отца Т'Чаллы.</p>
+                            </div>
+                            <div class="movie_social">
+                                  <ul>
+                                    <li><a href="#" class="btn btn-outline-warning btn-sm mb-3">Трейлер</a></li>
+                                    <li><a href="#" class="btn btn-success btn-sm border-0 mb-3">Cмотерь на Wink</a></li>
+                                    <li><a href="#" class="btn btn-kp btn-sm mb-3">Cмотерь на Кинопоиск</a></li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="blur_back ave_back"></div>
+                    </div>
+                 </div>
+            </div>
+        </section>
+        <!-- content -->
+        <section class="container">
+            <!-- category -->
+            <div class="row main-category">
+                <div class="col-6 col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center">
+                    <a href="#" class="stretched-link">
+                        <i class="fas fa-history fa-2x d-block mx-auto fa-fw mb-3"></i>
+                        Ожидаемые фильмы
+                    </a>
+                </div>
+                <div class="col-6 col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center">
+                    <a href="#" class="stretched-link">
+                        <i class="fas fa-bullhorn fa-2x d-block mx-auto fa-fw mb-3"></i>
+                         Недавние Премьеры
+                    </a>
+                </div>
+                <div class="col-6 col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center">
+                    <a href="#" class="stretched-link">
+                        <i class="far fa-heart fa-2x d-block mx-auto fa-fw mb-3"></i>
+                        Интересное Сегодня
+                    </a>
+                </div>
+                <div class="col-6 col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center">
+                    <a href="#" class="stretched-link">
+                        <i class="fas fa-stream fa-2x d-block mx-auto fa-fw mb-3"></i>
+                        Свежие Серьялы
+                    </a>
+                </div>
+                <div class="col-6 col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center">
+                    <a href="#" class="stretched-link">
+                        <i class="fas fa-star fa-2x d-block mx-auto fa-fw mb-3"></i>
+                        Фильмы Месяца
+                    </a>
+                </div>
+                <div class="col-6 col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center">
+                    <a href="#" class="stretched-link">
+                        <i class="far fa-newspaper fa-2x d-block mx-auto fa-fw mb-3"></i>
+                        Анонсы и статьи
+                    </a>
+                </div>
+            </div>
+            <!-- премьеры 8 шт -->
+            <div class="row mb-4 align-items-center">
+                <div class="col-lg-5 col-xl-5">
+                    <a href="#" class="title-section">
+                        <i class="fas fa-ticket-alt mr-2 text-warning"></i>
+                        Скоро Премьеры
+                    </a>
+                </div>
+            </div>
+            <div class="row mb-2 row-cols-sm-3 row-cols-lg-3 row-cols-xl-4  row-cols-2">
+                <div class="col mb-4">
+                    <div class="card card-movie">
+                        <div class="poster">
+                            <img src="https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/1/11/Avengers_Infinity_war_poster.jpeg/revision/latest/scale-to-width-down/324?cb=20180316141550" alt="">
+                        </div>
+
+                        <div class="premier">
+                          <span>30 Апреля 2018</span>
+                        </div>
+
+                        <div class="details">
+                            <a href="#" class="title text-decoration-none"><h2>Мстители: Война бесконечности</h2></a>
+                            <a href="#" class="director text-decoration-none"><span>Энтони Руссо, Джо Руссо</span></a>
+
+                            <div class="tags">
+                                <a href="#"><span class="badge badge-success">Fantasy</span></a>
+                                <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                            </div>
+
+                            <div class="hover-derails p-0 m-0">
+                              <div class="info">
+                                <p>Железный Человек, Тор, Халк и остальные Мстители объединяются, чтобы сразиться со своим самым могущественным врагом</p>
+                              </div>
+
+                              <div class="star">
+                                <h4>Актеры</h4>
+                                <ul>
+                                  <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                  <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                  <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                  <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                  <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                </ul>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-4">
+                    <div class="card card-movie">
+                        <div class="poster">
+                            <img src="https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/1/11/Avengers_Infinity_war_poster.jpeg/revision/latest/scale-to-width-down/324?cb=20180316141550" alt="">
+                        </div>
+
+                        <div class="premier">
+                          <span>30 Апреля 2018</span>
+                        </div>
+
+                        <div class="details">
+                            <a href="#" class="title text-decoration-none"><h2>Мстители: Война бесконечности</h2></a>
+                            <a href="#" class="director text-decoration-none"><span>Энтони Руссо, Джо Руссо</span></a>
+
+                            <div class="tags">
+                                <a href="#"><span class="badge badge-success">Fantasy</span></a>
+                                <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                            </div>
+
+                            <div class="hover-derails p-0 m-0">
+                              <div class="info">
+                                <p>Железный Человек, Тор, Халк и остальные Мстители объединяются, чтобы сразиться со своим самым могущественным врагом</p>
+                              </div>
+
+                              <div class="star">
+                                <h4>Актеры</h4>
+                                <ul>
+                                  <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                  <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                  <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                  <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                  <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                </ul>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-4">
+                    <div class="card card-movie">
+                        <div class="poster">
+                            <img src="https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/1/11/Avengers_Infinity_war_poster.jpeg/revision/latest/scale-to-width-down/324?cb=20180316141550" alt="">
+                        </div>
+
+                        <div class="premier">
+                          <span>30 Апреля 2018</span>
+                        </div>
+
+                        <div class="details">
+                            <a href="#" class="title text-decoration-none"><h2>Мстители: Война бесконечности</h2></a>
+                            <a href="#" class="director text-decoration-none"><span>Энтони Руссо, Джо Руссо</span></a>
+
+                            <div class="tags">
+                                <a href="#"><span class="badge badge-success">Fantasy</span></a>
+                                <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                            </div>
+
+                            <div class="hover-derails p-0 m-0">
+                              <div class="info">
+                                <p>Железный Человек, Тор, Халк и остальные Мстители объединяются, чтобы сразиться со своим самым могущественным врагом</p>
+                              </div>
+
+                              <div class="star">
+                                <h4>Актеры</h4>
+                                <ul>
+                                  <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                  <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                  <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                  <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                  <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                </ul>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-4">
+                    <div class="card card-movie">
+                        <div class="poster">
+                            <img src="https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/1/11/Avengers_Infinity_war_poster.jpeg/revision/latest/scale-to-width-down/324?cb=20180316141550" alt="">
+                        </div>
+
+                        <div class="premier">
+                          <span>30 Апреля 2018</span>
+                        </div>
+
+                        <div class="details">
+                            <a href="#" class="title text-decoration-none"><h2>Мстители: Война бесконечности</h2></a>
+                            <a href="#" class="director text-decoration-none"><span>Энтони Руссо, Джо Руссо</span></a>
+
+                            <div class="tags">
+                                <a href="#"><span class="badge badge-success">Fantasy</span></a>
+                                <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                            </div>
+
+                            <div class="hover-derails p-0 m-0">
+                              <div class="info">
+                                <p>Железный Человек, Тор, Халк и остальные Мстители объединяются, чтобы сразиться со своим самым могущественным врагом</p>
+                              </div>
+
+                              <div class="star">
+                                <h4>Актеры</h4>
+                                <ul>
+                                  <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                  <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                  <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                  <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                  <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                </ul>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-auto mx-auto">
+                    <a href="" class="btn btn-outline-warning">Смотреть все</a>
+                </div>
+            </div>
+            <!-- сейчас в кино -->
+            <div class="row mb-4 align-items-center">
+                <div class="col-auto">
+                    <a href="#" class="title-section">
+                       Сейчас в кино
+                    </a>
+                </div>
+                <div class="col">
+                    <div class="line mt-2"></div>
+                </div>
+            </div>
+            <div class="row mb-4 slider-movies p-0 mx-auto col-12">
+                    <div class=" item-movie border-0">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="https://mr.comingsoon.it/imgdb/locandine/235x336/53750.jpg" alt="">
+                            </div>
+
+                            <div class="details">
+                                <a href="#" class="title text-decoration-none"><h2>Расхитительница гробниц</h2></a>
+                                <a href="#" class="director text-decoration-none"><span>Рев Утхауга</span></a>
+
+                                <div class="tags">
+                                    <a href="#"><span class="badge badge-success">Экшен</span></a>
+                                    <a href="#"><span class="badge badge-success">Приключение</span></a>
+                                    <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                                </div>
+
+                                <div class="hover-derails p-0 m-0">
+                                  <div class="info">
+                                    <p>Лара Крофт, отчаянно независимая дочь пропавшего авантюриста, должна выйти за свои пределы, когда она оказывается на острове, где исчез ее отец.</p>
+                                  </div>
+
+                                  <div class="star">
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                      <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" item-movie border-0">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="https://mr.comingsoon.it/imgdb/locandine/235x336/53715.jpg" alt="">
+                            </div>
+
+                            <div class="details">
+                                <a href="#" class="title text-decoration-none"><h2>Черная Пантера</h2></a>
+                                <a href="#" class="director text-decoration-none"><span>Райан Куглер</span></a>
+
+                                <div class="tags">
+                                    <a href="#"><span class="badge badge-success">Экшен</span></a>
+                                    <a href="#"><span class="badge badge-success">Приключение</span></a>
+                                    <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                                </div>
+
+                                <div class="hover-derails p-0 m-0">
+                                  <div class="info">
+                                    <p>Т'Чалла, король Ваканды, восходит на трон в изолированной, технологически развитой африканской стране, но его притязания оспариваются мстительным чужаком, который в детстве был жертвой ошибки отца Т'Чаллы.</p>
+                                  </div>
+
+                                  <div class="star">
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                      <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" item-movie border-0">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/1/11/Avengers_Infinity_war_poster.jpeg/revision/latest/scale-to-width-down/324?cb=20180316141550" alt="">
+                            </div>
+
+                            <div class="details">
+                                <a href="#" class="title text-decoration-none"><h2>Мстители: Война бесконечности</h2></a>
+                                <a href="#" class="director text-decoration-none"><span>Энтони Руссо, Джо Руссо</span></a>
+
+                                <div class="tags">
+                                    <a href="#"><span class="badge badge-success">Fantasy</span></a>
+                                    <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                                </div>
+
+                                <div class="hover-derails p-0 m-0">
+                                  <div class="info">
+                                    <p>Железный Человек, Тор, Халк и остальные Мстители объединяются, чтобы сразиться со своим самым могущественным врагом</p>
+                                  </div>
+
+                                  <div class="star">
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                      <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" item-movie border-0">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="https://mr.comingsoon.it/imgdb/locandine/235x336/53750.jpg" alt="">
+                            </div>
+
+                            <div class="details">
+                                <a href="#" class="title text-decoration-none"><h2>Расхитительница гробниц</h2></a>
+                                <a href="#" class="director text-decoration-none"><span>Рев Утхауга</span></a>
+
+                                <div class="tags">
+                                    <a href="#"><span class="badge badge-success">Экшен</span></a>
+                                    <a href="#"><span class="badge badge-success">Приключение</span></a>
+                                    <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                                </div>
+
+                                <div class="hover-derails p-0 m-0">
+                                  <div class="info">
+                                    <p>Лара Крофт, отчаянно независимая дочь пропавшего авантюриста, должна выйти за свои пределы, когда она оказывается на острове, где исчез ее отец.</p>
+                                  </div>
+
+                                  <div class="star">
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                      <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" item-movie border-0">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="https://mr.comingsoon.it/imgdb/locandine/235x336/53715.jpg" alt="">
+                            </div>
+
+                            <div class="details">
+                                <a href="#" class="title text-decoration-none"><h2>Черная Пантера</h2></a>
+                                <a href="#" class="director text-decoration-none"><span>Райан Куглер</span></a>
+
+                                <div class="tags">
+                                    <a href="#"><span class="badge badge-success">Экшен</span></a>
+                                    <a href="#"><span class="badge badge-success">Приключение</span></a>
+                                    <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                                </div>
+
+                                <div class="hover-derails p-0 m-0">
+                                  <div class="info">
+                                    <p>Т'Чалла, король Ваканды, восходит на трон в изолированной, технологически развитой африканской стране, но его притязания оспариваются мстительным чужаком, который в детстве был жертвой ошибки отца Т'Чаллы.</p>
+                                  </div>
+
+                                  <div class="star">
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                      <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" item-movie border-0">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/1/11/Avengers_Infinity_war_poster.jpeg/revision/latest/scale-to-width-down/324?cb=20180316141550" alt="">
+                            </div>
+
+                            <div class="details">
+                                <a href="#" class="title text-decoration-none"><h2>Мстители: Война бесконечности</h2></a>
+                                <a href="#" class="director text-decoration-none"><span>Энтони Руссо, Джо Руссо</span></a>
+
+                                <div class="tags">
+                                    <a href="#"><span class="badge badge-success">Fantasy</span></a>
+                                    <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                                </div>
+
+                                <div class="hover-derails p-0 m-0">
+                                  <div class="info">
+                                    <p>Железный Человек, Тор, Халк и остальные Мстители объединяются, чтобы сразиться со своим самым могущественным врагом</p>
+                                  </div>
+
+                                  <div class="star">
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                      <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <!-- Новинки 16 шт -->
+            <div class="row mb-4 align-items-center">
+                <div class="col-lg-5 col-xl-5">
+                    <a href="#" class="title-section">
+                        <i class="fab fa-youtube mr-2 text-warning"></i>
+                        Новинки
+                    </a>
+                </div>
+            </div>
+            <div class="row mb-2 row-cols-sm-3 row-cols-lg-3 row-cols-xl-4  row-cols-2">
+                    <div class="col mb-4">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="https://mr.comingsoon.it/imgdb/locandine/235x336/53750.jpg" alt="">
+                            </div>
+
+                            <div class="rating">
+                                <div class="imsp" title="IMDb">
+                                    <i class="fab fa-imdb"></i>
+                                    <label class="pl-1 m-0" >7.1</label>
+                                </div>
+                                <div class="kpsp" title="Kinopoisk">
+                                    <span class="kp_sp"></span>
+                                    <label class="m-0">6.8</label>
+                                </div>
+                             </div>
+
+                            <div class="year text-white bg-success">
+                                2018
+                            </div>
+
+                            <div class="details">
+                                <a href="#" class="title text-decoration-none"><h2>Расхитительница гробниц</h2></a>
+                                <a href="#" class="director text-decoration-none"><span>Рев Утхауга</span></a>
+
+                                <div class="tags">
+                                    <a href="#"><span class="badge badge-success">Экшен</span></a>
+                                    <a href="#"><span class="badge badge-success">Приключение</span></a>
+                                    <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                                </div>
+
+                                <div class="hover-derails p-0 m-0">
+                                  <div class="info">
+                                    <p>Лара Крофт, отчаянно независимая дочь пропавшего авантюриста, должна выйти за свои пределы, когда она оказывается на острове, где исчез ее отец.</p>
+                                  </div>
+
+                                  <div class="star">
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                      <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="https://mr.comingsoon.it/imgdb/locandine/235x336/53715.jpg" alt="">
+                            </div>
+
+                            <div class="rating">
+                                <div class="imsp" title="IMDb">
+                                    <i class="fab fa-imdb"></i>
+                                    <label class="pl-1 m-0" >7.1</label>
+                                </div>
+                                <div class="kpsp" title="Kinopoisk">
+                                    <span class="kp_sp"></span>
+                                    <label class="m-0">6.8</label>
+                                </div>
+                             </div>
+
+                            <div class="year text-white bg-success">
+                                2018
+                            </div>
+
+                            <div class="details">
+                                <a href="#" class="title text-decoration-none"><h2>Черная Пантера</h2></a>
+                                <a href="#" class="director text-decoration-none"><span>Райан Куглер</span></a>
+
+                                <div class="tags">
+                                    <a href="#"><span class="badge badge-success">Экшен</span></a>
+                                    <a href="#"><span class="badge badge-success">Приключение</span></a>
+                                    <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                                </div>
+
+                                <div class="hover-derails p-0 m-0">
+                                  <div class="info">
+                                    <p>Т'Чалла, король Ваканды, восходит на трон в изолированной, технологически развитой африканской стране, но его притязания оспариваются мстительным чужаком, который в детстве был жертвой ошибки отца Т'Чаллы.</p>
+                                  </div>
+
+                                  <div class="star">
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                      <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/1/11/Avengers_Infinity_war_poster.jpeg/revision/latest/scale-to-width-down/324?cb=20180316141550" alt="">
+                            </div>
+
+                            <div class="rating">
+                                <div class="imsp" title="IMDb">
+                                    <i class="fab fa-imdb"></i>
+                                    <label class="pl-1 m-0" >7.1</label>
+                                </div>
+                                <div class="kpsp" title="Kinopoisk">
+                                    <span class="kp_sp"></span>
+                                    <label class="m-0">6.8</label>
+                                </div>
+                             </div>
+
+                            <div class="year text-white bg-success">
+                                2018
+                            </div>
+
+                            <div class="details">
+                                <a href="#" class="title text-decoration-none"><h2>Мстители: Война бесконечности</h2></a>
+                                <a href="#" class="director text-decoration-none"><span>Энтони Руссо, Джо Руссо</span></a>
+
+                                <div class="tags">
+                                    <a href="#"><span class="badge badge-success">Fantasy</span></a>
+                                    <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                                </div>
+
+                                <div class="hover-derails p-0 m-0">
+                                  <div class="info">
+                                    <p>Железный Человек, Тор, Халк и остальные Мстители объединяются, чтобы сразиться со своим самым могущественным врагом</p>
+                                  </div>
+
+                                  <div class="star">
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                      <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg" alt="">
+                            </div>
+
+                            <div class="rating">
+                                <div class="imsp" title="IMDb">
+                                    <i class="fab fa-imdb"></i>
+                                    <label class="pl-1 m-0" >7.1</label>
+                                </div>
+                                <div class="kpsp" title="Kinopoisk">
+                                    <span class="kp_sp"></span>
+                                    <label class="m-0">6.8</label>
+                                </div>
+                             </div>
+
+                            <div class="year text-white bg-success">
+                                2017
+                            </div>
+
+                            <div class="details">
+                                <a href="#" class="title text-decoration-none"><h2>Яркость</h2></a>
+                                <a href="#" class="director text-decoration-none"><span>Дэвид Эйер</span></a>
+
+                                <div class="tags">
+                                    <a href="#"><span class="badge badge-success">Экшен</span></a>
+                                    <a href="#"><span class="badge badge-success">Криминал</span></a>
+                                    <a href="#"><span class="badge badge-success">Фентези</span></a>
+                                </div>
+
+                                <div class="hover-derails  p-0 m-0">
+                                  <div class="info">
+                                    <p>Действие происходит в мире, где фантастические существа живут бок о бок с людьми. Человек-полицейский вынужден работать с орком, чтобы найти оружие, за которое каждый готов убить.</p>
+                                  </div>
+
+                                  <div class="star">
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                      <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="row mb-4">
+                <div class="col-auto mx-auto">
+                    <a href="" class="btn btn-outline-warning">Смотреть все</a>
+                </div>
+            </div>
+            <!-- подборки -->
+            <div class="row mb-4 align-items-center">
+                <div class="col-lg-5 col-xl-5">
+                    <a href="#" class="title-section">
+                        <i class="fas fa-thumbtack mr-2 text-warning"></i>
+                        Интересные подборки
+                    </a>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-12 slider-collections card-deck p-0 mx-auto">
+                    <div class="item-collections card border-0">
+                        <div class="item-inner-collection">
+                            <img src="https://images.iptv.rt.ru/images/bmkqakdoldaup73kblqg.jpg?height=480&width=752&progressive=true" class="card-img" alt="...">
+                            <div class="card-img-overlay text-white">
+                                <a href="#" class="title text-decoration-none"><h2>Фильмы про путишествия</h2></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-collections card border-0">
+                        <div class="item-inner-collection">
+                            <img src="https://images.iptv.rt.ru/images/bp6m10jmgcjaev0mn9sg.jpg?height=480&width=752&progressive=true" class="card-img" alt="...">
+                            <div class="card-img-overlay text-white">
+                                <a href="#" class="title text-decoration-none"><h2>Фильмы про футбол</h2></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-collections card border-0">
+                        <div class="item-inner-collection">
+                            <img src="https://images.iptv.rt.ru/images/bq1mvqrmgcj81mvmof3g.jpg?height=480&width=752&progressive=true" class="card-img" alt="...">
+                            <div class="card-img-overlay text-white">
+                                <a href="#" class="title text-decoration-none"><h2>Обоятельные плохиши</h2></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-collections card border-0">
+                        <div class="item-inner-collection">
+                            <img src="https://images.iptv.rt.ru/images/bpv4ipjmgcj81mvmoedg.jpg?height=480&width=752&progressive=true" class="card-img" alt="...">
+                            <div class="card-img-overlay text-white">
+                                <a href="#" class="title text-decoration-none"><h2>Историческое кино</h2></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-collections card border-0">
+                        <div class="item-inner-collection">
+                            <img src="https://images.iptv.rt.ru/images/bnodeu5oldasi4kc2fb0.jpg?height=480&width=752&progressive=true" class="card-img" alt="...">
+                            <div class="card-img-overlay text-white">
+                                <a href="#" class="title text-decoration-none"><h2>Фантастические миры</h2></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-collections card border-0">
+                        <div class="item-inner-collection">
+                            <img src="https://images.iptv.rt.ru/images/bpot58jmgcj8jo300170.jpg?height=480&width=752&progressive=true" class="card-img" alt="...">
+                            <div class="card-img-overlay text-white">
+                                <a href="#" class="title text-decoration-none"><h2>Когда все дома</h2></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-collections card border-0">
+                        <div class="item-inner-collection">
+                            <img src="https://images.iptv.rt.ru/images/bogp9cbmgcjfs8pf0aug.jpg?height=480&width=752&progressive=true" class="card-img" alt="...">
+                            <div class="card-img-overlay text-white ">
+                                <a href="#" class="title text-decoration-none"><h2>Истории о принцессах</h2></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Популярные фильмы 16 шт -->
+            <div class="row mb-4 align-items-center">
+                <div class="col-lg-5 col-xl-5">
+                    <a href="#" class="title-section">
+                        <i class="fas fa-star mr-2 text-warning"></i>
+                        Популярные фильмы
+                    </a>
+                </div>
+            </div>
+            <div class="row mb-2 row-cols-sm-3 row-cols-lg-3 row-cols-xl-4  row-cols-2">
+                    <div class="col mb-4">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="https://mr.comingsoon.it/imgdb/locandine/235x336/53750.jpg" alt="">
+                            </div>
+
+                            <div class="rating">
+                                <div class="imsp" title="IMDb">
+                                    <i class="fab fa-imdb"></i>
+                                    <label class="pl-1 m-0" >7.1</label>
+                                </div>
+                                <div class="kpsp" title="Kinopoisk">
+                                    <span class="kp_sp"></span>
+                                    <label class="m-0">6.8</label>
+                                </div>
+                             </div>
+
+                            <div class="year text-white bg-success">
+                                2018
+                            </div>
+
+                            <div class="details">
+                                <a href="#" class="title text-decoration-none"><h2>Расхитительница гробниц</h2></a>
+                                <a href="#" class="director text-decoration-none"><span>Рев Утхауга</span></a>
+
+                                <div class="tags">
+                                    <a href="#"><span class="badge badge-success">Экшен</span></a>
+                                    <a href="#"><span class="badge badge-success">Приключение</span></a>
+                                    <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                                </div>
+
+                                <div class="hover-derails p-0 m-0">
+                                  <div class="info">
+                                    <p>Лара Крофт, отчаянно независимая дочь пропавшего авантюриста, должна выйти за свои пределы, когда она оказывается на острове, где исчез ее отец.</p>
+                                  </div>
+
+                                  <div class="star">
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                      <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="https://mr.comingsoon.it/imgdb/locandine/235x336/53715.jpg" alt="">
+                            </div>
+
+                            <div class="rating">
+                                <div class="imsp" title="IMDb">
+                                    <i class="fab fa-imdb"></i>
+                                    <label class="pl-1 m-0" >7.1</label>
+                                </div>
+                                <div class="kpsp" title="Kinopoisk">
+                                    <span class="kp_sp"></span>
+                                    <label class="m-0">6.8</label>
+                                </div>
+                             </div>
+
+                            <div class="year text-white bg-success">
+                                2018
+                            </div>
+
+                            <div class="details">
+                                <a href="#" class="title text-decoration-none"><h2>Черная Пантера</h2></a>
+                                <a href="#" class="director text-decoration-none"><span>Райан Куглер</span></a>
+
+                                <div class="tags">
+                                    <a href="#"><span class="badge badge-success">Экшен</span></a>
+                                    <a href="#"><span class="badge badge-success">Приключение</span></a>
+                                    <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                                </div>
+
+                                <div class="hover-derails p-0 m-0">
+                                  <div class="info">
+                                    <p>Т'Чалла, король Ваканды, восходит на трон в изолированной, технологически развитой африканской стране, но его притязания оспариваются мстительным чужаком, который в детстве был жертвой ошибки отца Т'Чаллы.</p>
+                                  </div>
+
+                                  <div class="star">
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                      <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/1/11/Avengers_Infinity_war_poster.jpeg/revision/latest/scale-to-width-down/324?cb=20180316141550" alt="">
+                            </div>
+
+                            <div class="rating">
+                                <div class="imsp" title="IMDb">
+                                    <i class="fab fa-imdb"></i>
+                                    <label class="pl-1 m-0" >7.1</label>
+                                </div>
+                                <div class="kpsp" title="Kinopoisk">
+                                    <span class="kp_sp"></span>
+                                    <label class="m-0">6.8</label>
+                                </div>
+                             </div>
+
+                            <div class="year text-white bg-success">
+                                2018
+                            </div>
+
+                            <div class="details">
+                                <a href="#" class="title text-decoration-none"><h2>Мстители: Война бесконечности</h2></a>
+                                <a href="#" class="director text-decoration-none"><span>Энтони Руссо, Джо Руссо</span></a>
+
+                                <div class="tags">
+                                    <a href="#"><span class="badge badge-success">Fantasy</span></a>
+                                    <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                                </div>
+
+                                <div class="hover-derails p-0 m-0">
+                                  <div class="info">
+                                    <p>Железный Человек, Тор, Халк и остальные Мстители объединяются, чтобы сразиться со своим самым могущественным врагом</p>
+                                  </div>
+
+                                  <div class="star">
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                      <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg" alt="">
+                            </div>
+
+                            <div class="rating">
+                                <div class="imsp" title="IMDb">
+                                    <i class="fab fa-imdb"></i>
+                                    <label class="pl-1 m-0" >7.1</label>
+                                </div>
+                                <div class="kpsp" title="Kinopoisk">
+                                    <span class="kp_sp"></span>
+                                    <label class="m-0">6.8</label>
+                                </div>
+                             </div>
+
+                            <div class="year text-white bg-success">
+                                2017
+                            </div>
+
+                            <div class="details">
+                                <a href="#" class="title text-decoration-none"><h2>Яркость</h2></a>
+                                <a href="#" class="director text-decoration-none"><span>Дэвид Эйер</span></a>
+
+                                <div class="tags">
+                                    <a href="#"><span class="badge badge-success">Экшен</span></a>
+                                    <a href="#"><span class="badge badge-success">Криминал</span></a>
+                                    <a href="#"><span class="badge badge-success">Фентези</span></a>
+                                </div>
+
+                                <div class="hover-derails  p-0 m-0">
+                                  <div class="info">
+                                    <p>Действие происходит в мире, где фантастические существа живут бок о бок с людьми. Человек-полицейский вынужден работать с орком, чтобы найти оружие, за которое каждый готов убить.</p>
+                                  </div>
+
+                                  <div class="star">
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                      <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="row mb-4">
+                <div class="col-auto mx-auto">
+                    <a href="" class="btn btn-outline-warning">Смотреть все</a>
+                </div>
+            </div>
+            <!-- Популярные серьялы 16 шт -->
+            <div class="row mb-4 align-items-center">
+                <div class="col-lg-5 col-xl-5">
+                    <a href="#" class="title-section">
+                        <i class="fas fa-star mr-2 text-warning"></i>
+                        Популярные серьялы
+                    </a>
+                </div>
+            </div>
+            <div class="row mb-2 row-cols-sm-3 row-cols-lg-3 row-cols-xl-4  row-cols-2">
+                    <div class="col mb-4">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="https://mr.comingsoon.it/imgdb/locandine/235x336/53750.jpg" alt="">
+                            </div>
+
+                            <div class="rating">
+                                <div class="imsp" title="IMDb">
+                                    <i class="fab fa-imdb"></i>
+                                    <label class="pl-1 m-0" >7.1</label>
+                                </div>
+                                <div class="kpsp" title="Kinopoisk">
+                                    <span class="kp_sp"></span>
+                                    <label class="m-0">6.8</label>
+                                </div>
+                             </div>
+
+                            <div class="year text-white bg-success">
+                                2018
+                            </div>
+
+                            <div class="details">
+                                <a href="#" class="title text-decoration-none"><h2>Расхитительница гробниц</h2></a>
+                                <a href="#" class="director text-decoration-none"><span>Рев Утхауга</span></a>
+
+                                <div class="tags">
+                                    <a href="#"><span class="badge badge-success">Экшен</span></a>
+                                    <a href="#"><span class="badge badge-success">Приключение</span></a>
+                                    <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                                </div>
+
+                                <div class="hover-derails p-0 m-0">
+                                  <div class="info">
+                                    <p>Лара Крофт, отчаянно независимая дочь пропавшего авантюриста, должна выйти за свои пределы, когда она оказывается на острове, где исчез ее отец.</p>
+                                  </div>
+
+                                  <div class="star">
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                      <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="https://mr.comingsoon.it/imgdb/locandine/235x336/53715.jpg" alt="">
+                            </div>
+
+                            <div class="rating">
+                                <div class="imsp" title="IMDb">
+                                    <i class="fab fa-imdb"></i>
+                                    <label class="pl-1 m-0" >7.1</label>
+                                </div>
+                                <div class="kpsp" title="Kinopoisk">
+                                    <span class="kp_sp"></span>
+                                    <label class="m-0">6.8</label>
+                                </div>
+                             </div>
+
+                            <div class="year text-white bg-success">
+                                2018
+                            </div>
+
+                            <div class="details">
+                                <a href="#" class="title text-decoration-none"><h2>Черная Пантера</h2></a>
+                                <a href="#" class="director text-decoration-none"><span>Райан Куглер</span></a>
+
+                                <div class="tags">
+                                    <a href="#"><span class="badge badge-success">Экшен</span></a>
+                                    <a href="#"><span class="badge badge-success">Приключение</span></a>
+                                    <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                                </div>
+
+                                <div class="hover-derails p-0 m-0">
+                                  <div class="info">
+                                    <p>Т'Чалла, король Ваканды, восходит на трон в изолированной, технологически развитой африканской стране, но его притязания оспариваются мстительным чужаком, который в детстве был жертвой ошибки отца Т'Чаллы.</p>
+                                  </div>
+
+                                  <div class="star">
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                      <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/1/11/Avengers_Infinity_war_poster.jpeg/revision/latest/scale-to-width-down/324?cb=20180316141550" alt="">
+                            </div>
+
+                            <div class="rating">
+                                <div class="imsp" title="IMDb">
+                                    <i class="fab fa-imdb"></i>
+                                    <label class="pl-1 m-0" >7.1</label>
+                                </div>
+                                <div class="kpsp" title="Kinopoisk">
+                                    <span class="kp_sp"></span>
+                                    <label class="m-0">6.8</label>
+                                </div>
+                             </div>
+
+                            <div class="year text-white bg-success">
+                                2018
+                            </div>
+
+                            <div class="details">
+                                <a href="#" class="title text-decoration-none"><h2>Мстители: Война бесконечности</h2></a>
+                                <a href="#" class="director text-decoration-none"><span>Энтони Руссо, Джо Руссо</span></a>
+
+                                <div class="tags">
+                                    <a href="#"><span class="badge badge-success">Fantasy</span></a>
+                                    <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                                </div>
+
+                                <div class="hover-derails p-0 m-0">
+                                  <div class="info">
+                                    <p>Железный Человек, Тор, Халк и остальные Мстители объединяются, чтобы сразиться со своим самым могущественным врагом</p>
+                                  </div>
+
+                                  <div class="star">
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                      <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg" alt="">
+                            </div>
+
+                            <div class="rating">
+                                <div class="imsp" title="IMDb">
+                                    <i class="fab fa-imdb"></i>
+                                    <label class="pl-1 m-0" >7.1</label>
+                                </div>
+                                <div class="kpsp" title="Kinopoisk">
+                                    <span class="kp_sp"></span>
+                                    <label class="m-0">6.8</label>
+                                </div>
+                             </div>
+
+                            <div class="year text-white bg-success">
+                                2017
+                            </div>
+
+                            <div class="details">
+                                <a href="#" class="title text-decoration-none"><h2>Яркость</h2></a>
+                                <a href="#" class="director text-decoration-none"><span>Дэвид Эйер</span></a>
+
+                                <div class="tags">
+                                    <a href="#"><span class="badge badge-success">Экшен</span></a>
+                                    <a href="#"><span class="badge badge-success">Криминал</span></a>
+                                    <a href="#"><span class="badge badge-success">Фентези</span></a>
+                                </div>
+
+                                <div class="hover-derails p-0 m-0">
+                                  <div class="info">
+                                    <p>Действие происходит в мире, где фантастические существа живут бок о бок с людьми. Человек-полицейский вынужден работать с орком, чтобы найти оружие, за которое каждый готов убить.</p>
+                                  </div>
+
+                                  <div class="star">
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                      <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
+                                      <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="row mb-4">
+                <div class="col-auto mx-auto">
+                    <a href="" class="btn btn-outline-warning">Смотреть все</a>
+                </div>
+            </div>
+            <!-- Рекламный блок в будущем -->
+            <!-- Главные новости  на всех общий -->
+            <div class="row mb-4 align-items-center">
+                <div class="col-auto">
+                    <a href="#" class="title-section">
+                        Главное
+                    </a>
+                </div>
+                <div class="col">
+                    <div class="line mt-2"></div>
+                </div>
+            </div>
+            <div class="row mb-2 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4  row-cols-2">
+                <div class="col mb-4 card-news">
+                    <div class="card">
+                        <img src="../../static/img/4.jpg" class="card-img-top object-cover object-center" alt="...">
+                        <div class="card-body">
+                            <a href="#" class="card-title text-decoration-none h6 stretched-link">15 зрелищных фильмов, которые стоит смотреть на большом экране домашнего кинопроектора</a>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">16.05.2020</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-4 card-news">
+                    <div class="card">
+                        <img src="../../static/img/4.jpg" class="card-img-top object-cover object-center" alt="...">
+                        <div class="card-body">
+                            <a href="#" class="card-title text-decoration-none h6 stretched-link">15 зрелищных фильмов, которые стоит смотреть на большом экране домашнего кинопроектора</a>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">16.05.2020</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-4 card-news">
+                    <div class="card">
+                        <img src="../../static/img/4.jpg" class="card-img-top object-cover object-center" alt="...">
+                        <div class="card-body">
+                            <a href="#" class="card-title text-decoration-none h6 stretched-link">15 зрелищных фильмов, которые стоит смотреть на большом экране домашнего кинопроектора</a>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">16.05.2020</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-4 card-news">
+                    <div class="card">
+                        <img src="../../static/img/4.jpg" class="card-img-top object-cover object-center" alt="...">
+                        <div class="card-body">
+                            <a href="#" class="card-title text-decoration-none h6 stretched-link">15 зрелищных фильмов, которые стоит смотреть на большом экране домашнего кинопроектора</a>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">16.05.2020</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-auto mx-auto">
+                    <a href="" class="btn btn-outline-warning">Читать все новости</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <!-- footer content -->
+        <div class="container">
+            <div class="row py-4 ">
+                <div class="footer-info col-12 col-xl-3">
+                    <span>&copy; 2020</span>
+                    <a href="/" class="footer-link text-decoration-none ml-2">Search Movies</a>
+                    <span class="badge ml-1">18+</span>
+                </div>
+                <div class="footer-links col-12 col-xl-6 d-xl-flex justify-content-xl-center">
+                    <a href="#" class="footer-link text-decoration-none mr-2">Реклама</a>
+                    <a href="#" class="footer-link text-decoration-none mr-2">Блог</a>
+                    <a href="#" class="footer-link text-decoration-none mr-2">О проекте</a>
+                </div>
+                <div class="social-media col-12 col-xl-3 d-xl-flex justify-content-xl-end">
+                    <a href="#" class="footer-link text-decoration-none mr-2"><i class="fab fa-vk"></i></a>
+                    <a href="#" class="footer-link text-decoration-none mr-2"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="{% static 'jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.js' %}"></script>
+    <!-- slider js -->
+    <script type="text/javascript" src="{% static 'node_modules/slick-carousel/slick/slick.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/movie-slider.js' %}"></script>
+    <!-- fontawesome JS -->
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <script type="text/javascript" src="{% static 'fontawesome-web/js/solid.js' %}"></script>
+    <script type="text/javascript" src="{% static 'fontawesome-web/js/fontawesome.js' %}"></script>
+</body>
+</html>

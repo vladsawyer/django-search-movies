@@ -4,12 +4,13 @@ from .models import Movies
 
 
 # Create your views here.
-class MoviesView(View):
-    """Movie list"""
+# class MoviesView(View):
+#     """Movie list"""
 
-    def home(self):
-        return render("movie/dj_index.html")
+def index(request):
+    return render(request, "movies/index.html")
 
-    def get(self, request):
-        movies = Movies.objects.all()
-        return render(request, "movie/dj_index.html", {"movie_list": movies})
+
+def get(request):
+    movies = Movies.objects.all()
+    return render(request, "movies/index.html", {"movie_list": movies})
