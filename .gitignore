@@ -1,5 +1,6 @@
 /.idea/
-/django_movie_site/
+/django_movie_site/settings.py
 /movies/migrations/
-/movie_shablon/
 media/*
+__pycache__
+venv/
