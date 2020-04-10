@@ -203,7 +203,10 @@ button.slick-prev, button.slick-prev:hover {
     }
 
     .card-news .card img{
-        border-radius: 1rem 1rem 0 0;
+      max-height: 14rem;
+      object-fit:cover;
+      object-position:center;
+       border-radius: 1rem 1rem 0 0;
     }
 
     .card-news .card-footer {

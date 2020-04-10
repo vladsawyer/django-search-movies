@@ -1,158 +1,10 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+{% extends "movies/base.html" %}
 
-    <link rel="stylesheet" href="{% static  'bootstrap/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'node_modules/slick-carousel/slick/slick.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'node_modules/slick-carousel/slick/slick-theme.css' %}"/>
-    <link rel="stylesheet" href="{% static 'css/slider-index.css' %}">
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-    <link rel="stylesheet" href="{% static 'css/card-movies.css' %}">
+{% block title %}Search Movies{% endblock %}
 
-    <title>Pro Movie</title>
-</head>
-<body>
-    <header class="fixed-top">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-          <a class="navbar-brand brand" href="#"><strong>S</strong>earch <strong>M</strong>ovies</a>
-
-            <!-- кнопка поиска для мобильных в navbar -->
-            <div class="col d-flex flex-row-reverse d-lg-none">
-               <a class="nav-link" data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseSearch">
-                   <i class="fa fa-search"></i>
-               </a>
-            </div>
-
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mx-auto ">
-                <!-- фильмы -->
-              <li class="nav-item active dropdown mr-2">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fas fa-film fa-fw mr-2"></i>
-                  Фильмы
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <div class="d-lg-flex">
-                        <div>
-                            <div class="dropdown-divider mt-0"></div>
-                            <h6 class="dropdown-header">Жанры</h6>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Боевики</a>
-                            <a class="dropdown-item" href="#">Экшен</a>
-                            <a class="dropdown-item" href="#">Вестерн</a>
-                        </div>
-                        <div>
-                            <div class="dropdown-divider mt-0"></div>
-                            <h6 class="dropdown-header">По годам</h6>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">2020</a>
-                            <a class="dropdown-item" href="#">2019</a>
-                            <a class="dropdown-item" href="#">2018</a>
-                        </div>
-                        <div>
-                            <div class="dropdown-divider mt-0"></div>
-                            <h6 class="dropdown-header">По странам</h6>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Россия</a>
-                            <a class="dropdown-item" href="#">США</a>
-                            <a class="dropdown-item" href="#">Action</a>
-                        </div>
-                    </div>
-                </div>
-              </li>
-                <!-- сериалы -->
-              <li class="nav-item active mr-2">
-                  <a class="nav-link" href="#">
-                      <i class="fas fa-ellipsis-h fa-fw mr-2"></i>
-                      Сериалы
-                  </a>
-              </li>
-                <!-- новинки -->
-              <li class="nav-item active mr-2">
-                  <a class="nav-link" href="#">
-                      <i class="far fa-grin-hearts fa-fw mr-2"></i>
-                      Новинки
-                  </a>
-              </li>
-                <!-- топ -->
-              <li class="nav-item active dropdown mr-2">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fas fa-fire fa-fw mr-2"></i>
-                  Топ
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <div class="dropdown-divider mt-0"></div>
-                    <a class="dropdown-item dropdown-header" href="#">
-                        <i class="fas fa-fire mr-1"></i>
-                        По годам
-                    </a>
-                    <a class="dropdown-item dropdown-header" href="#">
-                        <i class="fas fa-fire mr-1"></i>
-                        Российская класика
-                    </a>
-                    <a class="dropdown-item dropdown-header" href="#">
-                        <i class="fas fa-fire mr-1"></i>
-                        Зарубежная класика
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">По Рейтингу Кинопоиск</a>
-                    <a class="dropdown-item" href="#">По Рейтингу IMDb</a>
-                    <a class="dropdown-item" href="#">Топ фильмы</a>
-                    <a class="dropdown-item" href="#">Топ Сериалы</a>
-                    <a class="dropdown-item" href="#">Топ Мультфильмы</a>
-                </div>
-              </li>
-                <!-- случайный фильм -->
-              <li class="nav-item active">
-                  <a class="nav-link random-film" href="#">
-                    <i class="fas fa-dice fa-fw mr-1"></i>
-                    Случайный фильм
-                  </a>
-              </li>
-            </ul>
-
-            <ul class="navbar-nav">
-               <!-- collapse форма поиска -->
-              <li class="nav-item mr-3 d-none d-lg-block">
-                  <a class="nav-link" data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseSearch">
-                      <i class="fa fa-search"></i>
-                  </a>
-              </li>
-                <!-- login -->
-               <li class="nav-item active">
-                  <a class="nav-link" href="#">Войти</a>
-                </li>
-              </ul>
-          </div>
-        </nav>
-        <!-- collapse форма поиска -->
-        <section class="container">
-           <div class="row">
-               <div class="col-lg-12 col-xl-12">
-                   <div class="collapse" id="collapseSearch">
-                       <div class="card card-body border-0 nav-search">
-                           <form method="post" role="search">
-                               <input class="form-control bg-dark border-dark position-relative" type="search" placeholder="Поиск" aria-label="Search">
-                               <a class="btn btn-search position-absolute" type="submit"><i class="fa fa-search" ></i></a>
-                           </form>
-                       </div>
-                   </div>
-               </div>
-           </div>
-        </section>
-    </header>
-
-    <main>
-        <!-- slider фильмы главная  -->
-        <section class="container-fluid px-0" style="margin-top: 5rem;">
+{% block content %}
+    <!-- slider фильмы главная  -->
+    <section class="container-fluid px-0" style="margin-top: 5rem;" >
              <div class="slider center">
                  <div class="slider-card">
                      <div class="movie_card">
@@ -179,7 +31,7 @@
                               </div>
                             </div>
                         </div>
-                        <div class="blur_back bright_back"></div>
+                        <div class="blur_back" style='background-image: url("https://occ-0-2433-448.1.nflxso.net/art/cd5c9/3e192edf2027c536e25bb5d3b6ac93ced77cd5c9.jpg")'></div>
                      </div>
                  </div>
                  <div class="slider-card">
@@ -207,7 +59,7 @@
                               </div>
                           </div>
                       </div>
-                      <div class="blur_back tomb_back"></div>
+                      <div class="blur_back" style='background-image: url("https://fsmedia.imgix.net/cd/c9/5e/ba/4817/4d9a/93f0/c776ec32ecbc/lara-crofts-neck-looks-unnatural-in-the-new-poster-for-tomb-raider.png");'></div>
                     </div>
                  </div>
                  <div class="slider-card">
@@ -233,13 +85,13 @@
                               </div>
                           </div>
                       </div>
-                      <div class="blur_back ave_back"></div>
+                      <div class="blur_back" style='background-image: url("https://www.gannett-cdn.com/-mm-/c03fd140debe8ad4c05cf81a5cad7ad61a12ce52/c=0-1580-2985-3266&r=x803&c=1600x800/local/-/media/2017/06/09/USATODAY/USATODAY/636326272873599176-Black-Panther-Teaser.jpg");'></div>
                     </div>
                  </div>
             </div>
-        </section>
-        <!-- content -->
-        <section class="container">
+    </section>
+    <!-- content -->
+    <section class="container">
             <!-- category -->
             <div class="row main-category">
                 <div class="col-6 col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center">
@@ -1397,7 +1249,7 @@
             <div class="row mb-2 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4  row-cols-2">
                 <div class="col mb-4 card-news">
                     <div class="card">
-                        <img src="../../static/img/4.jpg" class="card-img-top object-cover object-center" alt="...">
+                        <img src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg" class="card-img-top" alt="...">
                         <div class="card-body">
                             <a href="#" class="card-title text-decoration-none h6 stretched-link">15 зрелищных фильмов, которые стоит смотреть на большом экране домашнего кинопроектора</a>
                         </div>
@@ -1408,7 +1260,7 @@
                 </div>
                 <div class="col mb-4 card-news">
                     <div class="card">
-                        <img src="../../static/img/4.jpg" class="card-img-top object-cover object-center" alt="...">
+                        <img src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg" class="card-img-top object-cover object-center" alt="...">
                         <div class="card-body">
                             <a href="#" class="card-title text-decoration-none h6 stretched-link">15 зрелищных фильмов, которые стоит смотреть на большом экране домашнего кинопроектора</a>
                         </div>
@@ -1419,7 +1271,7 @@
                 </div>
                 <div class="col mb-4 card-news">
                     <div class="card">
-                        <img src="../../static/img/4.jpg" class="card-img-top object-cover object-center" alt="...">
+                        <img src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg" class="card-img-top object-cover object-center" alt="...">
                         <div class="card-body">
                             <a href="#" class="card-title text-decoration-none h6 stretched-link">15 зрелищных фильмов, которые стоит смотреть на большом экране домашнего кинопроектора</a>
                         </div>
@@ -1430,7 +1282,7 @@
                 </div>
                 <div class="col mb-4 card-news">
                     <div class="card">
-                        <img src="../../static/img/4.jpg" class="card-img-top object-cover object-center" alt="...">
+                        <img src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg" class="card-img-top object-cover object-center" alt="...">
                         <div class="card-body">
                             <a href="#" class="card-title text-decoration-none h6 stretched-link">15 зрелищных фильмов, которые стоит смотреть на большом экране домашнего кинопроектора</a>
                         </div>
@@ -1446,39 +1298,8 @@
                 </div>
             </div>
         </section>
-    </main>
+{% endblock %}
 
-    <footer>
-        <!-- footer content -->
-        <div class="container">
-            <div class="row py-4 ">
-                <div class="footer-info col-12 col-xl-3">
-                    <span>&copy; 2020</span>
-                    <a href="/" class="footer-link text-decoration-none ml-2">Search Movies</a>
-                    <span class="badge ml-1">18+</span>
-                </div>
-                <div class="footer-links col-12 col-xl-6 d-xl-flex justify-content-xl-center">
-                    <a href="#" class="footer-link text-decoration-none mr-2">Реклама</a>
-                    <a href="#" class="footer-link text-decoration-none mr-2">Блог</a>
-                    <a href="#" class="footer-link text-decoration-none mr-2">О проекте</a>
-                </div>
-                <div class="social-media col-12 col-xl-3 d-xl-flex justify-content-xl-end">
-                    <a href="#" class="footer-link text-decoration-none mr-2"><i class="fab fa-vk"></i></a>
-                    <a href="#" class="footer-link text-decoration-none mr-2"><i class="fab fa-telegram"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="{% static 'jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'bootstrap/js/bootstrap.bundle.js' %}"></script>
-    <!-- slider js -->
-    <script type="text/javascript" src="{% static 'node_modules/slick-carousel/slick/slick.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/movie-slider.js' %}"></script>
-    <!-- fontawesome JS -->
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-    <script type="text/javascript" src="{% static 'fontawesome-web/js/solid.js' %}"></script>
-    <script type="text/javascript" src="{% static 'fontawesome-web/js/fontawesome.js' %}"></script>
-</body>
-</html>
+
+
