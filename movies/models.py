@@ -2,14 +2,12 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.utils import timezone
 from mptt.models import MPTTModel, TreeForeignKey
 
 
 # Create your models here.
 class Categories(MPTTModel):
     title = models.CharField(max_length=150)
-    description = models.TextField(null=True, blank=True)
     slug = models.SlugField(max_length=160, unique=True)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
@@ -75,12 +73,26 @@ class Ratings(models.Model):
         verbose_name_plural = "ratings"
 
 
+class Roles(models.Model):
+    role = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.role
+
+    class Meta:
+        verbose_name = "role"
+        verbose_name_plural = "roles"
+
+
 class Members(models.Model):
     full_name = models.CharField(max_length=150)
-    age = models.PositiveIntegerField(default=0)
-    description = models.TextField()
+    total_movies = models.PositiveIntegerField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    birthday = models.DateField(null=True, blank=True)
+    categories = models.ManyToManyField(Categories)
+    roles = models.ManyToManyField(Roles)
     image = models.ImageField(upload_to="member/")
-    slug = models.SlugField(max_length=160, unique=True)
+    slug = models.SlugField(max_length=160)
 
     comments = GenericRelation(Comments)
     ratings = GenericRelation(Ratings)
@@ -96,17 +108,19 @@ class Members(models.Model):
 class Movies(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField()
-    tagline = models.CharField(max_length=150, null=True, blank=True)
     poster = models.ImageField(upload_to="movie/")
     country = models.CharField(max_length=50)
     directors = models.ManyToManyField(Members, related_name='film_director')
     actors = models.ManyToManyField(Members, related_name='film_actor')
     categories = models.ManyToManyField(Categories)
-    world_premiere = models.DateField(default=timezone.now().strftime('%d.%m.%y'))
-    budget = models.PositiveIntegerField(default=0, help_text="indicate the amount in dollars")
-    fees_in_usa = models.PositiveIntegerField(default=0, help_text="indicate the amount in dollars")
-    fees_in_world = models.PositiveIntegerField(default=0, help_text="indicate the amount in dollars")
-    age = models.PositiveIntegerField(default=0, help_text="age mark")
+    world_premiere = models.DateField(null=True, blank=True)
+    rating_kp = models.FloatField(null=True, blank=True)
+    rating_imdb = models.FloatField(null=True, blank=True)
+    rf_premiere = models.DateField(null=True, blank=True)
+    budget = models.PositiveIntegerField(null=True, blank=True, help_text="indicate the amount in dollars")
+    fees_in_usa = models.PositiveIntegerField(null=True, blank=True, help_text="indicate the amount in dollars")
+    fees_in_world = models.PositiveIntegerField(null=True, blank=True, help_text="indicate the amount in dollars")
+    age = models.PositiveIntegerField(help_text="age mark", null=True, blank=True)
     draft = models.BooleanField(default=False)
     slug = models.SlugField(max_length=160, unique=True)
 
