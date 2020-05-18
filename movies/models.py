@@ -1,3 +1,5 @@
+import os
+from hashlib import sha1
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
@@ -5,7 +7,23 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
 
-# Create your models here.
+# create image path for models
+def get_members_image_path(instance, filename):
+    hashname = sha1(filename.encode('utf-8')).hexdigest() + '.jpg'
+    return os.path.join('member', hashname[:2], hashname[2:4], hashname)
+
+
+def get_movie_posters_image_path(instance, filename):
+    hashname = sha1(filename.encode('utf-8')).hexdigest() + '.jpg'
+    return os.path.join('movie_posters', hashname[:2], hashname[2:4], hashname)
+
+
+def get_movie_shots_image_path(instance, filename):
+    hashname = sha1(filename.encode('utf-8')).hexdigest() + '.jpg'
+    return os.path.join('movie_shots', hashname[:2], hashname[2:4], hashname)
+
+
+# Create models.
 class Categories(MPTTModel):
     title = models.CharField(max_length=150)
     slug = models.SlugField(max_length=160, unique=True)
@@ -91,8 +109,7 @@ class Members(models.Model):
     birthday = models.DateField(null=True, blank=True)
     categories = models.ManyToManyField(Categories)
     roles = models.ManyToManyField(Roles)
-    image = models.ImageField(upload_to="member/")
-    slug = models.SlugField(max_length=160)
+    image = models.ImageField(upload_to=get_members_image_path, blank=True)
 
     comments = GenericRelation(Comments)
     ratings = GenericRelation(Ratings)
@@ -108,11 +125,12 @@ class Members(models.Model):
 class Movies(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField()
-    poster = models.ImageField(upload_to="movie/")
+    poster = models.ImageField(upload_to=get_movie_posters_image_path)
     country = models.CharField(max_length=50)
     directors = models.ManyToManyField(Members, related_name='film_director')
     actors = models.ManyToManyField(Members, related_name='film_actor')
-    categories = models.ManyToManyField(Categories)
+    categories = models.ManyToManyField(Categories, related_name='categories')
+    genres = models.ManyToManyField(Categories, related_name='genres')
     world_premiere = models.DateField(null=True, blank=True)
     rating_kp = models.FloatField(null=True, blank=True)
     rating_imdb = models.FloatField(null=True, blank=True)
@@ -122,7 +140,7 @@ class Movies(models.Model):
     fees_in_world = models.PositiveIntegerField(null=True, blank=True, help_text="indicate the amount in dollars")
     age = models.PositiveIntegerField(help_text="age mark", null=True, blank=True)
     draft = models.BooleanField(default=False)
-    slug = models.SlugField(max_length=160, unique=True)
+    slug = models.SlugField(max_length=160, null=True, blank=True)
 
     comments = GenericRelation(Comments)
     ratings = GenericRelation(Ratings)
@@ -151,7 +169,7 @@ class PartnerUrls(models.Model):
 class MovieShots(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField(null=True, blank=True)
-    image = models.ImageField(upload_to="movie_shots/")
+    image = models.ImageField(upload_to=get_movie_shots_image_path)
     movie = models.ForeignKey(Movies, on_delete=models.CASCADE)
 
     def __str__(self):
