@@ -124,13 +124,12 @@ class Members(models.Model):
 
 class Movies(models.Model):
     title = models.CharField(max_length=150)
-    description = models.TextField()
-    poster = models.ImageField(upload_to=get_movie_posters_image_path)
-    country = models.CharField(max_length=50)
+    description = models.TextField(null=True, blank=True)
+    poster = models.ImageField(upload_to=get_movie_posters_image_path, blank=True)
+    country = models.CharField(max_length=50, null=True, blank=True)
     directors = models.ManyToManyField(Members, related_name='film_director')
     actors = models.ManyToManyField(Members, related_name='film_actor')
-    categories = models.ManyToManyField(Categories, related_name='categories')
-    genres = models.ManyToManyField(Categories, related_name='genres')
+    categories = models.ManyToManyField(Categories, related_name='categories_genres')
     world_premiere = models.DateField(null=True, blank=True)
     rating_kp = models.FloatField(null=True, blank=True)
     rating_imdb = models.FloatField(null=True, blank=True)
@@ -141,6 +140,7 @@ class Movies(models.Model):
     age = models.PositiveIntegerField(help_text="age mark", null=True, blank=True)
     draft = models.BooleanField(default=False)
     slug = models.SlugField(max_length=160, null=True, blank=True)
+    trailer = models.URLField(null=True, blank=True)
 
     comments = GenericRelation(Comments)
     ratings = GenericRelation(Ratings)
@@ -167,13 +167,8 @@ class PartnerUrls(models.Model):
 
 
 class MovieShots(models.Model):
-    title = models.CharField(max_length=150)
-    description = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to=get_movie_shots_image_path)
     movie = models.ForeignKey(Movies, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.title
 
     class Meta:
         verbose_name = "movie shot"
