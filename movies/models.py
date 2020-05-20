@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
 
 
@@ -34,6 +35,9 @@ class Categories(MPTTModel):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('movies_category_list', kwargs={"slug": self.slug})
 
     class Meta:
         verbose_name = "category"
@@ -117,6 +121,9 @@ class Members(models.Model):
     def __str__(self):
         return self.full_name
 
+    def get_absolute_url(self):
+        return reverse('member', kwargs={"pk": self.id})
+
     class Meta:
         verbose_name = "member"
         verbose_name_plural = "members"
@@ -141,12 +148,20 @@ class Movies(models.Model):
     draft = models.BooleanField(default=False)
     slug = models.SlugField(max_length=160, null=True, blank=True)
     trailer = models.URLField(null=True, blank=True)
+    time = models.TimeField(null=True, blank=True)
 
     comments = GenericRelation(Comments)
     ratings = GenericRelation(Ratings)
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        mov = Movies.objects.get(pk=self.id)
+        if mov.categories.filter(title='фильмы').exists():
+            return reverse('movie_detail', kwargs={"pk": self.id})
+        elif mov.categories.filter(title='сериалы').exists():
+            return reverse('series_detail', kwargs={"pk": self.id})
 
     class Meta:
         verbose_name = "movie"
@@ -170,6 +185,8 @@ class MovieShots(models.Model):
     image = models.ImageField(upload_to=get_movie_shots_image_path)
     movie = models.ForeignKey(Movies, on_delete=models.CASCADE)
 
+
     class Meta:
         verbose_name = "movie shot"
         verbose_name_plural = "movie shots"
+

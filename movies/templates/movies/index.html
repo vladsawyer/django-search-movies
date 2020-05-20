@@ -6,49 +6,28 @@
     <!-- slider фильмы главная  -->
     <section class="container-fluid px-0" style="margin-top: 5rem;" >
              <div class="slider center">
-                 <div class="slider-card">
-                     <div class="movie_card">
-                        <div class="info_section">
-                            <div class="info-content">
-                              <div class="movie_header">
-                                  <img class="locandina d-none d-sm-block" src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg" alt=""/>
-                                  <h2>Яркость</h2>
-                                  <h5>2017, Дэвид Эйер</h5>
-                                  <span class="minutes">117 min</span>
-                                  <p class="type">Экшен, Криминал, Фентези</p>
-                                </div>
-                              <div class="movie_desc">
-                                  <p class="text">
-                                    Действие происходит в мире, где фантастические существа живут бок о бок с людьми. Человек-полицейский вынужден работать с орком, чтобы найти оружие, за которое каждый готов убить.
-                                  </p>
-                                </div>
-                              <div class="movie_social">
-                                  <ul>
-                                    <li><a href="#" class="btn btn-outline-warning btn-sm mb-3">Трейлер</a></li>
-                                    <li><a href="#" class="btn btn-success btn-sm border-0 mb-3">Cмотерь на Wink</a></li>
-                                    <li><a href="#" class="btn btn-kp btn-sm mb-3">Cмотерь на Кинопоиск</a></li>
-                                  </ul>
-                              </div>
-                            </div>
-                        </div>
-                        <div class="blur_back" style='background-image: url("https://occ-0-2433-448.1.nflxso.net/art/cd5c9/3e192edf2027c536e25bb5d3b6ac93ced77cd5c9.jpg")'></div>
-                     </div>
-                 </div>
-                 <div class="slider-card">
+                 {% for index_movie in index_movies %}
+                    <div class="slider-card">
                      <div class="movie_card">
                       <div class="info_section">
                           <div class="info-content">
                             <div class="movie_header">
-                              <img class="locandina d-none d-sm-block" src="https://mr.comingsoon.it/imgdb/locandine/235x336/53750.jpg" alt=""/>
-                              <h2>Расхитительница гробниц</h2>
-                              <h5>2018, Рев Утхауга</h5>
+                              <img class="locandina d-none d-sm-block" src="{{ index_movie.poster.url }}" alt="{{ index_movie.title }}"/>
+                              <h2>{{ index_movie.title }}</h2>
+                              <h5>{{ index_movie.world_premiere.year }},
+                                  {% for director in index_movie.directors.all %}
+                                    {{ director }}
+                                  {% endfor %}
+                              </h5>
                               <span class="minutes">125 min</span>
-                              <p class="type">Экшен, Фентези</p>
+                                {% for genre in index_movie.categories.all|slice:":2" %}
+                                    <p class="type">{{ genre }}</p>
+                                {% endfor %}
                             </div>
                             <div class="movie_desc">
-                              <p class="text">
-                                Лара Крофт, отчаянно независимая дочь пропавшего авантюриста, должна выйти за свои пределы, когда она оказывается на острове, где исчез ее отец.
-                              </p>
+                                {% if index_movie.description is not None %}
+                                    <p class="text">{{ index_movie.description|truncatechars:300 }}</p>
+                                {% endif %}
                             </div>
                             <div class="movie_social">
                                   <ul>
@@ -59,35 +38,10 @@
                               </div>
                           </div>
                       </div>
-                      <div class="blur_back" style='background-image: url("https://fsmedia.imgix.net/cd/c9/5e/ba/4817/4d9a/93f0/c776ec32ecbc/lara-crofts-neck-looks-unnatural-in-the-new-poster-for-tomb-raider.png");'></div>
+                      <div class="blur_back" style='background-image: url({{ index_movie.movieshots_set.first.image.url }});'></div>
                     </div>
                  </div>
-                 <div class="slider-card">
-                     <div class="movie_card">
-                      <div class="info_section">
-                          <div class="info-content">
-                            <div class="movie_header">
-                              <img class="locandina d-none d-sm-block" src="https://mr.comingsoon.it/imgdb/locandine/235x336/53715.jpg" alt=""/>
-                              <h2>Черная Пантера</h2>
-                              <h5>2018, Райан Куглер</h5>
-                              <span class="minutes">134 min</span>
-                              <p class="type">Экшен, Приключение, Научная Фантастика</p>
-                            </div>
-                            <div class="movie_desc">
-                              <p class="text">Т'Чалла, король Ваканды, восходит на трон в изолированной, технологически развитой африканской стране, но его притязания оспариваются мстительным чужаком, который в детстве был жертвой ошибки отца Т'Чаллы.</p>
-                            </div>
-                            <div class="movie_social">
-                                  <ul>
-                                    <li><a href="#" class="btn btn-outline-warning btn-sm mb-3">Трейлер</a></li>
-                                    <li><a href="#" class="btn btn-success btn-sm border-0 mb-3">Cмотерь на Wink</a></li>
-                                    <li><a href="#" class="btn btn-kp btn-sm mb-3">Cмотерь на Кинопоиск</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="blur_back" style='background-image: url("https://www.gannett-cdn.com/-mm-/c03fd140debe8ad4c05cf81a5cad7ad61a12ce52/c=0-1580-2985-3266&r=x803&c=1600x800/local/-/media/2017/06/09/USATODAY/USATODAY/636326272873599176-Black-Panther-Teaser.jpg");'></div>
-                    </div>
-                 </div>
+                 {% endfor %}
             </div>
     </section>
     <!-- content -->
@@ -141,158 +95,51 @@
                 </div>
             </div>
             <div class="row mb-2 row-cols-sm-3 row-cols-lg-3 row-cols-xl-4  row-cols-2">
-                <div class="col mb-4">
-                    <div class="card card-movie">
-                        <div class="poster">
-                            <img src="https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/1/11/Avengers_Infinity_war_poster.jpeg/revision/latest/scale-to-width-down/324?cb=20180316141550" alt="">
-                        </div>
-
-                        <div class="premier">
-                          <span>30 Апреля 2018</span>
-                        </div>
-
-                        <div class="details">
-                            <a href="#" class="title text-decoration-none"><h2>Мстители: Война бесконечности</h2></a>
-                            <a href="#" class="director text-decoration-none"><span>Энтони Руссо, Джо Руссо</span></a>
-
-                            <div class="tags">
-                                <a href="#"><span class="badge badge-success">Fantasy</span></a>
-                                <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                {% for premiere in premieres %}
+                    <div class="col mb-4">
+                        <div class="card card-movie">
+                            <div class="poster">
+                                <img src="{{premiere.poster.url}}" alt="{{ premiere.title }}">
                             </div>
 
-                            <div class="hover-derails p-0 m-0">
-                              <div class="info">
-                                <p>Железный Человек, Тор, Халк и остальные Мстители объединяются, чтобы сразиться со своим самым могущественным врагом</p>
-                              </div>
-
-                              <div class="star">
-                                <h4>Актеры</h4>
-                                <ul>
-                                  <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
-                                  <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
-                                  <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
-                                  <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
-                                  <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
-                                </ul>
-                              </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-4">
-                    <div class="card card-movie">
-                        <div class="poster">
-                            <img src="https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/1/11/Avengers_Infinity_war_poster.jpeg/revision/latest/scale-to-width-down/324?cb=20180316141550" alt="">
-                        </div>
-
-                        <div class="premier">
-                          <span>30 Апреля 2018</span>
-                        </div>
-
-                        <div class="details">
-                            <a href="#" class="title text-decoration-none"><h2>Мстители: Война бесконечности</h2></a>
-                            <a href="#" class="director text-decoration-none"><span>Энтони Руссо, Джо Руссо</span></a>
-
-                            <div class="tags">
-                                <a href="#"><span class="badge badge-success">Fantasy</span></a>
-                                <a href="#"><span class="badge badge-success">Sci Fi</span></a>
+                            <div class="premier">
+                              <span>{{ premiere.world_premiere }}</span>
                             </div>
 
-                            <div class="hover-derails p-0 m-0">
-                              <div class="info">
-                                <p>Железный Человек, Тор, Халк и остальные Мстители объединяются, чтобы сразиться со своим самым могущественным врагом</p>
-                              </div>
+                            <div class="details">
+                                <a href="{{ premiere.get_absolute_url }}" class="title text-decoration-none"><h2>{{ premiere.title }}</h2></a>
+                                {% for director in premiere.directors.all %}
+                                    <a href="{{director.get_absolute_url}}" class="director text-decoration-none"><span>{{director}}</span></a>
+                                {% endfor %}
 
-                              <div class="star">
-                                <h4>Актеры</h4>
-                                <ul>
-                                  <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
-                                  <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
-                                  <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
-                                  <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
-                                  <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
-                                </ul>
-                              </div>
+                                <div class="tags">
+                                    {% for genre in premiere.categories.all|slice:":3" %}
+                                        <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title }}</span></a>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="hover-derails p-0 m-0">
+                                  <div class="info">
+                                    {% if premiere.description is not None %}
+                                        <p>{{ premiere.description|truncatechars:200 }}</p>
+                                    {% endif %}
+                                  </div>
+
+                                  <div class="star">
+                                  {% if premiere.actors.all.exists %}
+                                    <h4>Актеры</h4>
+                                    <ul>
+                                        {% for actor in premiere.actors.all %}
+                                            <li><a href="{{actor.get_absolute_url}}" title="{{actor.full_name}}"><img src="{{ actor.image.url }}" alt="{{actor.full_name}}"></a></li>
+                                        {% endfor %}
+                                    </ul>
+                                  {% endif %}
+                                  </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col mb-4">
-                    <div class="card card-movie">
-                        <div class="poster">
-                            <img src="https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/1/11/Avengers_Infinity_war_poster.jpeg/revision/latest/scale-to-width-down/324?cb=20180316141550" alt="">
-                        </div>
-
-                        <div class="premier">
-                          <span>30 Апреля 2018</span>
-                        </div>
-
-                        <div class="details">
-                            <a href="#" class="title text-decoration-none"><h2>Мстители: Война бесконечности</h2></a>
-                            <a href="#" class="director text-decoration-none"><span>Энтони Руссо, Джо Руссо</span></a>
-
-                            <div class="tags">
-                                <a href="#"><span class="badge badge-success">Fantasy</span></a>
-                                <a href="#"><span class="badge badge-success">Sci Fi</span></a>
-                            </div>
-
-                            <div class="hover-derails p-0 m-0">
-                              <div class="info">
-                                <p>Железный Человек, Тор, Халк и остальные Мстители объединяются, чтобы сразиться со своим самым могущественным врагом</p>
-                              </div>
-
-                              <div class="star">
-                                <h4>Актеры</h4>
-                                <ul>
-                                  <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
-                                  <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
-                                  <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
-                                  <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
-                                  <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
-                                </ul>
-                              </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-4">
-                    <div class="card card-movie">
-                        <div class="poster">
-                            <img src="https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/1/11/Avengers_Infinity_war_poster.jpeg/revision/latest/scale-to-width-down/324?cb=20180316141550" alt="">
-                        </div>
-
-                        <div class="premier">
-                          <span>30 Апреля 2018</span>
-                        </div>
-
-                        <div class="details">
-                            <a href="#" class="title text-decoration-none"><h2>Мстители: Война бесконечности</h2></a>
-                            <a href="#" class="director text-decoration-none"><span>Энтони Руссо, Джо Руссо</span></a>
-
-                            <div class="tags">
-                                <a href="#"><span class="badge badge-success">Fantasy</span></a>
-                                <a href="#"><span class="badge badge-success">Sci Fi</span></a>
-                            </div>
-
-                            <div class="hover-derails p-0 m-0">
-                              <div class="info">
-                                <p>Железный Человек, Тор, Халк и остальные Мстители объединяются, чтобы сразиться со своим самым могущественным врагом</p>
-                              </div>
-
-                              <div class="star">
-                                <h4>Актеры</h4>
-                                <ul>
-                                  <li><a href="#" title="Роберт Дауни Мл."><img src="https://www.famousbirthdays.com/headshots/robert-downey-jr-2.jpg" alt=""></a></li>
-                                  <li><a href="#" title="Имя Актера"><img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU1MTM0NzA2NzQ3MTg4NDQw/chris-evans-arrives-at-the-los-angeles-premiere-of-captain-america-the-winter-soldier-held-at-the-el-capitan-theatre-on-march-13-2014-in-hollywood-california-photo-by-michael-tran_filmmagicjpg-square.jpg" alt=""></a></li>
-                                  <li><a href="#" title="Имя Актера"><img src="https://www.india-forums.com/images/celebrity/l_12804.jpg" alt=""></a></li>
-                                  <li><a href="#" title="Имя Актера"><img src="https://imageresizer.static9.net.au/LYRtJfSVUFCURsyAlx6qdMXJzwI=/400x0/http%3A%2F%2Fprod.static9.net.au%2F_%2Fmedia%2FNetwork%2FImages%2Favengers300616Scarjo.jpg" alt=""></a></li>
-                                  <li><a href="#" title="Имя Актера"><img src="https://www.famousbirthdays.com/faces/boseman-chadwick-image.jpg" alt=""></a></li>
-                                </ul>
-                              </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
             <div class="row mb-4">
                 <div class="col-auto mx-auto">
