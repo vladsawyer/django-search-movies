@@ -13,6 +13,7 @@
 }
 
 .slider-card {
+  box-sizing: content-box;
   max-width: 1140px;
   border-radius: 1rem;
   overflow: hidden;
@@ -115,8 +116,17 @@
   height: 100%;
   right: 0;
   background-size: cover;
+  background-repeat: round;
+  background-origin: border-box;
   border-radius: 11px;
 }
+
+@media screen and (min-width: 1366px) {
+    .slider-card {
+      width: 1140px;
+    }
+}
+
 
 @media screen and (min-width: 768px) {
   .movie_header {

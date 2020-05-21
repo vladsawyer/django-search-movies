@@ -25,6 +25,9 @@
   width: 100%;
   height: 100%;
   background: linear-gradient(0deg, #000 50%, transparent 100%);
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  -webkit-transition: 0.5s;
   transition: 0.5s;
   z-index: 1;
 }
@@ -47,8 +50,11 @@
 }
 
 .card-movie:hover .poster img {
-  filter: blur(2px);
-  transform: translateY(-30px);
+    filter: blur(2px);
+    -moz-transform: translateY(-30px);
+    -o-transform: translateY(-30px);
+    -webkit-transform: translateY(-30px);
+    transform: translateY(-30px);
 }
 
 .details {
@@ -184,6 +190,12 @@
   display: block;
 }
 
+@media screen and (min-width: 1024px){
+    .card-movie{
+        min-height: 21.875rem;
+    }
+}
+
 @media (max-width: 576px) {
   .details {
     bottom: -40%;
@@ -209,3 +221,4 @@
        transform: none;
     }
 }
+
