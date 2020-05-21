@@ -12,21 +12,47 @@ class MoviesIndexView(View):
     """Movie list"""
 
     def get(self, request):
-        index_movies = Movies.objects.exclude(
-            world_premiere__gte=datetime.datetime.today()
-        ).filter(
-            world_premiere__gte=datetime.datetime.today() + relativedelta(months=-3)
+        index_movies = Movies.objects.filter(
+            world_premiere__range=(datetime.datetime.today() + relativedelta(months=-4), datetime.datetime.today())
         ).filter(
             rating_kp__isnull=False
         ).order_by('-rating_kp')[:15]
 
         premieres = Movies.objects.filter(
-            world_premiere__gte=datetime.datetime.now()
+            world_premiere__gt=datetime.datetime.now()
         ).order_by('world_premiere')
+
+        now_in_cinema = Movies.objects.filter(
+             world_premiere__range=(datetime.datetime.today() + relativedelta(months=-1, days=-15),
+                                    datetime.datetime.today())
+         ).filter(categories__title='фильмы')
+
+        popular_movies = Movies.objects.filter(
+             world_premiere__range=(datetime.datetime.today() + relativedelta(years=-5),
+                                    datetime.datetime.today() + relativedelta(months=-2))
+        ).filter(
+            rating_imdb__gte=5
+        ).order_by('-rating_kp').filter(categories__title='фильмы').exclude(categories__title='мультфильм')
+
+        popular_series = Movies.objects.filter(
+            world_premiere__range=(datetime.datetime.today() + relativedelta(years=-10),
+                                   datetime.datetime.today() + relativedelta(months=-2))
+        ).filter(rating_imdb__gte=5).order_by('-rating_imdb').filter(categories__title='сериалы')
+
+        new_movies = Movies.objects.filter(
+            world_premiere__range=(datetime.datetime.today() + relativedelta(months=-8),
+                                   datetime.datetime.today() + relativedelta(months=-2))
+        ).order_by('-world_premiere').filter(
+            world_premiere__isnull=False
+        ).filter(rating_imdb__gte=5)
 
         return render(request, "movies/index.html", {
             "premieres": premieres[:8],
             "index_movies": index_movies,
+            "cinema_movies": now_in_cinema,
+            "new_movies": new_movies[:16],
+            "popular_movies": popular_movies[:16],
+            "popular_series": popular_series[:16],
         })
 
 
