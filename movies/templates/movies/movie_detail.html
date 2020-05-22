@@ -1,0 +1,158 @@
+{% extends "movies/base.html" %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'movies/css/movie_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    <div class="content ">
+        <div class="movie" itemscope="" itemtype="https://schema.org/Movie">
+            <div class="movie__wrapper">
+                <div class="movie__bg">
+                <img src="{{ movie_shot }}" class="movie__bg-image" alt="{{ title }}" style="transform: translate3d(0px, 0%, 0px);">
+                <div class="movie__bg-shade"></div>
+                <div class="movie__left-shade"></div>
+                <div class="movie__header">
+                    <div class="breadcrumbs undefined">
+                        <div class="breadcrumbs__item">
+                            &larr; <a class="breadcrumbs__href text-decoration-none" href="/">Назад </a>
+                        </div>
+                    </div>
+                    <div class="movie__title">
+                        <div class="movie__title-text ">
+                            <h1 itemprop="name">{{ title }}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="movie__content">
+                    <div class="movie__description">
+                        <div class="movie__description-trailer">
+                            <div class="movie__description-trailer_header d-xl-none">
+                                <div class="movie__description-trailer_title">Трейлер</div>
+                            </div>
+                            <div class="card" style="background-image: url({{ movie_shot }});">
+                                <div class="card__content">
+                                  <a class="play-button">
+                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50">
+                                      <path d="M42.7,42.7L25,50L7.3,42.7L0,25L7.3,7.3L25,0l17.7,7.3L50,25L42.7,42.7z" class="polygon"></path>
+                                      <polygon points="32.5,25 21.5,31.4 21.5,18.6 "></polygon>
+                                    </svg>
+                                  </a>
+                                  <div class="card__content--description">
+                                    <h3 class="roll-up">
+                                      <span><span>Т</span><span>Т</span></span>
+                                      <span><span>р</span><span>р</span></span>
+                                      <span><span>е</span><span>е</span></span>
+                                      <span><span>й</span><span>й</span></span>
+                                      <span><span>л</span><span>л</span></span>
+                                      <span><span>е</span><span>е</span></span>
+                                      <span><span>р</span><span>р</span></span>
+                                    </h3>
+                                    <p class="text-reveal">
+                                      <span>
+                                        <span>Смотрите новый</span>
+                                        <span>трейлер</span>
+                                      </span>
+                                      <span>
+                                        <span><span>Смотрите новый</span></span>
+                                        <span><span>трейлер</span></span>
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        <div class="movie__description-data ">
+                            <div class="movie__description-data_header">
+                            {% if  rating_imdb or rating_kp %}
+                                <div class="movie__description-rating">
+                                    {% if  rating_imdb %}
+                                    <div class="movie__description-rating_item">
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDEiIGhlaWdodD0iMjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHBhdGggZD0iTTQwLjMwOSAyMC4wMzdjLS4xMyAxLjA1LS45OTYgMS44Ni0yLjA0NiAxLjg2aC0zNi4yQy45MjIgMjEuODk3IDAgMjAuOTQyIDAgMTkuNzY0di0xNy4xQzAgMS41OTkuNzU0LjcxNyAxLjc0LjU1N2gzNi44NDVjLjkuMTQ2IDEuNjA4Ljg5NCAxLjcyNCAxLjgzNHYxNy42NDZ6TTQuNjI1IDQuNzd2MTIuOTM1aDMuMjQzVjQuNzdINC42MjV6bTEwLjE2IDBsLS43NTEgNi4wNDMtLjQ2NS0zLjI4NmE5OC4xOTYgOTguMTk2IDAgMCAwLS4zODgtMi43NTdIOC45NzZ2MTIuOTM1aDIuODRsLjAxLTguNTQgMS4xOTYgOC41NGgyLjAyM2wxLjEzNS04LjczMS4wMSA4LjczMWgyLjgzMVY0Ljc3aC00LjIzNnptOS41NTQgMi42OWMuMDM2LjE2NS4wNTQuNTQuMDU0IDEuMTI1VjEzLjZjMCAuODYtLjA1NCAxLjM4OC0uMTYxIDEuNTgyLS4xMDguMTk0LS4zOTUuMjkxLS44NjEuMjkxdi04LjQ5Yy4zNTMgMCAuNTk0LjAzOC43MjIuMTE1LjEyOC4wNzcuMjEuMTk4LjI0Ni4zNjJ6bTEuNDY1IDEwLjExNGMuMzg2LS4wODguNzEtLjI0Mi45NzMtLjQ2My4yNjItLjIyLjQ0Ni0uNTI2LjU1Mi0uOTE4LjEwNS0uMzkuMTY4LTEuMTY2LjE2OC0yLjMyNVY5LjMyNWMwLTEuMjIzLS4wNDYtMi4wNDQtLjExOC0yLjQ2MWEyLjM1NiAyLjM1NiAwIDAgMC0uNTQtMS4xMzdjLS4yODktLjM0LS43MS0uNTg1LTEuMjYzLS43MzQtLjU1My0uMTQ5LTEuNDU2LS4yMjMtMy4wMjYtLjIyM2gtMi40MnYxMi45MzVoMy45M2MuNzc3IDAgMS4zNTgtLjA0NCAxLjc0NC0uMTMxem02LjkyNi0xLjgyMmMtLjA2LjE2NS0uMzIxLjI0OC0uNTIuMjQ4LS4xOTMgMC0uMzIxLS4wOC0uMzg3LS4yMzktLjA2NS0uMTYtLjA5Ny0uNTIzLS4wOTctMS4wOXYtMy40MmMwLS41ODkuMDI4LS45NTYuMDg2LTEuMTAyLjA1Ny0uMTQ2LjE4Mi0uMjIuMzc1LS4yMi4xOTggMCAuNDYzLjA4NC41MzEuMjUxLjA2OC4xNjcuMTAyLjUyNS4xMDIgMS4wNzF2My4zMTVjMCAuNjI2LS4wMyAxLjAyMi0uMDkgMS4xODZ6bS00LjEyOCAxLjk1M2gyLjkybC4yMDEtLjgyNGMuMjY0LjMzMS41NTYuNTguODc0Ljc0NS4zMTguMTY2Ljc5NC4yNDkgMS4xNjIuMjQ5LjUxMiAwIC45NTUtLjE0IDEuMzI4LS40MTkuMzcyLS4yNzguNjEtLjYwOC43MS0uOTg4LjEwMS0uMzguMTUyLS45NTcuMTUyLTEuNzMzdi0zLjYyOWMwLS43ODEtLjAxNy0xLjI5LS4wNS0xLjUzYTEuNzg4IDEuNzg4IDAgMCAwLS4zLS43MzMgMS42MTcgMS42MTcgMCAwIDAtLjcyMS0uNTgxYy0uMzE2LS4xMzktLjY4OC0uMjA4LTEuMTE4LS4yMDgtLjM3MyAwLS44NS4wNzctMS4xNjkuMjNhMi41ODUgMi41ODUgMCAwIDAtLjg2NS42OTNWNC43N2gtMy4xMjR2MTIuOTM1eiIgZmlsbD0iIzU2NUM2NyIgZmlsbC1ydWxlPSJldmVub2RkIi8+Cjwvc3ZnPgo=" class="movie__description-rating_i">
+                                        <div class="movie__description-rating_text">{{ rating_imdb }}</div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if  rating_kp %}
+                                    <div class="movie__description-rating_item">
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjkiIGhlaWdodD0iMjkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHBhdGggZD0iTTE0LjE4NSAyOC4zN0M2LjM1MSAyOC4zNyAwIDIyLjAyIDAgMTQuMTg2IDAgNi4zNTEgNi4zNTEgMCAxNC4xODUgMGM3LjgzNSAwIDE0LjE4NiA2LjM1MSAxNC4xODYgMTQuMTg1IDAgNy44MzUtNi4zNTEgMTQuMTg2LTE0LjE4NiAxNC4xODZ6bTAtMTEuOTA1YTIuMjggMi4yOCAwIDEgMCAwLTQuNTYgMi4yOCAyLjI4IDAgMCAwIDAgNC41NnptNS40NDctNC4zMDZhMy40MiAzLjQyIDAgMSAwIDAtNi44NCAzLjQyIDMuNDIgMCAwIDAgMCA2Ljg0em0wIDEwLjg5MmEzLjQyIDMuNDIgMCAxIDAgMC02Ljg0IDMuNDIgMy40MiAwIDAgMCAwIDYuODR6TTguNzM5IDEyLjE2YTMuNDIgMy40MiAwIDEgMCAwLTYuODQgMy40MiAzLjQyIDAgMCAwIDAgNi44NHptMCAxMC44OTJhMy40MiAzLjQyIDAgMSAwIDAtNi44NCAzLjQyIDMuNDIgMCAwIDAgMCA2Ljg0eiIgZmlsbD0iIzU2NUM2NyIgZmlsbC1ydWxlPSJldmVub2RkIi8+Cjwvc3ZnPgo=" class="movie__description-rating_k">
+                                        <div class="movie__description-rating_text">{{ rating_kp }}</div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                                <div class="movie__description-additional">
+                                    <div class="movie__description-additional_item" itemprop="datePublished">{{ world_premiere.year }}</div>
+                                    <div class="movie__description-additional_item" itemprop="genre">{{ genres }}</div>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="movie__description-data_text">
+                                    {% if description %}
+                                        <span itemprop="description">{{ description }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="description-persons movie__data-wrapper">
+                                    {% if directors %}
+                                    <div class="movie__data-col movie__data-col_title">Режиссеры:</div>
+                                    <div class="movie__data-col movie__data-col_content">{{ directors|safe }}</div>
+                                    {% endif %}
+
+                                    {% if actors %}
+                                        <div class="movie__data-col movie__data-col_title">В ролях:</div>
+                                        <div class="movie__data-col movie__data-col_content">{{ actors|safe }}</div>
+                                    {% endif %}
+
+                                    {% if country %}
+                                    <div class="movie__data-col movie__data-col_title">Страна:</div>
+                                    <div class="movie__data-col movie__data-col_content">
+                                        <span itemprop="countryOfOrigin">{{ country }}</span>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if world_premiere %}
+                                    <div class="movie__data-col movie__data-col_title">Премьера Мир:</div>
+                                    <div class="movie__data-col movie__data-col_content">
+                                        <span itemprop="WorldPremiere">{{ world_premiere }}</span>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if rf_premiere %}
+                                    <div class="movie__data-col movie__data-col_title">Премьера РФ:</div>
+                                    <div class="movie__data-col movie__data-col_content">
+                                        <span itemprop="WorldPremiere">{{ rf_premiere }}</span>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if budget %}
+                                    <div class="movie__data-col movie__data-col_title">Бюджет:</div>
+                                    <div class="movie__data-col movie__data-col_content">
+                                        <span itemprop="WorldPremiere">{{ budget }}$</span>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if fees_in_world %}
+                                    <div class="movie__data-col movie__data-col_title">Сборы мир:</div>
+                                    <div class="movie__data-col movie__data-col_content">
+                                        <span itemprop="WorldPremiere">{{ fees_in_world }}$</span>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if fees_in_usa %}
+                                    <div class="movie__data-col movie__data-col_title">Сборы США:</div>
+                                    <div class="movie__data-col movie__data-col_content">
+                                        <span itemprop="WorldPremiere">{{ fees_in_usa }}$</span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

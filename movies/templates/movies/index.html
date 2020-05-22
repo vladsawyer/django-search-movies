@@ -253,7 +253,7 @@
 
                                 <div class="hover-derails p-0 m-0">
                                   <div class="info">
-                                    {% if new_movie.description is not None %}
+                                    {% if new_movie.description %}
                                         <p>{{ new_movie.description|truncatechars:150 }}</p>
                                     {% endif %}
                                   </div>

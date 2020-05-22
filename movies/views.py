@@ -5,6 +5,8 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
 from .models import *
 from dateutil.relativedelta import relativedelta
+import locale
+
 
 
 # Create your views here.
@@ -57,10 +59,51 @@ class MoviesIndexView(View):
 
 
 class MovieDetailsView(View):
+    locale.setlocale(locale.LC_ALL, '')
 
     def get(self, request, pk):
+        patent_genre = Categories.objects.get(title='жанры')
         movie = Movies.objects.get(pk=pk)
-        return HttpResponse(movie.title)
+        genres = ', '.join([q.title for q in movie.categories.filter(parent=patent_genre)])
+        directors = ', '.join([f'<a class="text-decoration-none" href="{q.get_absolute_url()}"><span itemprop="actor">'
+                               f'{q.full_name}</span></a>' for q in movie.directors.all()])
+        actors = ', '.join([f'<a class="text-decoration-none" href="{q.get_absolute_url()}"><span itemprop="actor">'
+                            f'{q.full_name}</span></a>' for q in movie.actors.all()])
+
+        if movie.fees_in_world:
+            fees_in_world = f'{movie.fees_in_world:n}'
+        else:
+            fees_in_world = movie.fees_in_world
+
+        if movie.budget:
+            budget = f'{movie.budget:n}'
+        else:
+            budget = movie.budget
+
+        if movie.fees_in_usa:
+            fees_in_usa = f'{movie.fees_in_usa:n}'
+        else:
+            fees_in_usa = movie.fees_in_usa
+
+        movie_shot = movie.movieshots_set.last().image.url
+        movie_shots = [mov_shot.image.url for mov_shot in movie.movieshots_set.all()]
+        return render(request, "movies/movie_detail.html", {
+            "genres": genres,
+            "directors": directors,
+            "actors": actors,
+            "fees_in_world": fees_in_world,
+            "budget": budget,
+            "fees_in_usa": fees_in_usa,
+            "description": movie.description,
+            "movie_shot": movie_shot,
+            "movie_shots": movie_shots,
+            "title": movie.title,
+            "rating_imdb": movie.rating_imdb,
+            "rating_kp": movie.rating_kp,
+            "world_premiere": movie.world_premiere,
+            "rf_premiere": movie.rf_premiere,
+            "country": movie.country,
+        })
 
 
 class SeriesDetailsView(View):
