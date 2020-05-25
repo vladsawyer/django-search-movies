@@ -14,7 +14,7 @@ body {
   overflow-x: hidden;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1400px) {
   .wrapper {
   margin-top: 3.75rem;
   }
@@ -694,9 +694,14 @@ a.breadcrumbs__href {
 
 @media (min-width: 768px) and (max-width: 1023px) {
   .movie__header {
+    bottom: 100px;
     padding: 0 24px; }
   .movie__content {
-    padding: 0 24px; }
+    padding: 0 24px;
+  }
+  .movie__bg-shade{
+    height: 80%;
+  }
   .movie__episodes {
     margin-bottom: 20px; }
     .movie__episodes .video-line {
@@ -856,8 +861,6 @@ a.breadcrumbs__href {
     margin-bottom: 12px; }
   .movie__play-favorites_img {
     width: 24px; }
-  .movie__description {
-    flex-direction: column-reverse; }
   .movie__data-wrapper.description-persons {
     -ms-grid-columns: 90px auto;
     grid-template-columns: 90px auto;
@@ -948,6 +951,12 @@ a.breadcrumbs__href {
     width: 26px; }
   .movie__description-rating_k {
     width: 18px; } }
+
+@media (max-width: 1024px) {
+  .movie__description {
+    flex-direction: column-reverse;
+  }
+}
 
 .movie__vote {
   padding: 0 5px !important; }
