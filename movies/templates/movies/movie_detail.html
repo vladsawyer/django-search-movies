@@ -1,5 +1,6 @@
 {% extends "movies/base.html" %}
 {% load static %}
+{% block title %}{{ title }}{% endblock %}
 {% block css %}
     <link rel="stylesheet" href="{% static 'movies/css/movie_detail.css' %}">
 {% endblock %}
@@ -10,7 +11,7 @@
         <div class="movie" itemscope="" itemtype="https://schema.org/Movie">
             <div class="movie__wrapper">
                 <div class="movie__bg">
-                <img src="{{ movie_shot }}" class="movie__bg-image" alt="{{ title }}" style="transform: translate3d(0px, 0%, 0px);">
+                <img src="" class="movie__bg-image" alt="{{ title }}">
                 <div class="movie__bg-shade"></div>
                 <div class="movie__left-shade"></div>
                 <div class="movie__header">
@@ -155,8 +156,17 @@
         </div>
     </div>
 </div>
+
 {% endblock %}
 
 {% block js %}
     <script type="text/javascript" src="{% static 'movies/js/movie_detail_trailer.js' %}"></script>
+    <script type="text/javascript" src="{% static 'movies/js/fullclip.js' %}"></script>
+    <script>
+        $('.movie__bg-image').fullClip({
+          images: {{ movie_shots|safe }},
+          transitionTime: 750,
+          wait: 7000
+        });
+    </script>
 {% endblock %}
