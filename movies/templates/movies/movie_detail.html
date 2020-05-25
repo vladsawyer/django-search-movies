@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="wrapper">
+    <div class="wrapper">
     <div class="content ">
         <div class="movie" itemscope="" itemtype="https://schema.org/Movie">
             <div class="movie__wrapper">
@@ -155,4 +155,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'movies/js/movie_detail_trailer.js' %}"></script>
 {% endblock %}
