@@ -25,7 +25,7 @@
       return;
     }
 
-    // change the background image
+    // change the image
     (function update() {
       settings.current = (settings.current + 1) % settings.images.length;
         $('.movie__bg-image').fadeOut(settings.transitionTime, function(){

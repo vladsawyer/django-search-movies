@@ -33,9 +33,13 @@
                             <div class="movie__description-trailer_header d-xl-none">
                                 <div class="movie__description-trailer_title">Трейлер</div>
                             </div>
-                            <div class="card" style="background-image: url({{ movie_shot }});">
-                                <div class="card__content">
-                                  <a class="play-button">
+
+                            <div id="trailer">
+                                <iframe id="ytplayer" type="text/html" src="https://www.youtube.com/embed/?listType=search&list={{ title }} официальный трейлер" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                            <div class="card"  style="background-image: url({{ movie_shot }});" id="trailer-card">
+                                <div class="card__content" >
+                                  <a class="play-button" onclick="PlayTo()">
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50">
                                       <path d="M42.7,42.7L25,50L7.3,42.7L0,25L7.3,7.3L25,0l17.7,7.3L50,25L42.7,42.7z" class="polygon"></path>
                                       <polygon points="32.5,25 21.5,31.4 21.5,18.6 "></polygon>
@@ -164,9 +168,15 @@
     <script type="text/javascript" src="{% static 'movies/js/fullclip.js' %}"></script>
     <script>
         $('.movie__bg-image').fullClip({
-          images: {{ movie_shots|safe }},
-          transitionTime: 750,
-          wait: 7000
-        });
+              images: {{ movie_shots|safe }},
+              transitionTime: 750,
+              wait: 7000
+            });
+    </script>
+    <script>
+        function PlayTo() {
+            document.getElementById("trailer").style.display="block";
+            document.getElementById("trailer-card").style.display="none";
+        }
     </script>
 {% endblock %}
