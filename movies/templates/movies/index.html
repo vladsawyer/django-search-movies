@@ -13,7 +13,7 @@
                           <div class="info-content">
                             <div class="movie_header">
                               <img class="locandina d-none d-sm-block" src="{{ index_movie.poster.url }}" alt="{{ index_movie.title }}"/>
-                              <h2>{{ index_movie.title }}</h2>
+                                <a href="{{ index_movie.get_absolute_url }}" class="text-decoration-none"><h2>{{ index_movie.title }}</h2></a>
                               <h5>{{ index_movie.world_premiere.year }},
                                   {% for director in index_movie.directors.all %}
                                     {{ director }}
@@ -35,7 +35,7 @@
                                     <li><a href="#" class="btn btn-success btn-sm border-0 mb-3">Cмотерь на Wink</a></li>
                                     <li><a href="#" class="btn btn-kp btn-sm mb-3">Cмотерь на Кинопоиск</a></li>
                                   </ul>
-                              </div>
+                            </div>
                           </div>
                       </div>
                       <div class="blur_back" style='background-image: url({{ index_movie.movieshots_set.first.image.url }});'></div>
