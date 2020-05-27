@@ -105,7 +105,7 @@ a.breadcrumbs__href {
 
 .movie__bg {
   width: 100%;
-  max-height: 960px;
+  max-height: 860px;
   overflow: hidden;
   position: relative; }
 
@@ -405,7 +405,6 @@ margin-bottom: 3rem;}
   font-family: 'PT Sans', sans-serif;
   display: flex;
   align-items: center;
-  /*height: 29px;*/
   margin-bottom: 14px;
   margin-top: 1rem;
 }

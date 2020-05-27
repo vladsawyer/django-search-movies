@@ -1,12 +1,8 @@
-from django.db.models.functions import datetime
 from django.http import HttpResponse
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import View
 from .models import *
-from dateutil.relativedelta import relativedelta
-import locale
-
+from movies.services import services
 
 
 # Create your views here.
@@ -14,96 +10,25 @@ class MoviesIndexView(View):
     """Movie list"""
 
     def get(self, request):
-        index_movies = Movies.objects.filter(
-            world_premiere__range=(datetime.datetime.today() + relativedelta(months=-4), datetime.datetime.today())
-        ).filter(
-            rating_kp__isnull=False
-        ).order_by('-rating_kp')[:15]
-
-        premieres = Movies.objects.filter(
-            world_premiere__gt=datetime.datetime.now()
-        ).order_by('world_premiere')
-
-        now_in_cinema = Movies.objects.filter(
-             world_premiere__range=(datetime.datetime.today() + relativedelta(months=-1, days=-15),
-                                    datetime.datetime.today())
-         ).filter(categories__title='фильмы')
-
-        popular_movies = Movies.objects.filter(
-             world_premiere__range=(datetime.datetime.today() + relativedelta(years=-5),
-                                    datetime.datetime.today() + relativedelta(months=-2))
-        ).filter(
-            rating_imdb__gte=5
-        ).order_by('-rating_kp').filter(categories__title='фильмы').exclude(categories__title='мультфильм')
-
-        popular_series = Movies.objects.filter(
-            world_premiere__range=(datetime.datetime.today() + relativedelta(years=-10),
-                                   datetime.datetime.today() + relativedelta(months=-2))
-        ).filter(rating_imdb__gte=5).order_by('-rating_imdb').filter(categories__title='сериалы')
-
-        new_movies = Movies.objects.filter(
-            world_premiere__range=(datetime.datetime.today() + relativedelta(months=-8),
-                                   datetime.datetime.today() + relativedelta(months=-2))
-        ).order_by('-world_premiere').filter(
-            world_premiere__isnull=False
-        ).filter(rating_imdb__gte=5)
 
         return render(request, "movies/index.html", {
-            "premieres": premieres[:8],
-            "index_movies": index_movies,
-            "cinema_movies": now_in_cinema,
-            "new_movies": new_movies[:16],
-            "popular_movies": popular_movies[:16],
-            "popular_series": popular_series[:16],
+            "movie_premieres": services.get_movie_premieres(8),
+            "index_slider_movies": services.get_index_slider_movies(15),
+            "movies_now_in_cinema": services.get_movies_now_in_cinema(),
+            "new_movies": services.get_new_movies(16),
+            "popular_movies": services.get_popular_movies(16),
+            "popular_series": services.get_popular_series(16),
         })
 
 
 class MovieDetailsView(View):
-    locale.setlocale(locale.LC_ALL, '')
 
     def get(self, request, pk):
-        patent_genre = Categories.objects.get(title='жанры')
-        movie = Movies.objects.get(pk=pk)
-        genres = ', '.join([q.title for q in movie.categories.filter(parent=patent_genre)])
-        directors = ', '.join([f'<a class="text-decoration-none" href="{q.get_absolute_url()}"><span itemprop="actor">'
-                               f'{q.full_name}</span></a>' for q in movie.directors.all()])
-        actors = ', '.join([f'<a class="text-decoration-none" href="{q.get_absolute_url()}"><span itemprop="actor">'
-                            f'{q.full_name}</span></a>' for q in movie.actors.all()])
-
-        if movie.fees_in_world:
-            fees_in_world = f'{movie.fees_in_world:n}'
-        else:
-            fees_in_world = movie.fees_in_world
-
-        if movie.budget:
-            budget = f'{movie.budget:n}'
-        else:
-            budget = movie.budget
-
-        if movie.fees_in_usa:
-            fees_in_usa = f'{movie.fees_in_usa:n}'
-        else:
-            fees_in_usa = movie.fees_in_usa
-
-        movie_shot = movie.movieshots_set.last().image.url
-        movie_shots = [mov_shot.image.url for mov_shot in movie.movieshots_set.all()]
-        return render(request, "movies/movie_detail.html", {
-            "genres": genres,
-            "directors": directors,
-            "actors": actors,
-            "fees_in_world": fees_in_world,
-            "budget": budget,
-            "fees_in_usa": fees_in_usa,
-            "description": movie.description,
-            "movie_shot": movie_shot,
-            "movie_shots": movie_shots,
-            "title": movie.title,
-            "rating_imdb": movie.rating_imdb,
-            "rating_kp": movie.rating_kp,
-            "world_premiere": movie.world_premiere,
-            "rf_premiere": movie.rf_premiere,
-            "country": movie.country,
+        movie = get_object_or_404(Movies, pk=pk)
+        context = services.GetMovieDetail.execute({
+            "movie": movie.id
         })
+        return render(request, "movies/movie_detail.html", context)
 
 
 class SeriesDetailsView(View):
@@ -131,3 +56,40 @@ class MemberDetailsView(View):
 
 class MoviesCategoriesList(View):
     """movies list certain category or genre"""
+
+
+class MoviesList(View):
+    # slugs
+    POPULAR_SERIES = 'popular-series'
+    FUTURE_PREMIERES = 'future-premieres'
+    RECENT_PREMIERES = 'recent-premieres'
+    POPULAR_MOVIES = 'popular-movies'
+    EXPECTED_MOVIES = 'expected-movies'
+    INTERESTING_TODAY = 'interesting-today'
+    NEW_MOVIES = 'new-movies'
+    NEW_SERIES = 'new-series'
+    MOVIES_OF_THE_MONTH = 'movies-month'
+
+    def get(self, request, slug):
+        if slug == self.FUTURE_PREMIERES:
+            return render(request, "movies/movie_list.html", {
+                "movies": services.get_movie_premieres(),
+                "page_title": 'Скоро Премьеры'
+            })
+
+        elif slug == self.POPULAR_SERIES:
+            pass
+        elif slug == self.RECENT_PREMIERES:
+            pass
+        elif slug == self.POPULAR_MOVIES:
+            pass
+        elif slug == self.EXPECTED_MOVIES:
+            pass
+        elif slug == self.INTERESTING_TODAY:
+            pass
+        elif slug == self.NEW_MOVIES:
+            pass
+        elif slug == self.NEW_SERIES:
+            pass
+        elif slug == self.MOVIES_OF_THE_MONTH:
+            pass

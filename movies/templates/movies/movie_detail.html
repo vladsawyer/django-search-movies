@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}{{ title }}{% endblock %}
 {% block css %}
-    <link rel="stylesheet" href="{% static 'movies/css/movie_detail.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/css/movie_detail.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -174,14 +174,14 @@
 {% block js %}
 {#    <script type="text/javascript" src="{% static 'movies/js/movie_detail_trailer.js' %}"></script>#}
     <script type="text/javascript" src="{% static 'movies/js/fullclip.js' %}"></script>
-    <script>
+    <script type="text/javascript">
         $('.movie__bg-image').fullClip({
               images: {{ movie_shots|safe }},
               transitionTime: 750,
               wait: 7000
             });
     </script>
-    <script>
+    <script type="text/javascript">
         function PlayTo() {
             document.getElementById("trailer").style.display="block";
             document.getElementById("trailer-card").style.display="none";

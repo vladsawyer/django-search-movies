@@ -1,0 +1,55 @@
+{% extends "movies/base.html" %}
+
+{% block title %}Search Movies |{{ page_title }}{% endblock %}
+
+{% block content %}
+    <section class="container" style="margin-top: 7rem;">
+        <div class="row mb-2 row-cols-sm-3 row-cols-lg-3 row-cols-xl-4  row-cols-2">
+            {% for movie in movies %}
+                <div class="col mb-4">
+                    <div class="card card-movie">
+                        <div class="poster">
+                            <img src="{{movie.poster.url}}" alt="{{ movie.title }}">
+                        </div>
+
+                        <div class="premier">
+                          <span>{{ movie.world_premiere }}</span>
+                        </div>
+
+                        <div class="details">
+                            <a href="{{ movie.get_absolute_url }}" class="title text-decoration-none"><h2>{{ movie.title }}</h2></a>
+                            {% for director in movie.directors.all %}
+                                <a href="{{director.get_absolute_url}}" class="director text-decoration-none"><span>{{director}}</span></a>
+                            {% endfor %}
+
+                            <div class="tags">
+                                {% for genre in movie.categories.all|slice:":2" %}
+                                    <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title }}</span></a>
+                                {% endfor %}
+                            </div>
+
+                            <div class="hover-derails p-0 m-0">
+                              <div class="info">
+                                {% if movie.description is not None %}
+                                    <p>{{ movie.description|truncatechars:180 }}</p>
+                                {% endif %}
+                              </div>
+
+                              <div class="star">
+                              {% if movie.actors.all.exists %}
+                                <h4>Актеры</h4>
+                                <ul>
+                                    {% for actor in movie.actors.all %}
+                                        <li><a href="{{actor.get_absolute_url}}" title="{{actor.full_name}}"><img src="{{ actor.image.url }}" alt="{{actor.full_name}}"></a></li>
+                                    {% endfor %}
+                                </ul>
+                              {% endif %}
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

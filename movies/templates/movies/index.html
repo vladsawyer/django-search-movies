@@ -6,27 +6,27 @@
     <!-- slider фильмы главная  -->
     <section class="container-fluid px-0" style="margin-top: 5rem;" >
              <div class="slider center">
-                 {% for index_movie in index_movies %}
+                 {% for index_slider_movie in index_slider_movies %}
                     <div class="slider-card">
                      <div class="movie_card">
                       <div class="info_section">
                           <div class="info-content">
                             <div class="movie_header">
-                              <img class="locandina d-none d-sm-block" src="{{ index_movie.poster.url }}" alt="{{ index_movie.title }}"/>
-                                <a href="{{ index_movie.get_absolute_url }}" class="text-decoration-none"><h2>{{ index_movie.title }}</h2></a>
-                              <h5>{{ index_movie.world_premiere.year }},
-                                  {% for director in index_movie.directors.all %}
+                              <img class="locandina d-none d-sm-block" src="{{ index_slider_movie.poster.url }}" alt="{{ index_slider_movie.title }}"/>
+                                <a href="{{ index_slider_movie.get_absolute_url }}" class="text-decoration-none"><h2>{{ index_slider_movie.title }}</h2></a>
+                              <h5>{{ index_slider_movie.world_premiere.year }},
+                                  {% for director in index_slider_movie.directors.all %}
                                     {{ director }}
                                   {% endfor %}
                               </h5>
                               <span class="minutes">125 min</span>
-                                {% for genre in index_movie.categories.all|slice:":2" %}
+                                {% for genre in index_slider_movie.categories.all|slice:":2" %}
                                     <p class="type">{{ genre }}</p>
                                 {% endfor %}
                             </div>
                             <div class="movie_desc">
-                                {% if index_movie.description is not None %}
-                                    <p class="text">{{ index_movie.description|truncatechars:300 }}</p>
+                                {% if index_slider_movie.description is not None %}
+                                    <p class="text">{{ index_slider_movie.description|truncatechars:300 }}</p>
                                 {% endif %}
                             </div>
                             <div class="movie_social">
@@ -38,7 +38,7 @@
                             </div>
                           </div>
                       </div>
-                      <div class="blur_back" style='background-image: url({{ index_movie.movieshots_set.first.image.url }});'></div>
+                      <div class="blur_back" style='background-image: url({{ index_slider_movie.movieshots_set.first.image.url }});'></div>
                     </div>
                  </div>
                  {% endfor %}
@@ -95,41 +95,41 @@
                 </div>
             </div>
             <div class="row mb-2 row-cols-sm-3 row-cols-lg-3 row-cols-xl-4  row-cols-2">
-                {% for premiere in premieres %}
+                {% for movie_premiere in movie_premieres %}
                     <div class="col mb-4">
                         <div class="card card-movie">
                             <div class="poster">
-                                <img src="{{premiere.poster.url}}" alt="{{ premiere.title }}">
+                                <img src="{{movie_premiere.poster.url}}" alt="{{ movie_premiere.title }}">
                             </div>
 
                             <div class="premier">
-                              <span>{{ premiere.world_premiere }}</span>
+                              <span>{{ movie_premiere.world_premiere }}</span>
                             </div>
 
                             <div class="details">
-                                <a href="{{ premiere.get_absolute_url }}" class="title text-decoration-none"><h2>{{ premiere.title }}</h2></a>
-                                {% for director in premiere.directors.all %}
+                                <a href="{{ movie_premiere.get_absolute_url }}" class="title text-decoration-none"><h2>{{ movie_premiere.title }}</h2></a>
+                                {% for director in movie_premiere.directors.all %}
                                     <a href="{{director.get_absolute_url}}" class="director text-decoration-none"><span>{{director}}</span></a>
                                 {% endfor %}
 
                                 <div class="tags">
-                                    {% for genre in premiere.categories.all|slice:":3" %}
+                                    {% for genre in movie_premiere.categories.all|slice:":2" %}
                                         <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title }}</span></a>
                                     {% endfor %}
                                 </div>
 
                                 <div class="hover-derails p-0 m-0">
                                   <div class="info">
-                                    {% if premiere.description is not None %}
-                                        <p>{{ premiere.description|truncatechars:180 }}</p>
+                                    {% if movie_premiere.description is not None %}
+                                        <p>{{ movie_premiere.description|truncatechars:180 }}</p>
                                     {% endif %}
                                   </div>
 
                                   <div class="star">
-                                  {% if premiere.actors.all.exists %}
+                                  {% if movie_premiere.actors.all.exists %}
                                     <h4>Актеры</h4>
                                     <ul>
-                                        {% for actor in premiere.actors.all %}
+                                        {% for actor in movie_premiere.actors.all %}
                                             <li><a href="{{actor.get_absolute_url}}" title="{{actor.full_name}}"><img src="{{ actor.image.url }}" alt="{{actor.full_name}}"></a></li>
                                         {% endfor %}
                                     </ul>
@@ -143,7 +143,7 @@
             </div>
             <div class="row mb-4">
                 <div class="col-auto mx-auto">
-                    <a href="" class="btn btn-outline-warning">Смотреть все</a>
+                    <a href="{% url 'movies_list' 'future-premieres' %}" class="btn btn-outline-warning">Смотреть все</a>
                 </div>
             </div>
             <!-- сейчас в кино -->
@@ -158,7 +158,7 @@
                 </div>
             </div>
             <div class="row mb-4 slider-movies p-0 mx-auto col-12">
-                {% for cinema_movie in cinema_movies %}
+                {% for cinema_movie in movies_now_in_cinema %}
                     <div class=" item-movie border-0">
                         <div class="card card-movie">
                             <div class="poster">
@@ -172,7 +172,7 @@
                                 {% endfor %}
 
                                 <div class="tags">
-                                    {% for genre in cinema_movie.categories.all|slice:":3" %}
+                                    {% for genre in cinema_movie.categories.all|slice:":2" %}
                                         <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title }}</span></a>
                                     {% endfor %}
                                 </div>
@@ -246,7 +246,7 @@
                                 </a>
 
                                 <div class="tags">
-                                    {% for genre in new_movie.categories.all|slice:":3" %}
+                                    {% for genre in new_movie.categories.all|slice:":2" %}
                                         <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title }}</span></a>
                                     {% endfor %}
                                 </div>
@@ -394,7 +394,7 @@
                                 </a>
 
                                 <div class="tags">
-                                    {% for genre in popular_movie.categories.all|slice:":3" %}
+                                    {% for genre in popular_movie.categories.all|slice:":2" %}
                                         <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title }}</span></a>
                                     {% endfor %}
                                 </div>
@@ -474,7 +474,7 @@
                                     </a>
 
                                     <div class="tags">
-                                        {% for genre in popular_serial.categories.all|slice:":3" %}
+                                        {% for genre in popular_serial.categories.all|slice:":2" %}
                                             <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title }}</span></a>
                                         {% endfor %}
                                     </div>

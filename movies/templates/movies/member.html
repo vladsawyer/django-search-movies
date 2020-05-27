@@ -1,0 +1,41 @@
+{% extends "movies/base.html" %}
+
+{% block title %}{{ name }}{% endblock %}
+
+{% block content %}
+    <div class="mx-5">
+        <h2 class="text-warning" style="margin-top: 5rem;">{{ name }}</h2>
+    <br>
+    <div class="clearfix">
+      <img class="float-left" src="{{ image }}" alt="{{ name }}">
+      <div class="text-warning float-right">
+          <table class="table text-warning">
+              <tbody>
+                <tr>
+                  <th scope="row">Жанры</th>
+                  <td class="text-white">{{ categories }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">День рождения</th>
+                  <td class="text-white">{{ birthday }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Роли</th>
+                  <td class="text-white">{{ roles }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Всего фильмов</th>
+                  <td class="text-white">{{ total_movies }}</td>
+                </tr>
+                <tr>
+              </tbody>
+            </table>
+            <br>
+            <div class="description">
+            <h5>Забавные факты</h5>
+            <span class="text-white">{{ description }}</span>
+            </div>
+      </div>
+    </div>
+    </div>
+{% endblock %}
