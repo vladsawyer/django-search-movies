@@ -11,13 +11,13 @@
         <div class="movie" itemscope="" itemtype="https://schema.org/Movie">
             <div class="movie__wrapper">
                 <div class="movie__bg">
-                <img src="" class="movie__bg-image" alt="{{ title }}">
+                <img src="{{ movie_shot.image.url }}" class="movie__bg-image" alt="{{ title }}">
                 <div class="movie__bg-shade"></div>
                 <div class="movie__left-shade"></div>
                 <div class="movie__header">
                     <div class="breadcrumbs undefined">
                         <div class="breadcrumbs__item">
-                            &larr; <a class="breadcrumbs__href text-decoration-none" href="/">Назад </a>
+                            &larr; <a class="breadcrumbs__href text-decoration-none" onclick="javascript:history.back(); return false;" href="">Назад </a>
                         </div>
                     </div>
                     <div class="movie__title">

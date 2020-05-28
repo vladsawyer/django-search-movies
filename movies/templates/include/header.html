@@ -1,3 +1,5 @@
+{% load movie_tag %}
+
 <nav class="navbar navbar-expand-lg navbar-dark">
   <a class="navbar-brand brand" href="/"><strong>S</strong>earch <strong>M</strong>ovies</a>
 
@@ -13,7 +15,7 @@
     </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mx-auto ">
+    <ul class="navbar-nav mx-auto overflow-auto">
         <!-- фильмы -->
       <li class="nav-item active dropdown mr-2">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -21,30 +23,39 @@
           Фильмы
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <div class="d-lg-flex">
+            <div class="d-lg-flex dropdown-menu-content">
                 <div>
                     <div class="dropdown-divider mt-0"></div>
                     <h6 class="dropdown-header">Жанры</h6>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Боевики</a>
-                    <a class="dropdown-item" href="#">Экшен</a>
-                    <a class="dropdown-item" href="#">Вестерн</a>
+                    <div style="height: 88%; overflow-y: auto;">
+                    {% get_genres as genres %}
+                    {% for genre in genres %}
+                        <a class="dropdown-item" href="{{ genre.get_absolute_url }}">{{ genre|title }}</a>
+                    {% endfor %}
+                    </div>
                 </div>
                 <div>
                     <div class="dropdown-divider mt-0"></div>
                     <h6 class="dropdown-header">По годам</h6>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">2020</a>
-                    <a class="dropdown-item" href="#">2019</a>
-                    <a class="dropdown-item" href="#">2018</a>
+                    <div style="height: 88%; overflow-y: auto;">
+                    {% get_years as years %}
+                    {% for year in years %}
+                        <a class="dropdown-item" href="#">{{ year }}</a>
+                    {% endfor %}
+                    </div>
                 </div>
                 <div>
                     <div class="dropdown-divider mt-0"></div>
                     <h6 class="dropdown-header">По странам</h6>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Россия</a>
-                    <a class="dropdown-item" href="#">США</a>
-                    <a class="dropdown-item" href="#">Action</a>
+                    <div style="height: 88%; overflow-y: auto;">
+                    {% get_country as countries %}
+                    {% for country in countries %}
+                        <a class="dropdown-item" href="#">{{ country }}</a>
+                    {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,7 +80,7 @@
           <i class="fas fa-fire fa-fw mr-2"></i>
           Топ
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <div class="dropdown-menu dropdown-menu-top" aria-labelledby="navbarDropdown">
             <div class="dropdown-divider mt-0"></div>
             <a class="dropdown-item dropdown-header" href="#">
                 <i class="fas fa-fire mr-1"></i>

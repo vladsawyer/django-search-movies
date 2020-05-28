@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import View
 from .models import *
@@ -10,9 +10,8 @@ class MoviesIndexView(View):
     """Movie list"""
 
     def get(self, request):
-
         return render(request, "movies/index.html", {
-            "movie_premieres": services.get_movie_premieres(8),
+            "movie_premieres": services.get_movies_future_premieres(8),
             "index_slider_movies": services.get_index_slider_movies(15),
             "movies_now_in_cinema": services.get_movies_now_in_cinema(),
             "new_movies": services.get_new_movies(16),
@@ -73,23 +72,33 @@ class MoviesList(View):
     def get(self, request, slug):
         if slug == self.FUTURE_PREMIERES:
             return render(request, "movies/movie_list.html", {
-                "movies": services.get_movie_premieres(),
+                "movies": services.get_movies_future_premieres(),
                 "page_title": 'Скоро Премьеры'
             })
 
         elif slug == self.POPULAR_SERIES:
-            pass
+            return render(request, "movies/movie_list.html", {
+                "movies": services.get_popular_series(),
+                "page_title": 'Популярные сериалы'
+            })
         elif slug == self.RECENT_PREMIERES:
             pass
         elif slug == self.POPULAR_MOVIES:
-            pass
+            return render(request, "movies/movie_list.html", {
+                "movies": services.get_popular_movies(),
+                "page_title": 'Популярные фильмы'
+            })
         elif slug == self.EXPECTED_MOVIES:
             pass
         elif slug == self.INTERESTING_TODAY:
             pass
         elif slug == self.NEW_MOVIES:
-            pass
-        elif slug == self.NEW_SERIES:
-            pass
+            return render(request, "movies/movie_list.html", {
+                "movies": services.get_new_movies(),
+                "page_title": 'Новые фильмы'
+            })
         elif slug == self.MOVIES_OF_THE_MONTH:
             pass
+        else:
+            # temporary stub
+            return Http404("Шах и мат! Такой ссылки не существует.")

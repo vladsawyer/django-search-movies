@@ -12,8 +12,24 @@
                             <img src="{{movie.poster.url}}" alt="{{ movie.title }}">
                         </div>
 
-                        <div class="premier">
-                          <span>{{ movie.world_premiere }}</span>
+                        <div class="rating">
+                            {% if movie.rating_imdb is not None %}
+                                <div class="imsp" title="IMDb">
+                                    <i class="fab fa-imdb"></i>
+                                    <label class="pl-1 m-0">{{ movie.rating_imdb }}</label>
+                                </div>
+                            {% endif %}
+
+                            {% if movie.rating_kp is not None %}
+                                <div class="kpsp" title="Kinopoisk">
+                                    <span class="kp_sp"></span>
+                                    <label class="m-0">{{ movie.rating_kp }}</label>
+                                </div>
+                            {% endif %}
+                         </div>
+
+                        <div class="year text-white bg-success">
+                            {{ movie.world_premiere.year }}
                         </div>
 
                         <div class="details">

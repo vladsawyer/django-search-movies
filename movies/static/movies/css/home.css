@@ -15,6 +15,22 @@ header {
     min-height: 3.75rem;
 }
 
+.dropdown-menu-content{
+    max-height: 500px;
+    width: auto;
+}
+
+@media (max-width: 1024px) {
+   .dropdown-menu-content{
+    overflow: auto;
+    height: 50vh;
+    }
+    .dropdown-menu-top{
+        overflow: auto;
+        height: 30vh;
+    }
+}
+
 .card-body {
     background: none;
 }

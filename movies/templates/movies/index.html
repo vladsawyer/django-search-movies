@@ -203,7 +203,7 @@
             <!-- Новинки 16 шт -->
             <div class="row mb-4 align-items-center">
                 <div class="col-lg-5 col-xl-5">
-                    <a href="#" class="title-section">
+                    <a href="{% url 'movies_list' 'new-movies' %}" class="title-section">
                         <i class="fab fa-youtube mr-2 text-warning"></i>
                         Новинки
                     </a>
@@ -276,7 +276,7 @@
             </div>
             <div class="row mb-4">
                 <div class="col-auto mx-auto">
-                    <a href="" class="btn btn-outline-warning">Смотреть все</a>
+                    <a href="{% url 'movies_list' 'new-movies' %}" class="btn btn-outline-warning">Смотреть все</a>
                 </div>
             </div>
             <!-- подборки -->
@@ -351,7 +351,7 @@
             <!-- Популярные фильмы 16 шт -->
             <div class="row mb-4 align-items-center">
                 <div class="col-lg-5 col-xl-5">
-                    <a href="#" class="title-section">
+                    <a href="{% url 'movies_list' 'popular-movies' %}" class="title-section">
                         <i class="fas fa-star mr-2 text-warning"></i>
                         Популярные фильмы
                     </a>
@@ -424,14 +424,14 @@
                 </div>
             <div class="row mb-4">
                 <div class="col-auto mx-auto">
-                    <a href="" class="btn btn-outline-warning">Смотреть все</a>
+                    <a href="{% url 'movies_list' 'popular-movies' %}" class="btn btn-outline-warning">Смотреть все</a>
                 </div>
             </div>
             <!-- Популярные серьялы 16 шт -->
             {% if popular_series.exists %}
                 <div class="row mb-4 align-items-center">
                     <div class="col-lg-5 col-xl-5">
-                        <a href="#" class="title-section">
+                        <a href="{% url 'movies_list' 'popular-series' %}" class="title-section">
                             <i class="fas fa-star mr-2 text-warning"></i>
                             Популярные сериалы
                         </a>
@@ -504,73 +504,13 @@
                 </div>
                 <div class="row mb-4">
                     <div class="col-auto mx-auto">
-                        <a href="" class="btn btn-outline-warning">Смотреть все</a>
+                        <a href="{% url 'movies_list' 'popular-series' %}" class="btn btn-outline-warning">Смотреть все</a>
                     </div>
                 </div>
             {% endif %}
             <!-- Рекламный блок в будущем -->
             <!-- Главные новости  на всех общий -->
-            <div class="row mb-4 align-items-center">
-                <div class="col-auto">
-                    <a href="#" class="title-section">
-                        Главное
-                    </a>
-                </div>
-                <div class="col">
-                    <div class="line mt-2"></div>
-                </div>
-            </div>
-            <div class="row mb-2 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4  row-cols-2">
-                <div class="col mb-4 card-news">
-                    <div class="card">
-                        <img src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <a href="#" class="card-title text-decoration-none h6 stretched-link">15 зрелищных фильмов, которые стоит смотреть на большом экране домашнего кинопроектора</a>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">16.05.2020</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-4 card-news">
-                    <div class="card">
-                        <img src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg" class="card-img-top object-cover object-center" alt="...">
-                        <div class="card-body">
-                            <a href="#" class="card-title text-decoration-none h6 stretched-link">15 зрелищных фильмов, которые стоит смотреть на большом экране домашнего кинопроектора</a>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">16.05.2020</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-4 card-news">
-                    <div class="card">
-                        <img src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg" class="card-img-top object-cover object-center" alt="...">
-                        <div class="card-body">
-                            <a href="#" class="card-title text-decoration-none h6 stretched-link">15 зрелищных фильмов, которые стоит смотреть на большом экране домашнего кинопроектора</a>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">16.05.2020</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-4 card-news">
-                    <div class="card">
-                        <img src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg" class="card-img-top object-cover object-center" alt="...">
-                        <div class="card-body">
-                            <a href="#" class="card-title text-decoration-none h6 stretched-link">15 зрелищных фильмов, которые стоит смотреть на большом экране домашнего кинопроектора</a>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">16.05.2020</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-4">
-                <div class="col-auto mx-auto">
-                    <a href="" class="btn btn-outline-warning">Читать все новости</a>
-                </div>
-            </div>
+            {% include 'include/news.html' %}
         </section>
 {% endblock %}
 

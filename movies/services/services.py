@@ -13,9 +13,9 @@ class GetMovieDetail(Service):
 
     def process(self):
         movie = self.cleaned_data['movie']
-        patent_genre = Categories.objects.get(title='жанры')
+        parent_genre = Categories.objects.get(title='жанры')
 
-        genres = ', '.join([q.title for q in movie.categories.filter(parent=patent_genre)])
+        genres = ', '.join([q.title for q in movie.categories.filter(parent=parent_genre)])
         directors = ', '.join(
             [f'<a class="text-decoration-none person" href="{q.get_absolute_url()}"><span itemprop="director">'
              f'{q.full_name}</span></a>' for q in movie.directors.all()])
@@ -73,7 +73,7 @@ def get_index_slider_movies(limit=None):
     return index_slider_movies
 
 
-def get_movie_premieres(limit=None):
+def get_movies_future_premieres(limit=None):
     movie_premieres = Movies.objects.filter(world_premiere__gt=datetime.datetime.now()).order_by('world_premiere')
 
     if limit:
@@ -129,3 +129,5 @@ def get_new_movies(limit=None):
         return new_movies[:limit]
 
     return new_movies
+
+

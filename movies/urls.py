@@ -9,8 +9,8 @@ urlpatterns = [
     path('series/<int:pk>', views.SeriesDetailsView.as_view(), name='series_detail'),
     # ex: /member/5/
     path('member/<int:pk>', views.MemberDetailsView.as_view(), name='member'),
-    # ex: category/sci-fi
-    path('category/<slug:slug>', views.MoviesCategoriesList.as_view(), name='movies_category_list'),
+    # ex: list/category/sci-fi
+    path('list/category/<slug:slug>', views.MoviesCategoriesList.as_view(), name='movies_category_list'),
     # ex: list/popular-series
     path('list/<str:slug>', views.MoviesList.as_view(), name='movies_list'),
 ]
