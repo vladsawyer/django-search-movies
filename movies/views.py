@@ -1,3 +1,4 @@
+import dateparser
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import View
@@ -55,6 +56,32 @@ class MemberDetailsView(View):
 
 class MoviesCategoriesList(View):
     """movies list certain category or genre"""
+    def get(self, request, country=None, year=None, slug=None):
+        if country:
+            try:
+                return render(request, "movies/movie_list.html", {
+                    "movies": Movies.objects.filter(country=country)
+                })
+            except ValueError:
+                raise Http404("Шах и мат! Такой ссылки не существует.")
+        elif year:
+            try:
+                year = year.split('-')
+                if (len(year[0]) and len(year[-1])) == 4:
+                    return render(request, "movies/movie_list.html", {
+                        "movies": Movies.objects.filter(world_premiere__year__range=(year[0], year[-1])),
+                    })
+                else:
+                    raise Http404("Шах и мат! Такой ссылки не существует.")
+            except ValueError:
+                raise Http404("Шах и мат! Такой ссылки не существует.")
+        elif slug:
+            try:
+                return render(request, "movies/movie_list.html", {
+                    "movies": Movies.objects.filter(categories__slug=slug)
+                })
+            except ValueError:
+                raise Http404("Шах и мат! Такой ссылки не существует.")
 
 
 class MoviesList(View):

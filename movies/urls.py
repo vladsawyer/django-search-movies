@@ -11,6 +11,10 @@ urlpatterns = [
     path('member/<int:pk>', views.MemberDetailsView.as_view(), name='member'),
     # ex: list/category/sci-fi
     path('list/category/<slug:slug>', views.MoviesCategoriesList.as_view(), name='movies_category_list'),
+    # ex: list/year/2010-2015
+    path('list/year/<str:year>', views.MoviesCategoriesList.as_view(), name='movies_years_list'),
+    # ex: list/country/usa
+    path('list/country/<str:country>', views.MoviesCategoriesList.as_view(), name='movies_country_list'),
     # ex: list/popular-series
     path('list/<str:slug>', views.MoviesList.as_view(), name='movies_list'),
 ]

@@ -29,6 +29,4 @@ def get_years():
 
 @register.simple_tag()
 def get_country():
-    country_objects = Movies.objects.only('country').distinct('country')
-    countries = [country_object.country for country_object in country_objects]
-    return countries
+    return Movies.objects.values_list('country', flat=True).distinct()

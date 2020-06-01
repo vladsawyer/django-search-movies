@@ -57,7 +57,6 @@ class GetMovieDetail(Service):
             "world_premiere": movie.world_premiere,
             "rf_premiere": movie.rf_premiere,
             "country": movie.country,
-            "trailer": movie.trailer,
         }
 
 
@@ -131,3 +130,5 @@ def get_new_movies(limit=None):
     return new_movies
 
 
+def get_movie_list_by_genre(slug):
+    return Movies.objects.filter(categories__slug=slug)

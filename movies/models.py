@@ -147,7 +147,6 @@ class Movies(models.Model):
     age = models.PositiveIntegerField(help_text="age mark", null=True, blank=True)
     draft = models.BooleanField(default=False)
     slug = models.SlugField(max_length=160, null=True, blank=True)
-    trailer = models.URLField(null=True, blank=True)
     time = models.TimeField(null=True, blank=True)
 
     comments = GenericRelation(Comments)

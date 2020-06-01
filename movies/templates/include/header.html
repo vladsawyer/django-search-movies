@@ -42,7 +42,7 @@
                     <div style="height: 88%; overflow-y: auto;">
                     {% get_years as years %}
                     {% for year in years %}
-                        <a class="dropdown-item" href="#">{{ year }}</a>
+                        <a class="dropdown-item" href="{% url 'movies_years_list' year=year %}">{{ year }}</a>
                     {% endfor %}
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                     <div style="height: 88%; overflow-y: auto;">
                     {% get_country as countries %}
                     {% for country in countries %}
-                        <a class="dropdown-item" href="#">{{ country }}</a>
+                        <a class="dropdown-item" href="{% url 'movies_country_list' country=country %}">{{ country }}</a>
                     {% endfor %}
                     </div>
                 </div>
@@ -69,7 +69,7 @@
       </li>
         <!-- новинки -->
       <li class="nav-item active mr-2">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="{% url 'movies_list' 'new-movies' %}">
               <i class="far fa-grin-hearts fa-fw mr-2"></i>
               Новинки
           </a>
