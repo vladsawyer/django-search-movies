@@ -1,6 +1,6 @@
 {% extends "movies/base.html" %}
-
-{% block title %}Search Movies |{{ page_title }}{% endblock %}
+{% load movie_tag %}
+{% block title %}SM | {{ page_title }}{% endblock %}
 
 {% block content %}
     <section class="container" style="margin-top: 7rem;">
@@ -39,8 +39,8 @@
                             {% endfor %}
 
                             <div class="tags">
-                                {% for genre in movie.categories.all|slice:":2" %}
-                                    <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title }}</span></a>
+                                {% for genre in movie.categories|genres|slice:":2" %}
+                                    <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title|title }}</span></a>
                                 {% endfor %}
                             </div>
 

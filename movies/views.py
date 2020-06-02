@@ -1,8 +1,7 @@
-import dateparser
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import View
-from .models import *
+from movies.models import *
 from movies.services import services
 
 
@@ -55,77 +54,64 @@ class MemberDetailsView(View):
 
 
 class MoviesCategoriesList(View):
-    """movies list certain category or genre"""
+    """movies list certain category or genre or years"""
     def get(self, request, country=None, year=None, slug=None):
         if country:
             try:
-                return render(request, "movies/movie_list.html", {
-                    "movies": Movies.objects.filter(country=country)
-                })
+                return render(request, "movies/movie_list.html", services.get_movie_list_by_country(country))
             except ValueError:
-                raise Http404("Шах и мат! Такой ссылки не существует.")
+                raise Http404()
         elif year:
             try:
                 year = year.split('-')
                 if (len(year[0]) and len(year[-1])) == 4:
-                    return render(request, "movies/movie_list.html", {
-                        "movies": Movies.objects.filter(world_premiere__year__range=(year[0], year[-1])),
-                    })
+                    return render(request, "movies/movie_list.html", services.get_movie_list_by_years(year))
                 else:
-                    raise Http404("Шах и мат! Такой ссылки не существует.")
+                    raise Http404()
             except ValueError:
-                raise Http404("Шах и мат! Такой ссылки не существует.")
+                raise Http404()
         elif slug:
             try:
-                return render(request, "movies/movie_list.html", {
-                    "movies": Movies.objects.filter(categories__slug=slug)
-                })
+                return render(request, "movies/movie_list.html", services.get_movie_list_by_genre(slug))
             except ValueError:
-                raise Http404("Шах и мат! Такой ссылки не существует.")
+                raise Http404()
+
+
+class MoviesTopList(View):
+    pass
 
 
 class MoviesList(View):
-    # slugs
-    POPULAR_SERIES = 'popular-series'
-    FUTURE_PREMIERES = 'future-premieres'
-    RECENT_PREMIERES = 'recent-premieres'
-    POPULAR_MOVIES = 'popular-movies'
-    EXPECTED_MOVIES = 'expected-movies'
-    INTERESTING_TODAY = 'interesting-today'
-    NEW_MOVIES = 'new-movies'
-    NEW_SERIES = 'new-series'
-    MOVIES_OF_THE_MONTH = 'movies-month'
-
-    def get(self, request, slug):
-        if slug == self.FUTURE_PREMIERES:
-            return render(request, "movies/movie_list.html", {
-                "movies": services.get_movies_future_premieres(),
-                "page_title": 'Скоро Премьеры'
-            })
-
-        elif slug == self.POPULAR_SERIES:
-            return render(request, "movies/movie_list.html", {
+    # slugs switch case
+    slug_case = {
+        "popular-series": {
                 "movies": services.get_popular_series(),
                 "page_title": 'Популярные сериалы'
-            })
-        elif slug == self.RECENT_PREMIERES:
-            pass
-        elif slug == self.POPULAR_MOVIES:
-            return render(request, "movies/movie_list.html", {
+            },
+        "future-premieres": {
+                "movies": services.get_movies_future_premieres(),
+                "page_title": 'Скоро Премьеры'
+            },
+        "recent-premieres": {
+            "movies": services.get_movies_recent_premieres(),
+            "page_title": 'Недавние премьеры'
+        },
+        "popular-movies": {
                 "movies": services.get_popular_movies(),
                 "page_title": 'Популярные фильмы'
-            })
-        elif slug == self.EXPECTED_MOVIES:
-            pass
-        elif slug == self.INTERESTING_TODAY:
-            pass
-        elif slug == self.NEW_MOVIES:
-            return render(request, "movies/movie_list.html", {
+            },
+        "expected-movies": {},
+        "interesting-today": {},
+        "new-movies": {
                 "movies": services.get_new_movies(),
                 "page_title": 'Новые фильмы'
-            })
-        elif slug == self.MOVIES_OF_THE_MONTH:
-            pass
+            },
+        "movies-month": {},
+    }
+
+    def get(self, request, slug):
+        if slug in self.slug_case.keys():
+            return render(request, "movies/movie_list.html", self.slug_case[slug])
         else:
             # temporary stub
             return Http404("Шах и мат! Такой ссылки не существует.")

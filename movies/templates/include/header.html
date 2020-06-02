@@ -51,7 +51,7 @@
                     <h6 class="dropdown-header">По странам</h6>
                     <div class="dropdown-divider"></div>
                     <div style="height: 88%; overflow-y: auto;">
-                    {% get_country as countries %}
+                    {% get_countries as countries %}
                     {% for country in countries %}
                         <a class="dropdown-item" href="{% url 'movies_country_list' country=country %}">{{ country }}</a>
                     {% endfor %}

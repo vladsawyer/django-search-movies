@@ -83,8 +83,8 @@ def get_movies_future_premieres(limit=None):
 
 def get_movies_now_in_cinema():
     return Movies.objects.filter(
-        world_premiere__range=(datetime.datetime.today() + relativedelta(months=-1, days=-15),
-                               datetime.datetime.today())
+        rf_premiere__range=(datetime.datetime.today() + relativedelta(months=-1, days=-15),
+                            datetime.datetime.today())
     ).filter(categories__title='фильмы')
 
 
@@ -131,4 +131,27 @@ def get_new_movies(limit=None):
 
 
 def get_movie_list_by_genre(slug):
-    return Movies.objects.filter(categories__slug=slug)
+    return {
+        "movies": Movies.objects.filter(categories__slug=slug).iterator(),
+        "page_title": 'Фильмы по жанрам'
+    }
+
+
+def get_movie_list_by_years(year):
+    return {
+        "movies": Movies.objects.filter(world_premiere__year__range=(year[0], year[-1])).iterator(),
+        "page_title": 'Фильмы по годам'
+    }
+
+
+def get_movie_list_by_country(country):
+    return {
+        "movies": Movies.objects.filter(country=country).iterator(),
+        "page_title": 'Фильмы по странам'
+    }
+
+
+def get_movies_recent_premieres():
+    return Movies.objects.filter(
+        world_premiere__range=(datetime.datetime.today() + relativedelta(months=-6),
+                               datetime.datetime.today()))

@@ -7,7 +7,7 @@ register = template.Library()
 
 @register.simple_tag()
 def get_genres():
-    return Categories.objects.filter(parent__title='жанры')
+    return Categories.objects.filter(parent__slug='genres')
 
 
 @register.simple_tag()
@@ -28,5 +28,10 @@ def get_years():
 
 
 @register.simple_tag()
-def get_country():
+def get_countries():
     return Movies.objects.values_list('country', flat=True).distinct()
+
+
+@register.filter(name='genres')
+def genres(queryset):
+    return queryset.filter(parent__slug='genres')

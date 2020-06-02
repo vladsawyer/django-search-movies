@@ -151,6 +151,7 @@ class Movies(models.Model):
 
     comments = GenericRelation(Comments)
     ratings = GenericRelation(Ratings)
+    likes = GenericRelation(Likes)
 
     def __str__(self):
         return self.title
@@ -183,7 +184,6 @@ class PartnerUrls(models.Model):
 class MovieShots(models.Model):
     image = models.ImageField(upload_to=get_movie_shots_image_path)
     movie = models.ForeignKey(Movies, on_delete=models.CASCADE)
-
 
     class Meta:
         verbose_name = "movie shot"

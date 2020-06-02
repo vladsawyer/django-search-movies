@@ -1,5 +1,5 @@
 {% extends "movies/base.html" %}
-
+{% load movie_tag %}
 {% block title %}Search Movies{% endblock %}
 
 {% block content %}
@@ -20,8 +20,8 @@
                                   {% endfor %}
                               </h5>
                               <span class="minutes">125 min</span>
-                                {% for genre in index_slider_movie.categories.all|slice:":2" %}
-                                    <p class="type">{{ genre }}</p>
+                                {% for genre in index_slider_movie.categories|genres|slice:":2" %}
+                                    <p class="type">{{ genre|title }}</p>
                                 {% endfor %}
                             </div>
                             <div class="movie_desc">
@@ -113,8 +113,8 @@
                                 {% endfor %}
 
                                 <div class="tags">
-                                    {% for genre in movie_premiere.categories.all|slice:":2" %}
-                                        <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title }}</span></a>
+                                    {% for genre in movie_premiere.categories|genres|slice:":2" %}
+                                        <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title|title }}</span></a>
                                     {% endfor %}
                                 </div>
 
@@ -172,8 +172,8 @@
                                 {% endfor %}
 
                                 <div class="tags">
-                                    {% for genre in cinema_movie.categories.all|slice:":2" %}
-                                        <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title }}</span></a>
+                                    {% for genre in cinema_movie.categories|genres|slice:":2" %}
+                                        <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title|title }}</span></a>
                                     {% endfor %}
                                 </div>
 
@@ -246,8 +246,8 @@
                                 </a>
 
                                 <div class="tags">
-                                    {% for genre in new_movie.categories.all|slice:":2" %}
-                                        <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title }}</span></a>
+                                    {% for genre in new_movie.categories|genres|slice:":2" %}
+                                        <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title|title }}</span></a>
                                     {% endfor %}
                                 </div>
 
@@ -394,8 +394,8 @@
                                 </a>
 
                                 <div class="tags">
-                                    {% for genre in popular_movie.categories.all|slice:":2" %}
-                                        <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title }}</span></a>
+                                    {% for genre in popular_movie.categories|genres|slice:":2" %}
+                                        <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title|title }}</span></a>
                                     {% endfor %}
                                 </div>
 
@@ -474,8 +474,8 @@
                                     </a>
 
                                     <div class="tags">
-                                        {% for genre in popular_serial.categories.all|slice:":2" %}
-                                            <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title }}</span></a>
+                                        {% for genre in popular_serial.categories|genres|slice:":2" %}
+                                            <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title|title }}</span></a>
                                         {% endfor %}
                                     </div>
 

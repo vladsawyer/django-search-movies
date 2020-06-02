@@ -40,7 +40,7 @@
 
                             <div id="trailer">
                                 <iframe id="ytplayer" type="text/html"
-                                        src="https://www.youtube.com/embed/?listType=search&list={{ title }} официальный трейлер"
+                                        src="https://www.youtube.com/embed/?listType=search&list={{ title }} {{ world_premiere.year }} официальный трейлер"
                                         frameborder="0" allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
                                         allowfullscreen>
                                 </iframe>
@@ -98,7 +98,7 @@
                             {% endif %}
                                 <div class="movie__description-additional">
                                     <div class="movie__description-additional_item" itemprop="datePublished">{{ world_premiere.year }}</div>
-                                    <div class="movie__description-additional_item" itemprop="genre">{{ genres }}</div>
+                                    <div class="movie__description-additional_item" itemprop="genre">{{ genres|title }}</div>
                                 </div>
                             </div>
                             <div class="">
