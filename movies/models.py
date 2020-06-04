@@ -45,12 +45,18 @@ class Categories(MPTTModel):
 
 
 class Likes(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             related_name='likes',
-                             on_delete=models.CASCADE)
+    UP = 1
+    DOWN = -1
+    VALUE_CHOICES = (
+        (UP, "\U0001F44D"),
+        (DOWN, "\U0001F44E")
+    )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    value = models.SmallIntegerField(choices=VALUE_CHOICES, null=True, blank=True)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
+    object_id = models.PositiveIntegerField(blank=True)
     content_object = GenericForeignKey('content_type', 'object_id')
+    liked_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "like"
@@ -59,15 +65,14 @@ class Likes(models.Model):
 
 class Comments(MPTTModel):
     text = models.TextField()
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             related_name='comments',
-                             on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
     likes = GenericRelation(Likes)
+    commented_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.text
