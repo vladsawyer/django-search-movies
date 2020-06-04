@@ -13,14 +13,14 @@
                         </div>
 
                         <div class="rating">
-                            {% if movie.rating_imdb is not None %}
+                            {% if movie.rating_imdb %}
                                 <div class="imsp" title="IMDb">
                                     <i class="fab fa-imdb"></i>
                                     <label class="pl-1 m-0">{{ movie.rating_imdb }}</label>
                                 </div>
                             {% endif %}
 
-                            {% if movie.rating_kp is not None %}
+                            {% if movie.rating_kp %}
                                 <div class="kpsp" title="Kinopoisk">
                                     <span class="kp_sp"></span>
                                     <label class="m-0">{{ movie.rating_kp }}</label>

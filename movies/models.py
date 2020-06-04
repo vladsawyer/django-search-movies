@@ -61,6 +61,7 @@ class Likes(models.Model):
     class Meta:
         verbose_name = "like"
         verbose_name_plural = "likes"
+        unique_together = ('user', 'content_type', 'object_id')
 
 
 class Comments(MPTTModel):
@@ -87,9 +88,7 @@ class Comments(MPTTModel):
 
 
 class Ratings(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             related_name='ratings',
-                             on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     value = models.PositiveSmallIntegerField(null=True, blank=True)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
@@ -98,6 +97,7 @@ class Ratings(models.Model):
     class Meta:
         verbose_name = "rating"
         verbose_name_plural = "ratings"
+        unique_together = ('user', 'content_type', 'object_id')
 
 
 class Roles(models.Model):

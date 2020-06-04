@@ -14,7 +14,7 @@ class MoviesIndexView(View):
             "movie_premieres": services.get_movies_future_premieres(8),
             "index_slider_movies": services.get_index_slider_movies(15),
             "movies_now_in_cinema": services.get_movies_now_in_cinema(),
-            "new_movies": services.get_new_movies(16),
+            "new_movies": services.get_new_movies_and_series(16),
             "popular_movies": services.get_popular_movies(16),
             "popular_series": services.get_popular_series(16),
         })
@@ -54,7 +54,7 @@ class MemberDetailsView(View):
 
 
 class MoviesCategoriesList(View):
-    """movies list certain category or genre or years"""
+    """movies list certain category, genre, years"""
     def get(self, request, country=None, year=None, slug=None):
         if country:
             try:
@@ -93,18 +93,21 @@ class MoviesList(View):
                 "page_title": 'Скоро Премьеры'
             },
         "recent-premieres": {
-            "movies": services.get_movies_recent_premieres(),
-            "page_title": 'Недавние премьеры'
-        },
+                "movies": services.get_movies_recent_premieres(),
+                "page_title": 'Недавние премьеры'
+            },
         "popular-movies": {
                 "movies": services.get_popular_movies(),
                 "page_title": 'Популярные фильмы'
             },
-        "expected-movies": {},
+        "expected-movies": {
+                "movies": services.get_expected_movies(),
+                "page_title": 'Ожидаемые фильмы'
+            },
         "interesting-today": {},
-        "new-movies": {
-                "movies": services.get_new_movies(),
-                "page_title": 'Новые фильмы'
+        "new-movies-series": {
+                "movies": services.get_new_movies_and_series(),
+                "page_title": 'Новинки'
             },
         "movies-month": {},
     }

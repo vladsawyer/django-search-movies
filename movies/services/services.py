@@ -1,3 +1,4 @@
+from django.db.models import Sum, Count
 from django.forms import ModelChoiceField
 from movies.models import *
 from dateutil.relativedelta import relativedelta
@@ -116,7 +117,7 @@ def get_popular_series(limit=None):
     return popular_series
 
 
-def get_new_movies(limit=None):
+def get_new_movies_and_series(limit=None):
     new_movies = Movies.objects.filter(
         world_premiere__range=(datetime.datetime.today() + relativedelta(months=-8),
                                datetime.datetime.today() + relativedelta(months=-2))) \
@@ -127,11 +128,11 @@ def get_new_movies(limit=None):
     if limit:
         return new_movies[:limit]
 
-    return new_movies
+    return new_movies.iterator()
 
 
 def get_movie_list_by_genre(slug):
-    return {
+    yield {
         "movies": Movies.objects.filter(categories__slug=slug).iterator(),
         "page_title": 'Фильмы по жанрам'
     }
@@ -154,4 +155,29 @@ def get_movie_list_by_country(country):
 def get_movies_recent_premieres():
     return Movies.objects.filter(
         world_premiere__range=(datetime.datetime.today() + relativedelta(months=-6),
-                               datetime.datetime.today()))
+                               datetime.datetime.today())
+    ).order_by('-world_premiere')
+
+
+def get_expected_movies():
+    """
+    We take all movies with future premieres and sort them by
+    descending the number of likes posted by users
+    """
+    movies = Movies.objects.filter(world_premiere__gt=datetime.datetime.now()).annotate(likes_sum=Sum('likes__value'))
+    # if there are no likes, then we output future premieres without sorting
+    if movies.exclude(likes_sum=None).exists():
+        movies = movies.exclude(likes_sum=None).order_by('-likes_sum')
+
+    return movies
+
+
+def get_movie_of_month():
+    movies = Movies.objects.filter(
+        world_premiere__range=(datetime.datetime.today() + relativedelta(months=-1),
+                               datetime.datetime.today())
+    ).annotate(
+        likes_sum=Sum('likes__value'),
+        comments_count=Count('comments__text')
+    ).order_by('-likes_sum', '-comments_count')
+

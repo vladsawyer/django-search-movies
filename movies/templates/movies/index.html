@@ -49,13 +49,13 @@
             <!-- category -->
             <div class="row main-category">
                 <div class="col-6 col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center">
-                    <a href="#" class="stretched-link">
+                    <a href="{% url 'movies_list' 'expected-movies' %}" class="stretched-link">
                         <i class="fas fa-history fa-2x d-block mx-auto fa-fw mb-3"></i>
                         Ожидаемые фильмы
                     </a>
                 </div>
                 <div class="col-6 col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center">
-                    <a href="#" class="stretched-link">
+                    <a href="{% url 'movies_list' 'recent-premieres' %}" class="stretched-link">
                         <i class="fas fa-bullhorn fa-2x d-block mx-auto fa-fw mb-3"></i>
                          Недавние Премьеры
                     </a>
@@ -203,7 +203,7 @@
             <!-- Новинки 16 шт -->
             <div class="row mb-4 align-items-center">
                 <div class="col-lg-5 col-xl-5">
-                    <a href="{% url 'movies_list' 'new-movies' %}" class="title-section">
+                    <a href="{% url 'movies_list' 'new-movies-series' %}" class="title-section">
                         <i class="fab fa-youtube mr-2 text-warning"></i>
                         Новинки
                     </a>
@@ -276,7 +276,7 @@
             </div>
             <div class="row mb-4">
                 <div class="col-auto mx-auto">
-                    <a href="{% url 'movies_list' 'new-movies' %}" class="btn btn-outline-warning">Смотреть все</a>
+                    <a href="{% url 'movies_list' 'new-movies-series' %}" class="btn btn-outline-warning">Смотреть все</a>
                 </div>
             </div>
             <!-- подборки -->

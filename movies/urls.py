@@ -17,4 +17,6 @@ urlpatterns = [
     path('list/country/<str:country>', views.MoviesCategoriesList.as_view(), name='movies_country_list'),
     # ex: list/popular-series
     path('list/<str:slug>', views.MoviesList.as_view(), name='movies_list'),
+
+    path('top/<str:slug>', views.MoviesTopList.as_view(), name='movies_top_by_years'),
 ]
