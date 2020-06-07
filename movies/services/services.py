@@ -14,33 +14,15 @@ class GetMovieDetail(Service):
 
     def process(self):
         movie = self.cleaned_data['movie']
-        parent_genre = Categories.objects.get(title='жанры')
 
-        genres = ', '.join([q.title for q in movie.categories.filter(parent=parent_genre)])
-        directors = ', '.join(
-            [f'<a class="text-decoration-none person" href="{q.get_absolute_url()}"><span itemprop="director">'
-             f'{q.full_name}</span></a>' for q in movie.directors.all()])
-        actors = ', '.join(
-            [f'<a class="text-decoration-none person" href="{q.get_absolute_url()}"><span itemprop="actor">'
-             f'{q.full_name}</span></a>' for q in movie.actors.all()])
-
-        if movie.fees_in_world:
-            fees_in_world = f'{movie.fees_in_world:n}'
-        else:
-            fees_in_world = movie.fees_in_world
-
-        if movie.budget:
-            budget = f'{movie.budget:n}'
-        else:
-            budget = movie.budget
-
-        if movie.fees_in_usa:
-            fees_in_usa = f'{movie.fees_in_usa:n}'
-        else:
-            fees_in_usa = movie.fees_in_usa
-
-        movie_shot = movie.movieshots_set.last().image.url
-        movie_shots = [mov_shot.image.url for mov_shot in movie.movieshots_set.all()]
+        genres = self._get_genres(movie)
+        directors = self._get_directors(movie)
+        actors = self._get_actors(movie)
+        fees_in_world = self._get_fees_in_world(movie)
+        budget = self._get_budget(movie)
+        fees_in_usa = self._fees_in_usa(movie)
+        movie_shot = self._movie_shot(movie)
+        movie_shots = self._get_movie_shots(movie)
 
         return {
             "genres": genres,
@@ -59,6 +41,53 @@ class GetMovieDetail(Service):
             "rf_premiere": movie.rf_premiere,
             "country": movie.country,
         }
+
+    def _get_genres(self, movie):
+        return ', '.join([q.title for q in movie.categories.filter(parent__title='жанры')])
+
+    def _get_directors(self, movie):
+        directors =  ', '.join(
+            [f'<a class="text-decoration-none person" href="{q.get_absolute_url()}"><span itemprop="director">'
+             f'{q.full_name}</span></a>' for q in movie.directors.all()])
+
+        return directors
+
+    def _get_actors(self, movie):
+        actors = ', '.join(
+            [f'<a class="text-decoration-none person" href="{q.get_absolute_url()}"><span itemprop="actor">'
+             f'{q.full_name}</span></a>' for q in movie.actors.all()])
+
+        return actors
+
+    def _get_fees_in_world(self, movie):
+        if movie.fees_in_world:
+            fees_in_world = f'{movie.fees_in_world:n}'
+        else:
+            fees_in_world = movie.fees_in_world
+
+        return fees_in_world
+
+    def _get_budget(self, movie):
+        if movie.budget:
+            budget = f'{movie.budget:n}'
+        else:
+            budget = movie.budget
+
+        return budget
+
+    def _get_fees_in_usa(self, movie):
+        if movie.fees_in_usa:
+            fees_in_usa = f'{movie.fees_in_usa:n}'
+        else:
+            fees_in_usa = movie.fees_in_usa
+
+        return fees_in_usa
+
+    def _get_movie_shot(self, movie):
+        return movie.movieshots_set.last().image.url
+
+    def _get_movie_shots(self, movie):
+        return [mov_shot.image.url for mov_shot in movie.movieshots_set.all()]
 
 
 def get_index_slider_movies(limit=None):
@@ -92,11 +121,13 @@ def get_movies_now_in_cinema():
 def get_popular_movies(limit=None):
     popular_movies = Movies.objects.filter(
         world_premiere__range=(datetime.datetime.today() + relativedelta(years=-5),
-                               datetime.datetime.today() + relativedelta(months=-2))) \
-        .filter(rating_imdb__gte=5) \
-        .order_by('-rating_kp') \
-        .filter(categories__title='фильмы') \
-        .exclude(categories__title='мультфильм')
+                               datetime.datetime.today() + relativedelta(months=-2))
+    ).filter(
+        rating_imdb__gte=5,
+        categories__title='фильмы'
+    ).order_by(
+        '-rating_kp'
+    ).exclude(categories__title='мультфильм')
 
     if limit:
         return popular_movies[:limit]
@@ -131,25 +162,21 @@ def get_new_movies_and_series(limit=None):
     return new_movies.iterator()
 
 
-def get_movie_list_by_genre(slug):
-    yield {
-        "movies": Movies.objects.filter(categories__slug=slug).iterator(),
-        "page_title": 'Фильмы по жанрам'
-    }
+def get_movie_list_by_genre(slug, category_type):
+    # category_type is categories slug "movies" or "series"
+    return Movies.objects.filter(categories__slug=slug and category_type).iterator()
 
 
-def get_movie_list_by_years(year):
-    return {
-        "movies": Movies.objects.filter(world_premiere__year__range=(year[0], year[-1])).iterator(),
-        "page_title": 'Фильмы по годам'
-    }
+def get_movie_list_by_years(year, category_type):
+    # category_type is categories slug "movies" or "series"
+    return Movies.objects.filter(world_premiere__year__range=(year[0], year[-1]),
+                                 categories__slug=category_type).iterator()
 
 
-def get_movie_list_by_country(country):
-    return {
-        "movies": Movies.objects.filter(country=country).iterator(),
-        "page_title": 'Фильмы по странам'
-    }
+def get_movie_list_by_country(country, category_type):
+    # category_type is categories slug "movies" or "series"
+    return Movies.objects.filter(country=country,
+                                 categories__slug=category_type).iterator()
 
 
 def get_movies_recent_premieres():
@@ -163,21 +190,85 @@ def get_expected_movies():
     """
     We take all movies with future premieres and sort them by
     descending the number of likes posted by users
+    :return: QuerySet
     """
-    movies = Movies.objects.filter(world_premiere__gt=datetime.datetime.now()).annotate(likes_sum=Sum('likes__value'))
+    expected_movies = Movies.objects.filter(world_premiere__gt=datetime.datetime.now()).annotate(
+        likes_sum=Sum('likes__value'))
     # if there are no likes, then we output future premieres without sorting
-    if movies.exclude(likes_sum=None).exists():
-        movies = movies.exclude(likes_sum=None).order_by('-likes_sum')
+    if expected_movies.exclude(likes_sum=None).exists():
+        expected_movies = expected_movies.exclude(likes_sum=None).order_by('-likes_sum')
 
-    return movies
+    return expected_movies
 
 
 def get_movie_of_month():
-    movies = Movies.objects.filter(
-        world_premiere__range=(datetime.datetime.today() + relativedelta(months=-1),
-                               datetime.datetime.today())
+    """
+    we sort movies by the number of likes and comments left over the past month
+    :return: QuerySet
+    """
+    movie_of_month = Movies.objects.filter(
+        likes__liked_on__range=(datetime.datetime.today() + relativedelta(months=-1),
+                                datetime.datetime.today()),
+        comments__commented_on__range=(datetime.datetime.today() + relativedelta(months=-1),
+                                       datetime.datetime.today()),
     ).annotate(
         likes_sum=Sum('likes__value'),
         comments_count=Count('comments__text')
+    ).exclude(
+        likes_sum=None
     ).order_by('-likes_sum', '-comments_count')
 
+    return movie_of_month
+
+
+def get_movies_interesting_today():
+    """"""
+
+
+def get_top_movies_russian_classics():
+    russian_classics = Movies.objects.filter(
+        country=('СССР' and 'Россия')
+    ).exclude(
+        rf_premiere__gt=datetime.datetime.today() + relativedelta(months=-3)
+    ).exclude(
+        rating_kp__isnull=True
+    ).order_by('-rating_kp')
+
+    return russian_classics
+
+
+def get_top_movies_foreign_classics():
+    foreign_classics = Movies.objects.exclude(
+        country='СССР' and 'Россия',
+        world_premiere__gt=datetime.datetime.today() + relativedelta(months=-3),
+    ).exclude(
+        rating_imdb__isnull=True
+    ).order_by('-rating_imdb')
+
+    return foreign_classics
+
+
+def get_top_movies_by_rating_kp():
+    movies_by_rating_kp = Movies.objects.exclude(
+        rating_kp__isnull=True
+    ).order_by('-rating_kp')
+
+    return movies_by_rating_kp
+
+
+def get_top_movies_by_rating_imdb():
+    movies_by_rating_imdb = Movies.objects.exclude(
+        rating_imdb__isnull=True
+    ).order_by('-rating_imdb')
+
+    return movies_by_rating_imdb
+
+
+def get_top_cartoon():
+    movies_cartoon = Movies.objects.filter(
+        categories__slug='cartoon'
+    ).exclude(
+        rating_imdb__isnull=True
+    ).order_by('-rating_imdb')
+
+    return movies_cartoon

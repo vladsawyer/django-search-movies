@@ -24,7 +24,6 @@ def get_movie_shots_image_path(instance, filename):
     return os.path.join('movie_shots', hashname[:2], hashname[2:4], hashname)
 
 
-# Create models.
 class Categories(MPTTModel):
     title = models.CharField(max_length=150)
     slug = models.SlugField(max_length=160, unique=True)
@@ -45,11 +44,11 @@ class Categories(MPTTModel):
 
 
 class Likes(models.Model):
-    UP = 1
-    DOWN = -1
+    like = 1
+    dislike = -1
     VALUE_CHOICES = (
-        (UP, "\U0001F44D"),
-        (DOWN, "\U0001F44E")
+        (like, "\U0001F44D"),
+        (dislike, "\U0001F44E")
     )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     value = models.SmallIntegerField(choices=VALUE_CHOICES, null=True, blank=True)

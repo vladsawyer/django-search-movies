@@ -8,20 +8,18 @@ from movies.services import services
 # Create your views here.
 class MoviesIndexView(View):
     """Movie list"""
-
     def get(self, request):
         return render(request, "movies/index.html", {
-            "movie_premieres": services.get_movies_future_premieres(8),
-            "index_slider_movies": services.get_index_slider_movies(15),
+            "movie_premieres": services.get_movies_future_premieres(limit=8),
+            "index_slider_movies": services.get_index_slider_movies(limit=15),
             "movies_now_in_cinema": services.get_movies_now_in_cinema(),
-            "new_movies": services.get_new_movies_and_series(16),
-            "popular_movies": services.get_popular_movies(16),
-            "popular_series": services.get_popular_series(16),
+            "new_movies": services.get_new_movies_and_series(limit=16),
+            "popular_movies": services.get_popular_movies(limit=16),
+            "popular_series": services.get_popular_series(limit=16),
         })
 
 
 class MovieDetailsView(View):
-
     def get(self, request, pk):
         movie = get_object_or_404(Movies, pk=pk)
         context = services.GetMovieDetail.execute({
@@ -37,7 +35,6 @@ class SeriesDetailsView(View):
 
 
 class MemberDetailsView(View):
-
     def get(self, request, pk):
         member = Members.objects.get(pk=pk)
         categories = ', '.join([q.title for q in member.categories.all()])
@@ -58,58 +55,119 @@ class MoviesCategoriesList(View):
     def get(self, request, country=None, year=None, slug=None):
         if country:
             try:
-                return render(request, "movies/movie_list.html", services.get_movie_list_by_country(country))
+                return render(request, "movies/movie_list.html", {
+                    "movies": services.get_movie_list_by_country(country, category_type='movies'),
+                    "page_title": 'Фильмы по странам'
+                })
             except ValueError:
                 raise Http404()
+
         elif year:
             try:
                 year = year.split('-')
                 if (len(year[0]) and len(year[-1])) == 4:
-                    return render(request, "movies/movie_list.html", services.get_movie_list_by_years(year))
+                    return render(request, "movies/movie_list.html", {
+                        "movies": services.get_movie_list_by_years(year, category_type='movies'),
+                        "page_title": 'Фильмы по годам'
+                    })
                 else:
                     raise Http404()
             except ValueError:
                 raise Http404()
+
         elif slug:
             try:
-                return render(request, "movies/movie_list.html", services.get_movie_list_by_genre(slug))
+                return render(request, "movies/movie_list.html", {
+                    "movies": services.get_movie_list_by_genre(slug, category_type='movies'),
+                    "page_title": 'Фильмы по жанрам'
+                })
             except ValueError:
                 raise Http404()
 
 
 class MoviesTopList(View):
-    pass
+    message_movies_not_exists = None
+    # slugs switch case
+    slug_case = {
+        "russian-classics": {
+            "movies": services.get_top_movies_russian_classics(),
+            "page_title": "Русская классика",
+            "message_movies_not_exists": message_movies_not_exists
+        },
+        "foreign-classics": {
+            "movies": services.get_top_movies_foreign_classics(),
+            "page_title": "Зарубежная классика",
+            "message_movies_not_exists": message_movies_not_exists
+        },
+        "by-rating-kp": {
+            "movies": services.get_top_movies_by_rating_kp(),
+            "page_title": "По рейтингу Кинопоиска",
+            "message_movies_not_exists": message_movies_not_exists
+        },
+        "by-rating-imdb": {
+            "movies": services.get_top_movies_by_rating_imdb(),
+            "page_title": "По рейтингу IMDB",
+            "message_movies_not_exists": message_movies_not_exists
+        },
+        "cartoon": {
+            "movies": services.get_top_cartoon(),
+            "page_title": "Топ мультфильмы",
+            "message_movies_not_exists": message_movies_not_exists
+        },
+    }
+
+    def get(self, request, slug):
+        if slug in self.slug_case.keys():
+            return render(request, "movies/movie_list.html", self.slug_case[slug])
+        else:
+            # temporary stub
+            return Http404("Шах и мат! Такой ссылки не существует.")
 
 
 class MoviesList(View):
+    message_movies_not_exists = None
     # slugs switch case
     slug_case = {
         "popular-series": {
-                "movies": services.get_popular_series(),
-                "page_title": 'Популярные сериалы'
-            },
+            "movies": services.get_popular_series(),
+            "page_title": "Популярные сериалы",
+            "message_movies_not_exists": message_movies_not_exists
+        },
         "future-premieres": {
-                "movies": services.get_movies_future_premieres(),
-                "page_title": 'Скоро Премьеры'
-            },
+            "movies": services.get_movies_future_premieres(),
+            "page_title": "Скоро Премьеры",
+            "message_movies_not_exists": message_movies_not_exists
+        },
         "recent-premieres": {
-                "movies": services.get_movies_recent_premieres(),
-                "page_title": 'Недавние премьеры'
-            },
+            "movies": services.get_movies_recent_premieres(),
+            "page_title": "Недавние премьеры",
+            "message_movies_not_exists": message_movies_not_exists
+        },
         "popular-movies": {
-                "movies": services.get_popular_movies(),
-                "page_title": 'Популярные фильмы'
-            },
+            "movies": services.get_popular_movies(),
+            "page_title": "Популярные фильмы",
+            "message_movies_not_exists": message_movies_not_exists
+        },
         "expected-movies": {
-                "movies": services.get_expected_movies(),
-                "page_title": 'Ожидаемые фильмы'
-            },
-        "interesting-today": {},
+            "movies": services.get_expected_movies(),
+            "page_title": "Ожидаемые фильмы",
+            "message_movies_not_exists": message_movies_not_exists
+        },
+        "interesting-today": {
+            "movies": services.get_new_movies_and_series(),
+            "page_title": "Интересное сегодня",
+            "message_movies_not_exists": message_movies_not_exists
+        },
         "new-movies-series": {
-                "movies": services.get_new_movies_and_series(),
-                "page_title": 'Новинки'
-            },
-        "movies-month": {},
+            "movies": services.get_new_movies_and_series(),
+            "page_title": "Новинки",
+            "message_movies_not_exists": message_movies_not_exists
+        },
+        "movies-month": {
+            "movies": services.get_movie_of_month(),
+            "page_title": "Фильмы месяца",
+            "message_movies_not_exists": message_movies_not_exists
+        },
     }
 
     def get(self, request, slug):
