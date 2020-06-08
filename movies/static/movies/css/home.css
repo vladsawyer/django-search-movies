@@ -340,3 +340,7 @@ footer {
             display: none;
         }
 }
+
+.loading {
+    display: flex;
+}

@@ -159,24 +159,24 @@ def get_new_movies_and_series(limit=None):
     if limit:
         return new_movies[:limit]
 
-    return new_movies.iterator()
+    return new_movies
 
 
 def get_movie_list_by_genre(slug, category_type):
     # category_type is categories slug "movies" or "series"
-    return Movies.objects.filter(categories__slug=slug and category_type).iterator()
+    return Movies.objects.filter(categories__slug=slug).filter(categories__slug=category_type)
 
 
 def get_movie_list_by_years(year, category_type):
     # category_type is categories slug "movies" or "series"
     return Movies.objects.filter(world_premiere__year__range=(year[0], year[-1]),
-                                 categories__slug=category_type).iterator()
+                                 categories__slug=category_type)
 
 
 def get_movie_list_by_country(country, category_type):
     # category_type is categories slug "movies" or "series"
     return Movies.objects.filter(country=country,
-                                 categories__slug=category_type).iterator()
+                                 categories__slug=category_type)
 
 
 def get_movies_recent_premieres():

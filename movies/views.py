@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import View
 from movies.models import *
 from movies.services import services
+from movies import utils
 
 
 # Create your views here.
@@ -55,8 +56,9 @@ class MoviesCategoriesList(View):
     def get(self, request, country=None, year=None, slug=None):
         if country:
             try:
+                movies = services.get_movie_list_by_country(country, category_type='movies')
                 return render(request, "movies/movie_list.html", {
-                    "movies": services.get_movie_list_by_country(country, category_type='movies'),
+                    "movies": utils.get_pagination(request, queryset=movies, count_show_list=32),
                     "page_title": 'Фильмы по странам'
                 })
             except ValueError:
@@ -66,8 +68,9 @@ class MoviesCategoriesList(View):
             try:
                 year = year.split('-')
                 if (len(year[0]) and len(year[-1])) == 4:
+                    movies = services.get_movie_list_by_years(year, category_type='movies')
                     return render(request, "movies/movie_list.html", {
-                        "movies": services.get_movie_list_by_years(year, category_type='movies'),
+                        "movies": utils.get_pagination(request, queryset=movies, count_show_list=32),
                         "page_title": 'Фильмы по годам'
                     })
                 else:
@@ -77,8 +80,9 @@ class MoviesCategoriesList(View):
 
         elif slug:
             try:
+                movies = services.get_movie_list_by_genre(slug, category_type='movies')
                 return render(request, "movies/movie_list.html", {
-                    "movies": services.get_movie_list_by_genre(slug, category_type='movies'),
+                    "movies": utils.get_pagination(request, queryset=movies, count_show_list=32),
                     "page_title": 'Фильмы по жанрам'
                 })
             except ValueError:
@@ -118,6 +122,9 @@ class MoviesTopList(View):
 
     def get(self, request, slug):
         if slug in self.slug_case.keys():
+            self.slug_case[slug]["movies"] = utils.get_pagination(request,
+                                                                  queryset=self.slug_case[slug]["movies"],
+                                                                  count_show_list=32)
             return render(request, "movies/movie_list.html", self.slug_case[slug])
         else:
             # temporary stub
@@ -172,6 +179,9 @@ class MoviesList(View):
 
     def get(self, request, slug):
         if slug in self.slug_case.keys():
+            self.slug_case[slug]["movies"] = utils.get_pagination(request,
+                                                                  queryset=self.slug_case[slug]["movies"],
+                                                                  count_show_list=32)
             return render(request, "movies/movie_list.html", self.slug_case[slug])
         else:
             # temporary stub
