@@ -20,11 +20,11 @@ class GetMovieDetail(Service):
         actors = self._get_actors(movie)
         fees_in_world = self._get_fees_in_world(movie)
         budget = self._get_budget(movie)
-        fees_in_usa = self._fees_in_usa(movie)
-        movie_shot = self._movie_shot(movie)
+        fees_in_usa = self._get_fees_in_usa(movie)
+        movie_shot = self._get_movie_shot(movie)
         movie_shots = self._get_movie_shots(movie)
 
-        return {
+        context = {
             "genres": genres,
             "directors": directors,
             "actors": actors,
@@ -41,6 +41,8 @@ class GetMovieDetail(Service):
             "rf_premiere": movie.rf_premiere,
             "country": movie.country,
         }
+
+        return context
 
     def _get_genres(self, movie):
         return ', '.join([q.title for q in movie.categories.filter(parent__title='жанры')])
@@ -175,7 +177,7 @@ def get_movie_list_by_years(year, category_type):
 
 def get_movie_list_by_country(country, category_type):
     # category_type is categories slug "movies" or "series"
-    return Movies.objects.filter(country=country,
+    return Movies.objects.filter(country__icontains=country,
                                  categories__slug=category_type)
 
 
@@ -227,7 +229,7 @@ def get_movies_interesting_today():
 
 def get_top_movies_russian_classics():
     russian_classics = Movies.objects.filter(
-        country=('СССР' and 'Россия')
+        country__icontains=('СССР' and 'Россия')
     ).exclude(
         rf_premiere__gt=datetime.datetime.today() + relativedelta(months=-3)
     ).exclude(

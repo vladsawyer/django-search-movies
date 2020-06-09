@@ -56,11 +56,12 @@ class MoviesCategoriesList(View):
     def get(self, request, country=None, year=None, slug=None):
         if country:
             try:
-                movies = services.get_movie_list_by_country(country, category_type='movies')
-                return render(request, "movies/movie_list.html", {
-                    "movies": utils.get_pagination(request, queryset=movies, count_show_list=32),
+                movies_qs = services.get_movie_list_by_country(country, category_type='movies')
+                context = {
+                    "movies": utils.get_pagination(request, queryset=movies_qs, count_show_list=32),
                     "page_title": 'Фильмы по странам'
-                })
+                }
+                return render(request, "movies/movie_list.html", context=context)
             except ValueError:
                 raise Http404()
 
@@ -68,11 +69,12 @@ class MoviesCategoriesList(View):
             try:
                 year = year.split('-')
                 if (len(year[0]) and len(year[-1])) == 4:
-                    movies = services.get_movie_list_by_years(year, category_type='movies')
-                    return render(request, "movies/movie_list.html", {
-                        "movies": utils.get_pagination(request, queryset=movies, count_show_list=32),
+                    movies_qs = services.get_movie_list_by_years(year, category_type='movies')
+                    context = {
+                        "movies": utils.get_pagination(request, queryset=movies_qs, count_show_list=32),
                         "page_title": 'Фильмы по годам'
-                    })
+                    }
+                    return render(request, "movies/movie_list.html", context=context)
                 else:
                     raise Http404()
             except ValueError:
@@ -80,11 +82,12 @@ class MoviesCategoriesList(View):
 
         elif slug:
             try:
-                movies = services.get_movie_list_by_genre(slug, category_type='movies')
-                return render(request, "movies/movie_list.html", {
-                    "movies": utils.get_pagination(request, queryset=movies, count_show_list=32),
+                movies_qs = services.get_movie_list_by_genre(slug, category_type='movies')
+                context = {
+                    "movies": utils.get_pagination(request, queryset=movies_qs, count_show_list=32),
                     "page_title": 'Фильмы по жанрам'
-                })
+                }
+                return render(request, "movies/movie_list.html", context=context)
             except ValueError:
                 raise Http404()
 
@@ -92,40 +95,39 @@ class MoviesCategoriesList(View):
 class MoviesTopList(View):
     message_movies_not_exists = None
     # slugs switch case
-    slug_case = {
+    context_case = {
         "russian-classics": {
-            "movies": services.get_top_movies_russian_classics(),
+            "movies_qs": services.get_top_movies_russian_classics(),
             "page_title": "Русская классика",
             "message_movies_not_exists": message_movies_not_exists
         },
         "foreign-classics": {
-            "movies": services.get_top_movies_foreign_classics(),
+            "movies_qs": services.get_top_movies_foreign_classics(),
             "page_title": "Зарубежная классика",
             "message_movies_not_exists": message_movies_not_exists
         },
         "by-rating-kp": {
-            "movies": services.get_top_movies_by_rating_kp(),
+            "movies_qs": services.get_top_movies_by_rating_kp(),
             "page_title": "По рейтингу Кинопоиска",
             "message_movies_not_exists": message_movies_not_exists
         },
         "by-rating-imdb": {
-            "movies": services.get_top_movies_by_rating_imdb(),
+            "movies_qs": services.get_top_movies_by_rating_imdb(),
             "page_title": "По рейтингу IMDB",
             "message_movies_not_exists": message_movies_not_exists
         },
         "cartoon": {
-            "movies": services.get_top_cartoon(),
+            "movies_qs": services.get_top_cartoon(),
             "page_title": "Топ мультфильмы",
             "message_movies_not_exists": message_movies_not_exists
         },
     }
 
     def get(self, request, slug):
-        if slug in self.slug_case.keys():
-            self.slug_case[slug]["movies"] = utils.get_pagination(request,
-                                                                  queryset=self.slug_case[slug]["movies"],
-                                                                  count_show_list=32)
-            return render(request, "movies/movie_list.html", self.slug_case[slug])
+        if slug in self.context_case.keys():
+            movies_qs = self.context_case[slug]["movies_qs"]
+            self.context_case[slug]["movies"] = utils.get_pagination(request, queryset=movies_qs, count_show_list=32)
+            return render(request, "movies/movie_list.html", self.context_case[slug])
         else:
             # temporary stub
             return Http404("Шах и мат! Такой ссылки не существует.")
@@ -134,55 +136,54 @@ class MoviesTopList(View):
 class MoviesList(View):
     message_movies_not_exists = None
     # slugs switch case
-    slug_case = {
+    context_case = {
         "popular-series": {
-            "movies": services.get_popular_series(),
+            "movies_qs": services.get_popular_series(),
             "page_title": "Популярные сериалы",
             "message_movies_not_exists": message_movies_not_exists
         },
         "future-premieres": {
-            "movies": services.get_movies_future_premieres(),
+            "movies_qs": services.get_movies_future_premieres(),
             "page_title": "Скоро Премьеры",
             "message_movies_not_exists": message_movies_not_exists
         },
         "recent-premieres": {
-            "movies": services.get_movies_recent_premieres(),
+            "movies_qs": services.get_movies_recent_premieres(),
             "page_title": "Недавние премьеры",
             "message_movies_not_exists": message_movies_not_exists
         },
         "popular-movies": {
-            "movies": services.get_popular_movies(),
+            "movies_qs": services.get_popular_movies(),
             "page_title": "Популярные фильмы",
             "message_movies_not_exists": message_movies_not_exists
         },
         "expected-movies": {
-            "movies": services.get_expected_movies(),
+            "movies_qs": services.get_expected_movies(),
             "page_title": "Ожидаемые фильмы",
             "message_movies_not_exists": message_movies_not_exists
         },
         "interesting-today": {
-            "movies": services.get_new_movies_and_series(),
+            "movies_qs": services.get_new_movies_and_series(),
             "page_title": "Интересное сегодня",
             "message_movies_not_exists": message_movies_not_exists
         },
         "new-movies-series": {
-            "movies": services.get_new_movies_and_series(),
+            "movies_qs": services.get_new_movies_and_series(),
             "page_title": "Новинки",
             "message_movies_not_exists": message_movies_not_exists
         },
         "movies-month": {
-            "movies": services.get_movie_of_month(),
+            "movies_qs": services.get_movie_of_month(),
             "page_title": "Фильмы месяца",
             "message_movies_not_exists": message_movies_not_exists
         },
     }
 
     def get(self, request, slug):
-        if slug in self.slug_case.keys():
-            self.slug_case[slug]["movies"] = utils.get_pagination(request,
-                                                                  queryset=self.slug_case[slug]["movies"],
-                                                                  count_show_list=32)
-            return render(request, "movies/movie_list.html", self.slug_case[slug])
+        if slug in self.context_case.keys():
+            movies_qs = self.context_case[slug]["movies_qs"]
+            self.context_case[slug]["movies"] = utils.get_pagination(request, queryset=movies_qs, count_show_list=32)
+            return render(request, "movies/movie_list.html", self.context_case[slug])
         else:
             # temporary stub
             return Http404("Шах и мат! Такой ссылки не существует.")
