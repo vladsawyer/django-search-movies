@@ -166,26 +166,26 @@ def get_new_movies_and_series(limit=None):
 
 def get_movie_list_by_genre(slug, category_type):
     # category_type is categories slug "movies" or "series"
-    return Movies.objects.filter(categories__slug=slug).filter(categories__slug=category_type)
+    return Movies.objects.filter(categories__slug=slug).filter(categories__slug=category_type).distinct()
 
 
 def get_movie_list_by_years(year, category_type):
     # category_type is categories slug "movies" or "series"
     return Movies.objects.filter(world_premiere__year__range=(year[0], year[-1]),
-                                 categories__slug=category_type)
+                                 categories__slug=category_type).distinct()
 
 
 def get_movie_list_by_country(country, category_type):
     # category_type is categories slug "movies" or "series"
     return Movies.objects.filter(country__icontains=country,
-                                 categories__slug=category_type)
+                                 categories__slug=category_type).distinct()
 
 
 def get_movies_recent_premieres():
     return Movies.objects.filter(
         world_premiere__range=(datetime.datetime.today() + relativedelta(months=-6),
                                datetime.datetime.today())
-    ).order_by('-world_premiere')
+    ).order_by('-world_premiere').distinct()
 
 
 def get_expected_movies():
@@ -198,7 +198,7 @@ def get_expected_movies():
         likes_sum=Sum('likes__value'))
     # if there are no likes, then we output future premieres without sorting
     if expected_movies.exclude(likes_sum=None).exists():
-        expected_movies = expected_movies.exclude(likes_sum=None).order_by('-likes_sum')
+        expected_movies = expected_movies.exclude(likes_sum=None).order_by('-likes_sum').distinct()
 
     return expected_movies
 
@@ -218,7 +218,7 @@ def get_movie_of_month():
         comments_count=Count('comments__text')
     ).exclude(
         likes_sum=None
-    ).order_by('-likes_sum', '-comments_count')
+    ).order_by('-likes_sum', '-comments_count').distinct()
 
     return movie_of_month
 
@@ -234,7 +234,7 @@ def get_top_movies_russian_classics():
         rf_premiere__gt=datetime.datetime.today() + relativedelta(months=-3)
     ).exclude(
         rating_kp__isnull=True
-    ).order_by('-rating_kp')
+    ).order_by('-rating_kp').distinct()
 
     return russian_classics
 
@@ -245,7 +245,7 @@ def get_top_movies_foreign_classics():
         world_premiere__gt=datetime.datetime.today() + relativedelta(months=-3),
     ).exclude(
         rating_imdb__isnull=True
-    ).order_by('-rating_imdb')
+    ).order_by('-rating_imdb').distinct()
 
     return foreign_classics
 
@@ -253,7 +253,7 @@ def get_top_movies_foreign_classics():
 def get_top_movies_by_rating_kp():
     movies_by_rating_kp = Movies.objects.exclude(
         rating_kp__isnull=True
-    ).order_by('-rating_kp')
+    ).order_by('-rating_kp').distinct()
 
     return movies_by_rating_kp
 
@@ -261,16 +261,57 @@ def get_top_movies_by_rating_kp():
 def get_top_movies_by_rating_imdb():
     movies_by_rating_imdb = Movies.objects.exclude(
         rating_imdb__isnull=True
-    ).order_by('-rating_imdb')
+    ).order_by('-rating_imdb').distinct()
 
     return movies_by_rating_imdb
 
 
 def get_top_cartoon():
-    movies_cartoon = Movies.objects.filter(
-        categories__slug='cartoon'
-    ).exclude(
-        rating_imdb__isnull=True
-    ).order_by('-rating_imdb')
+    movies_cartoon = Movies.objects.filter(categories__slug='cartoon')\
+        .exclude(rating_imdb__isnull=True)\
+        .order_by('-rating_imdb')
 
     return movies_cartoon
+
+
+# for movie filters
+
+class DataFilters:
+
+    @staticmethod
+    def get_categories():
+        categories = Categories.objects.exclude(parent__slug='genres')\
+            .order_by('title')\
+            .values_list('title', flat=True)\
+            .distinct()
+
+        return list(categories)
+
+    @staticmethod
+    def get_years():
+        years = Movies.objects.exclude(world_premiere__isnull=True)\
+            .exclude(world_premiere__exact=None)\
+            .values_list('world_premiere__year', flat=True)\
+            .order_by('-world_premiere__year')\
+            .distinct()
+
+        return list(years)
+
+    @staticmethod
+    def get_countries():
+        countries = Movies.objects.exclude(country__isnull=True). \
+            exclude(country__exact='')\
+            .order_by('country')\
+            .values_list('country', flat=True)\
+            .distinct()
+
+        return list(countries)
+
+    @staticmethod
+    def get_genres():
+        genres = Categories.objects.filter(parent__slug='genres')\
+            .order_by('title')\
+            .values_list('title', flat=True)\
+            .distinct()
+
+        return list(genres)

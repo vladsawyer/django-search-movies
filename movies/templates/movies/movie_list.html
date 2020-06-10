@@ -5,9 +5,80 @@
 
 {% block content %}
     <section class="container" style="margin-top: 7rem;">
-        <div class="row mb-2 row-cols-sm-3 row-cols-lg-3 row-cols-xl-4  row-cols-2 infinite-container">
+        <div class="row my-5 align-items-center">
+            <div class="col-auto">
+                <a class="btn btn-outline-warning text-decoration-none" onclick="javascript:history.back(); return false;" href="">&larr;</a>
+            </div>
+            <div class="col-auto">
+                <span class="title-section">{{ page_title }}</span>
+            </div>
+            <div class="col">
+                <div class="line mt-2"></div>
+            </div>
+        </div>
+        <div class="row my-5">
+            <div class="col-sm-2 col-2 align-items-center">
+                <div class="form-group">
+                    <label for="categories"></label>
+                    <select class="form-control custom-select" id="categories"
+                        url = "{%url 'get_categories' %}">
+                        <option value='all' selected>Что ищем</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-2 col-2">
+                <div class="form-group">
+                    <label for="years"></label>
+                    <select class="form-control custom-select" id="years"
+                        url = "{%url 'get_years' %}">
+                        <option value='all' selected>Год</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-2 col-2">
+                <div class="form-group">
+                    <label for="genres"></label>
+                    <select class="form-control custom-select" id="genres"
+                        url = "{%url 'get_genres' %}">
+                        <option value='all' selected>Все жанры</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-2 col-2">
+                <div class="form-group">
+                    <label for="countries"></label>
+                    <select class="form-control custom-select" id="countries" url = "{%url 'get_countries' %}">
+                        <option value='all' selected>Все страны</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-2 col-2">
+                <div class="form-group">
+                    <label for="sort_by"></label>
+                    <select class="form-control custom-select" id="sort_by">
+                        <option selected value = "none">По умолчанию</option>
+                        <option value='rating_kp'>По Кинопоиску</option>
+                        <option value='rating_imdb'>По IMDB</option>
+                        <option value='year'>По году</option>
+                        <option value='comments'>По комментариям</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-2 col-2">
+                <div class="row justify-content-center align-self-center"
+                    style="margin-top: 19px;">
+                    <a class="btn btn-outline-warning py-2" id="display_all">Сбросить</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+        </div>
+
+        <div class="row mb-2 row-cols-sm-3 row-cols-lg-3 row-cols-xl-4  row-cols-2 infinite-container" id="movie_list" url="{% url 'listing-filter' %}">
             {% for movie in movies %}
-                <div class="col mb-4 infinite-item">
+                <div class="col mb-4 infinite-item" >
                     <div class="card card-movie">
                         <div class="poster">
                             <img src="{{movie.poster.url}}" alt="{{ movie.title }}">
@@ -66,6 +137,10 @@
                         </div>
                     </div>
                 </div>
+            {% empty %}
+                <div id="no_results" class="my-auto mx-auto">
+                    <h5>Не нашли никаких результатов</h5>
+                </div>
             {% endfor %}
         </div>
 
@@ -95,4 +170,7 @@
           }
         });
     </script>
+    <script type="text/javascript" src="{% static 'movies/js/filter_list.js' %}"></script>
+    <script src="http://twitter.github.io/hogan.js/builds/3.0.1/hogan-3.0.1.js"></script>
+
 {% endblock %}
