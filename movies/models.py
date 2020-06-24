@@ -35,8 +35,9 @@ class Categories(MPTTModel):
     def __str__(self):
         return self.title
 
+    # for genres
     def get_absolute_url(self):
-        return reverse('movies_category_list', kwargs={"slug": self.slug})
+        return reverse('movies_genre_list', kwargs={"slug": self.slug})
 
     class Meta:
         verbose_name = "category"
@@ -159,6 +160,11 @@ class Movies(models.Model):
 
     def __str__(self):
         return self.title
+
+    def genres(self):
+        mov = Movies.objects.get(pk=self.id)
+        genres = mov.categories.filter(parent__slug='genres')
+        return genres
 
     def get_absolute_url(self):
         mov = Movies.objects.get(pk=self.id)
