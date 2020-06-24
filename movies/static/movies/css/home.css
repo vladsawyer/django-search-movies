@@ -50,8 +50,13 @@ header {
     font-size: 1.125em;
 }
 
-.fa-search{
+.search-icon{
     color: #fff;
+}
+
+#filter-search{
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
 .dropdown-header {

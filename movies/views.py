@@ -1,23 +1,26 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
 from django.views.generic.base import View
-from movies.models import *
+from django_filters.views import FilterView
+from movies.models import Members, Movies
 from movies.services import services
-from movies import utils
+from movies.services.filters import MovieFilter
 
 
 # Create your views here.
 class MoviesIndexView(View):
-    """Movie list"""
+
     def get(self, request):
-        return render(request, "movies/index.html", {
+        context = {
             "movie_premieres": services.get_movies_future_premieres(limit=8),
             "index_slider_movies": services.get_index_slider_movies(limit=15),
             "movies_now_in_cinema": services.get_movies_now_in_cinema(),
             "new_movies": services.get_new_movies_and_series(limit=16),
             "popular_movies": services.get_popular_movies(limit=16),
             "popular_series": services.get_popular_series(limit=16),
-        })
+        }
+        return render(request, "movies/index.html", context)
 
 
 class MovieDetailsView(View):
@@ -51,139 +54,154 @@ class MemberDetailsView(View):
         })
 
 
-class MoviesCategoriesList(View):
-    """movies list certain category, genre, years"""
-    def get(self, request, country=None, year=None, slug=None):
-        if country:
-            try:
-                movies_qs = services.get_movie_list_by_country(country, category_type='movies')
-                context = {
-                    "movies": utils.get_pagination(request, queryset=movies_qs, count_show_list=32),
-                    "page_title": 'Фильмы по странам'
-                }
-                return render(request, "movies/movie_list.html", context=context)
-            except ValueError:
-                raise Http404()
+class FilteredListView(FilterView):
+    page_title = None
+    filterset_class = MovieFilter
+    paginate_by = 32
+    template_name = "movies/movie_list.html"
 
-        elif year:
-            try:
-                year = year.split('-')
-                if (len(year[0]) and len(year[-1])) == 4:
-                    movies_qs = services.get_movie_list_by_years(year, category_type='movies')
-                    context = {
-                        "movies": utils.get_pagination(request, queryset=movies_qs, count_show_list=32),
-                        "page_title": 'Фильмы по годам'
-                    }
-                    return render(request, "movies/movie_list.html", context=context)
-                else:
-                    raise Http404()
-            except ValueError:
-                raise Http404()
-
-        elif slug:
-            try:
-                movies_qs = services.get_movie_list_by_genre(slug, category_type='movies')
-                context = {
-                    "movies": utils.get_pagination(request, queryset=movies_qs, count_show_list=32),
-                    "page_title": 'Фильмы по жанрам'
-                }
-                return render(request, "movies/movie_list.html", context=context)
-            except ValueError:
-                raise Http404()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = self.page_title
+        return context
 
 
-class MoviesTopList(View):
-    message_movies_not_exists = None
-    # slugs switch case
-    context_case = {
-        "russian-classics": {
-            "movies_qs": services.get_top_movies_russian_classics(),
-            "page_title": "Русская классика",
-            "message_movies_not_exists": message_movies_not_exists
-        },
-        "foreign-classics": {
-            "movies_qs": services.get_top_movies_foreign_classics(),
-            "page_title": "Зарубежная классика",
-            "message_movies_not_exists": message_movies_not_exists
-        },
-        "by-rating-kp": {
-            "movies_qs": services.get_top_movies_by_rating_kp(),
-            "page_title": "По рейтингу Кинопоиска",
-            "message_movies_not_exists": message_movies_not_exists
-        },
-        "by-rating-imdb": {
-            "movies_qs": services.get_top_movies_by_rating_imdb(),
-            "page_title": "По рейтингу IMDB",
-            "message_movies_not_exists": message_movies_not_exists
-        },
-        "cartoon": {
-            "movies_qs": services.get_top_cartoon(),
-            "page_title": "Топ мультфильмы",
-            "message_movies_not_exists": message_movies_not_exists
-        },
-    }
+class MoviesByYearView(FilteredListView):
+    page_title = "Фильмы по годам"
 
-    def get(self, request, slug):
-        if slug in self.context_case.keys():
-            movies_qs = self.context_case[slug]["movies_qs"]
-            self.context_case[slug]["movies"] = utils.get_pagination(request, queryset=movies_qs, count_show_list=32)
-            return render(request, "movies/movie_list.html", self.context_case[slug])
-        else:
-            # temporary stub
-            return Http404("Шах и мат! Такой ссылки не существует.")
+    def get_queryset(self):
+        year = self.kwargs['year'].split('-')
+        if (len(year[0]) and len(year[-1])) != 4:
+            raise Http404()
+
+        queryset = services.get_movie_list_by_years(year, category_type='movies')
+        return queryset
 
 
-class MoviesList(View):
-    message_movies_not_exists = None
-    # slugs switch case
-    context_case = {
-        "popular-series": {
-            "movies_qs": services.get_popular_series(),
-            "page_title": "Популярные сериалы",
-            "message_movies_not_exists": message_movies_not_exists
-        },
-        "future-premieres": {
-            "movies_qs": services.get_movies_future_premieres(),
-            "page_title": "Скоро Премьеры",
-            "message_movies_not_exists": message_movies_not_exists
-        },
-        "recent-premieres": {
-            "movies_qs": services.get_movies_recent_premieres(),
-            "page_title": "Недавние премьеры",
-            "message_movies_not_exists": message_movies_not_exists
-        },
-        "popular-movies": {
-            "movies_qs": services.get_popular_movies(),
-            "page_title": "Популярные фильмы",
-            "message_movies_not_exists": message_movies_not_exists
-        },
-        "expected-movies": {
-            "movies_qs": services.get_expected_movies(),
-            "page_title": "Ожидаемые фильмы",
-            "message_movies_not_exists": message_movies_not_exists
-        },
-        "interesting-today": {
-            "movies_qs": services.get_new_movies_and_series(),
-            "page_title": "Интересное сегодня",
-            "message_movies_not_exists": message_movies_not_exists
-        },
-        "new-movies-series": {
-            "movies_qs": services.get_new_movies_and_series(),
-            "page_title": "Новинки",
-            "message_movies_not_exists": message_movies_not_exists
-        },
-        "movies-month": {
-            "movies_qs": services.get_movie_of_month(),
-            "page_title": "Фильмы месяца",
-            "message_movies_not_exists": message_movies_not_exists
-        },
-    }
+class MoviesByCountryView(FilteredListView):
+    page_title = "Фильмы по странам"
 
-    def get(self, request, slug):
-        if slug in self.context_case.keys():
-            movies_qs = self.context_case[slug]["movies_qs"]
-            self.context_case[slug]["movies"] = utils.get_pagination(request, queryset=movies_qs, count_show_list=32)
-            return render(request, "movies/movie_list.html", self.context_case[slug])
-        else:
-            # temporary stub
-            return Http404("Шах и мат! Такой ссылки не существует.")
+    def get_queryset(self):
+        queryset = services.get_movie_list_by_country(self.kwargs['country'], category_type='movies')
+        return queryset
+
+
+class MoviesByGenreView(FilteredListView):
+    page_title = "Фильмы по жанрам"
+
+    def get_queryset(self):
+        queryset = services.get_movie_list_by_genre(self.kwargs['slug'], category_type='movies')
+        return queryset
+
+
+class CartoonView(FilteredListView):
+    queryset = services.get_top_cartoon()
+    page_title = "Топ мультфильмы"
+
+
+class ByRatingImdbView(FilteredListView):
+    queryset = services.get_top_movies_by_rating_imdb()
+    page_title = "По рейтингу IMDB"
+
+
+class ByRatingKpView(FilteredListView):
+    queryset = services.get_top_movies_by_rating_kp()
+    page_title = "По рейтингу Кинопоиска"
+
+
+class ForeignClassicsView(FilteredListView):
+    queryset = services.get_top_movies_foreign_classics()
+    page_title = "Зарубежная классика"
+
+
+class RussianClassicsView(FilteredListView):
+    queryset = services.get_top_movies_russian_classics()
+    page_title = "Российская классика"
+
+
+class PopularSeriesView(FilteredListView):
+    queryset = services.get_popular_series()
+    page_title = "Популярные Сериалы"
+
+
+class FuturePremieresView(FilteredListView):
+    queryset = services.get_movies_future_premieres()
+    page_title = "Скоро Премьеры"
+
+
+class RecentPremieresView(FilteredListView):
+    queryset = services.get_movies_recent_premieres()
+    page_title = "Недавние премьеры"
+
+
+class PopularMoviesView(FilteredListView):
+    queryset = services.get_popular_movies()
+    page_title = "Популярные фильмы"
+
+
+class ExpectedMoviesView(FilteredListView):
+    queryset = services.get_expected_movies()
+    page_title = "Ожидаемые фильмы"
+
+
+class InterestingTodayView(FilteredListView):
+    queryset = services.get_new_movies_and_series()
+    page_title = "Интересное сегодня"
+
+
+class NewMoviesSeriesView(FilteredListView):
+    queryset = services.get_new_movies_and_series()
+    page_title = "Новинки"
+
+
+class MoviesMonthView(FilteredListView):
+    queryset = services.get_movie_of_month()
+    page_title = "Фильмы месяца"
+
+
+def get_filter_countries(request):
+    # get all the countreis from the database excluding
+    # null and blank values
+
+    if request.method == "GET" and request.is_ajax():
+        countries = services.DataFilters.get_countries()
+        data = {
+            "countries": countries,
+        }
+        return JsonResponse(data, status=200)
+
+
+def get_filter_categories(request):
+    # get all the categories from the database excluding
+    # null and blank values
+
+    if request.method == "GET" and request.is_ajax():
+        categories = services.DataFilters.get_categories()
+        data = {
+            "categories": categories,
+        }
+        return JsonResponse(data, status=200)
+
+
+def get_filter_year(request):
+    # get all the years from the database excluding
+    # null and blank values
+
+    if request.method == "GET" and request.is_ajax():
+        years = services.DataFilters.get_years()
+        data = {
+            "years": years,
+        }
+        return JsonResponse(data, status=200)
+
+
+def get_filter_genres(request):
+    # get all the genres from the database excluding
+    # null and blank values
+
+    if request.method == "GET" and request.is_ajax():
+        genres = services.DataFilters.get_genres()
+        data = {
+            "genres": genres,
+        }
+        return JsonResponse(data, status=200)

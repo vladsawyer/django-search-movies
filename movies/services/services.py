@@ -281,8 +281,9 @@ class DataFilters:
     @staticmethod
     def get_categories():
         categories = Categories.objects.exclude(parent__slug='genres')\
+            .exclude(slug='genres')\
             .order_by('title')\
-            .values_list('title', flat=True)\
+            .values('title', 'slug')\
             .distinct()
 
         return list(categories)
@@ -311,7 +312,7 @@ class DataFilters:
     def get_genres():
         genres = Categories.objects.filter(parent__slug='genres')\
             .order_by('title')\
-            .values_list('title', flat=True)\
+            .values('title', 'slug')\
             .distinct()
 
         return list(genres)

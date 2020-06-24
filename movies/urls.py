@@ -1,5 +1,32 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+
+list_urlpatterns = [
+    # ex: list/category/sci-fi
+    path('movie/category/<slug:slug>', views.MoviesByGenreView.as_view(), name='movies_genre_list'),
+    # ex: list/year/2010-2015
+    path('movie/year/<str:year>', views.MoviesByYearView.as_view(), name='movies_years_list'),
+    # ex: list/country/usa
+    path('movie/country/<str:country>', views.MoviesByCountryView.as_view(), name='movies_country_list'),
+
+    path('popular-series', views.PopularSeriesView.as_view(), name='popular-series'),
+    path('future-premieres', views.FuturePremieresView.as_view(), name='future-premieres'),
+    path('expected-movies', views.ExpectedMoviesView.as_view(), name='expected-movies'),
+    path('recent-premieres', views.RecentPremieresView.as_view(), name='recent-premieres'),
+    path('popular-movies', views.PopularMoviesView.as_view(), name='popular-movies'),
+    path('interesting-today', views.InterestingTodayView.as_view(), name='interesting-today'),
+    path('new-movies-series', views.NewMoviesSeriesView.as_view(), name='new-movies-series'),
+    path('movies-month', views.MoviesMonthView.as_view(), name='movies-month'),
+]
+
+top_urlpatterns = [
+    path('russian-classics', views.RussianClassicsView.as_view(), name='russian-classics'),
+    path('foreign-classics', views.ForeignClassicsView.as_view(), name='foreign-classics'),
+    path('by-rating-kp', views.ByRatingKpView.as_view(), name='by-rating-kp'),
+    path('by-rating-imdb', views.ByRatingImdbView.as_view(), name='by-rating-imdb'),
+    path('cartoon', views.ByRatingImdbView.as_view(), name='cartoon'),
+]
+
 
 urlpatterns = [
     path('', views.MoviesIndexView.as_view(), name='index'),
@@ -9,14 +36,12 @@ urlpatterns = [
     path('series/<int:pk>', views.SeriesDetailsView.as_view(), name='series_detail'),
     # ex: /member/5/
     path('member/<int:pk>', views.MemberDetailsView.as_view(), name='member'),
-    # ex: list/category/sci-fi
-    path('list/category/<slug:slug>', views.MoviesCategoriesList.as_view(), name='movies_category_list'),
-    # ex: list/year/2010-2015
-    path('list/year/<str:year>', views.MoviesCategoriesList.as_view(), name='movies_years_list'),
-    # ex: list/country/usa
-    path('list/country/<str:country>', views.MoviesCategoriesList.as_view(), name='movies_country_list'),
-    # ex: list/popular-series
-    path('list/<str:slug>', views.MoviesList.as_view(), name='movies_list'),
 
-    path('top/<str:slug>', views.MoviesTopList.as_view(), name='movies_top_list'),
+    path('list/', include(list_urlpatterns)),
+    path('top/', include(top_urlpatterns)),
+
+    path("filter/countries/", views.get_filter_countries, name='get_countries'),
+    path("filter/years/", views.get_filter_year, name='get_years'),
+    path("filter/genres/", views.get_filter_genres, name='get_genres'),
+    path("filter/categories/", views.get_filter_categories, name='get_categories'),
 ]

@@ -16,43 +16,42 @@
                 <div class="line mt-2"></div>
             </div>
         </div>
+
+    <form method="get">
         <div class="row my-5">
-            <div class="col-sm-2 col-2 align-items-center">
+            <div class="col-xl-2 col-sm-6 col-12">
                 <div class="form-group">
                     <label for="categories"></label>
-                    <select class="form-control custom-select" id="categories"
-                        url = "{%url 'get_categories' %}">
-                        <option value='all' selected>Что ищем</option>
+                    <select class="form-control custom-select" id="categories" name="categories"
+                        url = "{% url 'get_categories' %}">
                     </select>
                 </div>
             </div>
-            <div class="col-sm-2 col-2">
+            <div class="col-xl-2 col-sm-6 col-12">
                 <div class="form-group">
                     <label for="years"></label>
-                    <select class="form-control custom-select" id="years"
-                        url = "{%url 'get_years' %}">
-                        <option value='all' selected>Год</option>
+                    <select class="form-control custom-select" id="years" name="year"
+                            url = "{% url 'get_years' %}">
                     </select>
                 </div>
             </div>
-            <div class="col-sm-2 col-2">
+            <div class="col-xl-2 col-sm-6 col-12">
                 <div class="form-group">
                     <label for="genres"></label>
-                    <select class="form-control custom-select" id="genres"
-                        url = "{%url 'get_genres' %}">
-                        <option value='all' selected>Все жанры</option>
+                    <select class="form-control custom-select" id="genres" name="genres"
+                        url = "{% url 'get_genres' %}">
                     </select>
                 </div>
             </div>
-            <div class="col-sm-2 col-2">
+            <div class="col-xl-2 col-sm-6 col-12">
                 <div class="form-group">
                     <label for="countries"></label>
-                    <select class="form-control custom-select" id="countries" url = "{%url 'get_countries' %}">
-                        <option value='all' selected>Все страны</option>
+                    <select class="form-control custom-select" id="countries" name="country"
+                            url = "{% url 'get_countries' %}">
                     </select>
                 </div>
             </div>
-            <div class="col-sm-2 col-2">
+            <div class="col-xl-2 col-sm-6 col-12">
                 <div class="form-group">
                     <label for="sort_by"></label>
                     <select class="form-control custom-select" id="sort_by">
@@ -64,21 +63,32 @@
                     </select>
                 </div>
             </div>
-            <div class="col-sm-2 col-2">
+            <div class="col">
                 <div class="row justify-content-center align-self-center"
                     style="margin-top: 19px;">
-                    <a class="btn btn-outline-warning py-2" id="display_all">Сбросить</a>
+                    <a class="btn btn-outline-warning py-2" id="display_all">
+                        <i class="fas fa-eraser"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row justify-content-center align-self-center"
+                    style="margin-top: 19px;">
+                    <button type="submit" class="btn btn-outline-warning py-2" id="filter-search">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
             </div>
         </div>
+    </form>
 
-        <div class="row">
+        <div class="row my-5">
 
         </div>
 
-        <div class="row mb-2 row-cols-sm-3 row-cols-lg-3 row-cols-xl-4  row-cols-2 infinite-container" id="movie_list" url="{% url 'listing-filter' %}">
-            {% for movie in movies %}
-                <div class="col mb-4 infinite-item" >
+        <div class="row mb-2 row-cols-sm-3 row-cols-lg-3 row-cols-xl-4  row-cols-2 infinite-container" id="movie_list" >
+            {% for movie in object_list %}
+                <div class="col mb-4 infinite-item">
                     <div class="card card-movie">
                         <div class="poster">
                             <img src="{{movie.poster.url}}" alt="{{ movie.title }}">
@@ -144,14 +154,14 @@
             {% endfor %}
         </div>
 
-        {% if movies.has_next %}
+        {% if page_obj.has_next %}
             <div class="justify-content-center loading my-4">
               <div class="spinner-grow text-warning" role="status">
                 <span class="sr-only">Loading...</span>
               </div>
             </div>
 
-            <a class="infinite-more-link mb-3" href="?page={{ movies.next_page_number }}"></a>
+            <a class="infinite-more-link mb-3" href="?{% param_replace page=page_obj.next_page_number %}"></a>
         {% endif %}
     </section>
 {% endblock %}
@@ -170,7 +180,6 @@
           }
         });
     </script>
-    <script type="text/javascript" src="{% static 'movies/js/filter_list.js' %}"></script>
-    <script src="http://twitter.github.io/hogan.js/builds/3.0.1/hogan-3.0.1.js"></script>
+    <script src="{% static 'movies/js/filter_list_0.1.js' %}"></script>
 
 {% endblock %}

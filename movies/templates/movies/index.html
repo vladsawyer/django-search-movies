@@ -31,7 +31,7 @@
                             </div>
                             <div class="movie_social">
                                   <ul>
-                                    <li><a href="#" class="btn btn-outline-warning btn-sm mb-3">Трейлер</a></li>
+                                    <li><a href="{{ index_slider_movie.get_absolute_url }}" class="btn btn-outline-warning btn-sm mb-3">Трейлер</a></li>
                                     <li><a href="#" class="btn btn-success btn-sm border-0 mb-3">Cмотерь на Wink</a></li>
                                     <li><a href="#" class="btn btn-kp btn-sm mb-3">Cмотерь на Кинопоиск</a></li>
                                   </ul>
@@ -49,13 +49,13 @@
             <!-- category -->
             <div class="row main-category">
                 <div class="col-6 col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center">
-                    <a href="{% url 'movies_list' 'expected-movies' %}" class="stretched-link">
+                    <a href="{% url 'expected-movies' %}" class="stretched-link">
                         <i class="fas fa-history fa-2x d-block mx-auto fa-fw mb-3"></i>
                         Ожидаемые фильмы
                     </a>
                 </div>
                 <div class="col-6 col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center">
-                    <a href="{% url 'movies_list' 'recent-premieres' %}" class="stretched-link">
+                    <a href="{% url 'recent-premieres' %}" class="stretched-link">
                         <i class="fas fa-bullhorn fa-2x d-block mx-auto fa-fw mb-3"></i>
                          Недавние Премьеры
                     </a>
@@ -73,7 +73,7 @@
                     </a>
                 </div>
                 <div class="col-6 col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center">
-                    <a href="{% url 'movies_list' 'movies-month' %}" class="stretched-link">
+                    <a href="{% url 'movies-month' %}" class="stretched-link">
                         <i class="fas fa-star fa-2x d-block mx-auto fa-fw mb-3"></i>
                         Фильмы Месяца
                     </a>
@@ -88,7 +88,7 @@
             <!-- премьеры 8 шт -->
             <div class="row mb-4 align-items-center">
                 <div class="col-lg-5 col-xl-5">
-                    <a href="#" class="title-section">
+                    <a href="{% url 'future-premieres' %}" class="title-section">
                         <i class="fas fa-ticket-alt mr-2 text-warning"></i>
                         Скоро Премьеры
                     </a>
@@ -143,7 +143,7 @@
             </div>
             <div class="row mb-4">
                 <div class="col-auto mx-auto">
-                    <a href="{% url 'movies_list' 'future-premieres' %}" class="btn btn-outline-warning">Смотреть все</a>
+                    <a href="{% url 'future-premieres' %}" class="btn btn-outline-warning">Смотреть все</a>
                 </div>
             </div>
             <!-- сейчас в кино -->
@@ -203,7 +203,7 @@
             <!-- Новинки 16 шт -->
             <div class="row mb-4 align-items-center">
                 <div class="col-lg-5 col-xl-5">
-                    <a href="{% url 'movies_list' 'new-movies-series' %}" class="title-section">
+                    <a href="{% url 'new-movies-series' %}" class="title-section">
                         <i class="fab fa-youtube mr-2 text-warning"></i>
                         Новинки
                     </a>
@@ -276,7 +276,7 @@
             </div>
             <div class="row mb-4">
                 <div class="col-auto mx-auto">
-                    <a href="{% url 'movies_list' 'new-movies-series' %}" class="btn btn-outline-warning">Смотреть все</a>
+                    <a href="{% url 'new-movies-series' %}" class="btn btn-outline-warning">Смотреть все</a>
                 </div>
             </div>
             <!-- подборки -->
@@ -351,7 +351,7 @@
             <!-- Популярные фильмы 16 шт -->
             <div class="row mb-4 align-items-center">
                 <div class="col-lg-5 col-xl-5">
-                    <a href="{% url 'movies_list' 'popular-movies' %}" class="title-section">
+                    <a href="{% url 'popular-movies' %}" class="title-section">
                         <i class="fas fa-star mr-2 text-warning"></i>
                         Популярные фильмы
                     </a>
@@ -424,14 +424,14 @@
                 </div>
             <div class="row mb-4">
                 <div class="col-auto mx-auto">
-                    <a href="{% url 'movies_list' 'popular-movies' %}" class="btn btn-outline-warning">Смотреть все</a>
+                    <a href="{% url 'popular-movies' %}" class="btn btn-outline-warning">Смотреть все</a>
                 </div>
             </div>
             <!-- Популярные серьялы 16 шт -->
             {% if popular_series.exists %}
                 <div class="row mb-4 align-items-center">
                     <div class="col-lg-5 col-xl-5">
-                        <a href="{% url 'movies_list' 'popular-series' %}" class="title-section">
+                        <a href="{% url 'popular-series' %}" class="title-section">
                             <i class="fas fa-star mr-2 text-warning"></i>
                             Популярные сериалы
                         </a>
@@ -504,7 +504,7 @@
                 </div>
                 <div class="row mb-4">
                     <div class="col-auto mx-auto">
-                        <a href="{% url 'movies_list' 'popular-series' %}" class="btn btn-outline-warning">Смотреть все</a>
+                        <a href="{% url 'popular-series' %}" class="btn btn-outline-warning">Смотреть все</a>
                     </div>
                 </div>
             {% endif %}

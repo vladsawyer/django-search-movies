@@ -6,7 +6,7 @@
     <!-- кнопка поиска для мобильных в navbar -->
     <div class="col d-flex flex-row-reverse d-lg-none">
        <a class="nav-link" data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseSearch">
-           <i class="fa fa-search"></i>
+           <i class="fa fa-search search-icon"></i>
        </a>
     </div>
 
@@ -69,7 +69,7 @@
       </li>
         <!-- новинки -->
       <li class="nav-item active mr-2">
-          <a class="nav-link" href="{% url 'movies_list' 'new-movies' %}">
+          <a class="nav-link" href="{% url 'new-movies-series' %}">
               <i class="far fa-grin-hearts fa-fw mr-2"></i>
               Новинки
           </a>
@@ -86,20 +86,20 @@
                 <i class="fas fa-fire mr-1"></i>
                 По годам
             </a>
-            <a class="dropdown-item dropdown-header" href="{% url 'movies_top_list' 'russian-classics' %}">
+            <a class="dropdown-item dropdown-header" href="{% url 'russian-classics' %}">
                 <i class="fas fa-fire mr-1"></i>
                 Российская класика
             </a>
-            <a class="dropdown-item dropdown-header" href="{% url 'movies_top_list' 'foreign-classics' %}">
+            <a class="dropdown-item dropdown-header" href="{% url 'foreign-classics' %}">
                 <i class="fas fa-fire mr-1"></i>
                 Зарубежная класика
             </a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{% url 'movies_top_list' 'by-rating-kp' %}">По Рейтингу Кинопоиск</a>
-            <a class="dropdown-item" href="{% url 'movies_top_list' 'by-rating-imdb' %}">По Рейтингу IMDb</a>
+            <a class="dropdown-item" href="{% url 'by-rating-kp' %}">По Рейтингу Кинопоиск</a>
+            <a class="dropdown-item" href="{% url 'by-rating-imdb' %}">По Рейтингу IMDb</a>
             <a class="dropdown-item" href="#">Топ фильмы</a>
             <a class="dropdown-item" href="#">Топ Сериалы</a>
-            <a class="dropdown-item" href="{% url 'movies_top_list' 'cartoon' %}">Топ Мультфильмы</a>
+            <a class="dropdown-item" href="{% url 'cartoon' %}">Топ Мультфильмы</a>
         </div>
       </li>
         <!-- случайный фильм -->
@@ -115,7 +115,7 @@
        <!-- collapse форма поиска -->
       <li class="nav-item mr-3 d-none d-lg-block">
           <a class="nav-link" data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseSearch">
-              <i class="fa fa-search"></i>
+              <i class="fa fa-search search-icon"></i>
           </a>
       </li>
         <!-- login -->
@@ -133,7 +133,7 @@
                <div class="card card-body border-0 nav-search">
                    <form method="post" role="search">
                        <input class="form-control bg-dark border-dark position-relative" type="search" placeholder="Поиск" aria-label="Search">
-                       <a class="btn btn-search position-absolute" type="submit"><i class="fa fa-search" ></i></a>
+                       <a class="btn btn-search position-absolute" type="submit"><i class="fa fa-search search-icon" ></i></a>
                    </form>
                </div>
            </div>
