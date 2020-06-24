@@ -4,7 +4,7 @@ cffi==1.14.0
 constantly==15.1.0
 cryptography==2.9.2
 dateparser==0.7.4
-Django==3.0.6
+Django==3.0.7
 django-js-asset==1.2.2
 django-mptt==0.11.0
 incremental==17.5.0
