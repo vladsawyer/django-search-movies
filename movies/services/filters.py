@@ -21,6 +21,14 @@ class MovieFilter(filters.FilterSet):
         lookup_expr='icontains'
     )
 
+    sort_by = filters.OrderingFilter(
+        fields={
+            ('rating_kp', 'rating_kp'),
+            ('world_premiere__year', 'year'),
+            ('rating_kp', 'rating_kp'),
+        }
+    )
+
     class Meta:
         model = Movies
-        fields = ['country', 'year', 'categories', 'genres']
+        fields = ['country', 'year', 'categories', 'genres', 'sort_by']
