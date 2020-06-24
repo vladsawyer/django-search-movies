@@ -40,18 +40,11 @@ class SeriesDetailsView(View):
 
 class MemberDetailsView(View):
     def get(self, request, pk):
-        member = Members.objects.get(pk=pk)
-        categories = ', '.join([q.title for q in member.categories.all()])
-        roles = ', '.join([q.role for q in member.roles.all()])
-        return render(request, "movies/member.html", {
-            "name": member.full_name,
-            "total_movies": member.total_movies,
-            "description": member.description,
-            "birthday": member.birthday,
-            "image": member.image.url,
-            "categories": categories,
-            "roles": roles,
+        member = get_object_or_404(Members, pk=pk)
+        context = services.GetMemberDetail.execute({
+            "member": member.id
         })
+        return render(request, "movies/member.html", context)
 
 
 class FilteredListView(FilterView):

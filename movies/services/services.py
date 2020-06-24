@@ -44,24 +44,28 @@ class GetMovieDetail(Service):
 
         return context
 
-    def _get_genres(self, movie):
+    @staticmethod
+    def _get_genres(movie):
         return ', '.join([q.title for q in movie.categories.filter(parent__title='жанры')])
 
-    def _get_directors(self, movie):
-        directors =  ', '.join(
+    @staticmethod
+    def _get_directors(movie):
+        directors = ', '.join(
             [f'<a class="text-decoration-none person" href="{q.get_absolute_url()}"><span itemprop="director">'
              f'{q.full_name}</span></a>' for q in movie.directors.all()])
 
         return directors
 
-    def _get_actors(self, movie):
+    @staticmethod
+    def _get_actors(movie):
         actors = ', '.join(
             [f'<a class="text-decoration-none person" href="{q.get_absolute_url()}"><span itemprop="actor">'
              f'{q.full_name}</span></a>' for q in movie.actors.all()])
 
         return actors
 
-    def _get_fees_in_world(self, movie):
+    @staticmethod
+    def _get_fees_in_world(movie):
         if movie.fees_in_world:
             fees_in_world = f'{movie.fees_in_world:n}'
         else:
@@ -69,7 +73,8 @@ class GetMovieDetail(Service):
 
         return fees_in_world
 
-    def _get_budget(self, movie):
+    @staticmethod
+    def _get_budget(movie):
         if movie.budget:
             budget = f'{movie.budget:n}'
         else:
@@ -77,7 +82,8 @@ class GetMovieDetail(Service):
 
         return budget
 
-    def _get_fees_in_usa(self, movie):
+    @staticmethod
+    def _get_fees_in_usa(movie):
         if movie.fees_in_usa:
             fees_in_usa = f'{movie.fees_in_usa:n}'
         else:
@@ -85,11 +91,51 @@ class GetMovieDetail(Service):
 
         return fees_in_usa
 
-    def _get_movie_shot(self, movie):
+    @staticmethod
+    def _get_movie_shot(movie):
         return movie.movieshots_set.last().image.url
 
-    def _get_movie_shots(self, movie):
+    @staticmethod
+    def _get_movie_shots(movie):
         return [mov_shot.image.url for mov_shot in movie.movieshots_set.all()]
+
+
+class GetMemberDetail(Service):
+    member = ModelChoiceField(queryset=Members.objects.all())
+
+    def process(self):
+        member = self.cleaned_data['member']
+        name = member.full_name
+        total_movies = member.total_movies
+        description = member.description
+        birthday = member.birthday
+        image = member.image.url
+        categories = self._get_categories(member)
+        roles = self._get_roles(member)
+        movies_actors = member.film_actor.all()
+        movies_directors = member.film_director.all()
+
+        context = {
+            "name": name,
+            "total_movies": total_movies,
+            "description": description,
+            "birthday": birthday,
+            "image": image,
+            "categories": categories,
+            "roles": roles,
+            "movies_actors": movies_actors,
+            "movies_directors": movies_directors,
+        }
+
+        return context
+
+    @staticmethod
+    def _get_categories(member):
+        return ', '.join([q.title for q in member.categories.all()])
+
+    @staticmethod
+    def _get_roles(member):
+        return ', '.join([q.role for q in member.roles.all()])
 
 
 def get_index_slider_movies(limit=None):
