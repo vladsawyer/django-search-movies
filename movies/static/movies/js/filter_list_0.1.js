@@ -33,7 +33,7 @@ function resetFilters() {
     $("#years").val("");
     $("#genres").val("");
     $("#countries").val("");
-    $("#sort_by").val("none");
+    $("#sort_by").val("");
 
     // send_data['categories'] = null;
     // send_data['years'] = null;

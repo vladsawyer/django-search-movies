@@ -1,6 +1,5 @@
 /.idea/
 /search_movies/settings.py
-/movies/migrations/
 media/*
 __pycache__
 venv/

@@ -17,7 +17,7 @@
             </div>
         </div>
 
-    <form method="get">
+    <form method="get" action="">
         <div class="row my-5">
             <div class="col-xl-2 col-sm-6 col-12">
                 <div class="form-group">
@@ -55,7 +55,7 @@
                 <div class="form-group">
                     <label for="sort_by"></label>
                     <select class="form-control custom-select" id="sort_by" name="sort_by">
-                        <option selected value = "none">По умолчанию</option>
+                        <option selected value = "">По умолчанию</option>
                         <option value='-rating_kp'>По Кинопоиску</option>
                         <option value='-rating_imdb'>По IMDB</option>
                         <option value='-year'>По году</option>
@@ -148,8 +148,8 @@
                     </div>
                 </div>
             {% empty %}
-                <div id="no_results" class="my-auto mx-auto">
-                    <h5>Не нашли никаких результатов</h5>
+                <div id="no_results" class="mb-5 mx-auto">
+                    <h5 class="text-warning">Не нашли никаких результатов</h5>
                 </div>
             {% endfor %}
         </div>

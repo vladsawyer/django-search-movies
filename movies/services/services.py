@@ -161,7 +161,7 @@ def get_movies_future_premieres(limit=None):
 
 def get_movies_now_in_cinema():
     return Movies.objects.filter(
-        rf_premiere__range=(datetime.datetime.today() + relativedelta(months=-1, days=-15),
+        rf_premiere__range=(datetime.datetime.today() + relativedelta(months=-2, days=-15),
                             datetime.datetime.today())
     ).filter(categories__title='фильмы')
 
@@ -210,18 +210,18 @@ def get_new_movies_and_series(limit=None):
     return new_movies
 
 
-def get_movie_list_by_genre(slug, category_type):
+def get_movie_list_by_genre(slug: str, category_type: str):
     # category_type is categories slug "movies" or "series"
     return Movies.objects.filter(categories__slug=slug).filter(categories__slug=category_type).distinct()
 
 
-def get_movie_list_by_years(year, category_type):
+def get_movie_list_by_years(year: str, category_type: str):
     # category_type is categories slug "movies" or "series"
     return Movies.objects.filter(world_premiere__year__range=(year[0], year[-1]),
                                  categories__slug=category_type).distinct()
 
 
-def get_movie_list_by_country(country, category_type):
+def get_movie_list_by_country(country: str, category_type: str):
     # category_type is categories slug "movies" or "series"
     return Movies.objects.filter(country__icontains=country,
                                  categories__slug=category_type).distinct()

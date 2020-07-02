@@ -3,28 +3,28 @@ from . import views
 
 list_urlpatterns = [
     # ex: list/category/sci-fi
-    path('movie/category/<slug:slug>', views.MoviesByGenreView.as_view(), name='movies_genre_list'),
+    path('movie/category/<slug:slug>/', views.MoviesByGenreView.as_view(), name='movies_genre_list'),
     # ex: list/year/2010-2015
-    path('movie/year/<str:year>', views.MoviesByYearView.as_view(), name='movies_years_list'),
+    path('movie/year/<str:year>/', views.MoviesByYearView.as_view(), name='movies_years_list'),
     # ex: list/country/usa
-    path('movie/country/<str:country>', views.MoviesByCountryView.as_view(), name='movies_country_list'),
+    path('movie/country/<str:country>/', views.MoviesByCountryView.as_view(), name='movies_country_list'),
 
-    path('popular-series', views.PopularSeriesView.as_view(), name='popular-series'),
-    path('future-premieres', views.FuturePremieresView.as_view(), name='future-premieres'),
-    path('expected-movies', views.ExpectedMoviesView.as_view(), name='expected-movies'),
-    path('recent-premieres', views.RecentPremieresView.as_view(), name='recent-premieres'),
-    path('popular-movies', views.PopularMoviesView.as_view(), name='popular-movies'),
-    path('interesting-today', views.InterestingTodayView.as_view(), name='interesting-today'),
-    path('new-movies-series', views.NewMoviesSeriesView.as_view(), name='new-movies-series'),
-    path('movies-month', views.MoviesMonthView.as_view(), name='movies-month'),
+    path('popular-series/', views.PopularSeriesView.as_view(), name='popular-series'),
+    path('future-premieres/', views.FuturePremieresView.as_view(), name='future-premieres'),
+    path('expected-movies/', views.ExpectedMoviesView.as_view(), name='expected-movies'),
+    path('recent-premieres/', views.RecentPremieresView.as_view(), name='recent-premieres'),
+    path('popular-movies/', views.PopularMoviesView.as_view(), name='popular-movies'),
+    path('interesting-today/', views.InterestingTodayView.as_view(), name='interesting-today'),
+    path('new-movies-series/', views.NewMoviesSeriesView.as_view(), name='new-movies-series'),
+    path('movies-month/', views.MoviesMonthView.as_view(), name='movies-month'),
 ]
 
 top_urlpatterns = [
-    path('russian-classics', views.RussianClassicsView.as_view(), name='russian-classics'),
-    path('foreign-classics', views.ForeignClassicsView.as_view(), name='foreign-classics'),
-    path('by-rating-kp', views.ByRatingKpView.as_view(), name='by-rating-kp'),
-    path('by-rating-imdb', views.ByRatingImdbView.as_view(), name='by-rating-imdb'),
-    path('cartoon', views.ByRatingImdbView.as_view(), name='cartoon'),
+    path('russian-classics/', views.RussianClassicsView.as_view(), name='russian-classics'),
+    path('foreign-classics/', views.ForeignClassicsView.as_view(), name='foreign-classics'),
+    path('by-rating-kp/', views.ByRatingKpView.as_view(), name='by-rating-kp'),
+    path('by-rating-imdb/', views.ByRatingImdbView.as_view(), name='by-rating-imdb'),
+    path('cartoon/', views.ByRatingImdbView.as_view(), name='cartoon'),
 ]
 
 

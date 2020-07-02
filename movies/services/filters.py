@@ -9,23 +9,23 @@ class MovieFilter(filters.FilterSet):
     )
     categories = filters.CharFilter(
         field_name='categories__slug',
-        lookup_expr='icontains'
+        lookup_expr='iexact'
     )
     genres = filters.CharFilter(
         field_name='categories__slug',
-        lookup_expr='icontains'
+        lookup_expr='iexact'
     )
 
     country = filters.CharFilter(
         field_name='country',
-        lookup_expr='icontains'
+        lookup_expr='iexact'
     )
 
     sort_by = filters.OrderingFilter(
         fields={
             ('rating_kp', 'rating_kp'),
             ('world_premiere__year', 'year'),
-            ('rating_kp', 'rating_kp'),
+            ('rating_imdb', 'rating_imdb'),
         }
     )
 

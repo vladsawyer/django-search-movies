@@ -153,7 +153,7 @@ class MoviesMonthView(FilteredListView):
 
 
 def get_filter_countries(request):
-    # get all the countreis from the database excluding
+    # get all the countries from the database excluding
     # null and blank values
 
     if request.method == "GET" and request.is_ajax():

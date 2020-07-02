@@ -7,4 +7,4 @@ from movies.models import Movies
 class TestMovieList(ListAPIView):
     serializer_class = MovieListSerializers
     pagination_class = StandardResultsSetPagination
-    queryset = Movies.objects.all()[:10]
+    queryset = Movies.objects.all()[:100]

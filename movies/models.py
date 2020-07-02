@@ -201,5 +201,3 @@ class MovieShots(models.Model):
     class Meta:
         verbose_name = "movie shot"
         verbose_name_plural = "movie shots"
-
-

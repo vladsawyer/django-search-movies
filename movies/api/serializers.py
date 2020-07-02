@@ -1,5 +1,4 @@
 from rest_framework import serializers
-
 from movies.models import Movies, Members, Categories
 
 
@@ -47,9 +46,6 @@ class MovieListSerializers(serializers.ModelSerializer):
 
     def get_poster(self, obj):
         return obj.poster.url
-
-    def get_movie_url(self, obj):
-        return obj.get_absolute_url()
 
     class Meta:
         model = Movies
