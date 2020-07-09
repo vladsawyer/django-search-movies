@@ -6,6 +6,7 @@ import locale
 from django.db.models.functions import datetime
 from service_objects.services import Service
 
+
 locale.setlocale(locale.LC_ALL, '')
 
 
@@ -210,18 +211,18 @@ def get_new_movies_and_series(limit=None):
     return new_movies
 
 
-def get_movie_list_by_genre(slug: str, category_type: str):
+def get_movies_list_by_genre(slug: str, category_type: str):
     # category_type is categories slug "movies" or "series"
     return Movies.objects.filter(categories__slug=slug).filter(categories__slug=category_type).distinct()
 
 
-def get_movie_list_by_years(year: str, category_type: str):
+def get_movies_list_by_years(year: str, category_type: str):
     # category_type is categories slug "movies" or "series"
     return Movies.objects.filter(world_premiere__year__range=(year[0], year[-1]),
                                  categories__slug=category_type).distinct()
 
 
-def get_movie_list_by_country(country: str, category_type: str):
+def get_movies_list_by_country(country: str, category_type: str):
     # category_type is categories slug "movies" or "series"
     return Movies.objects.filter(country__icontains=country,
                                  categories__slug=category_type).distinct()
@@ -321,7 +322,6 @@ def get_top_cartoon():
 
 
 # for movie filters
-
 class DataFilters:
 
     @staticmethod

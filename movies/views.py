@@ -8,7 +8,6 @@ from movies.services import services
 from movies.services.filters import MovieFilter
 
 
-# Create your views here.
 class MoviesIndexView(View):
 
     def get(self, request):
@@ -67,7 +66,7 @@ class MoviesByYearView(FilteredListView):
         if (len(year[0]) and len(year[-1])) != 4:
             raise Http404()
 
-        queryset = services.get_movie_list_by_years(year, category_type='movies')
+        queryset = services.get_movies_list_by_years(year, category_type='movies')
         return queryset
 
 
@@ -75,7 +74,7 @@ class MoviesByCountryView(FilteredListView):
     page_title = "Фильмы по странам"
 
     def get_queryset(self):
-        queryset = services.get_movie_list_by_country(self.kwargs['country'], category_type='movies')
+        queryset = services.get_movies_list_by_country(self.kwargs['country'], category_type='movies')
         return queryset
 
 
@@ -83,7 +82,7 @@ class MoviesByGenreView(FilteredListView):
     page_title = "Фильмы по жанрам"
 
     def get_queryset(self):
-        queryset = services.get_movie_list_by_genre(self.kwargs['slug'], category_type='movies')
+        queryset = services.get_movies_list_by_genre(self.kwargs['slug'], category_type='movies')
         return queryset
 
 

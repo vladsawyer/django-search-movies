@@ -5,6 +5,9 @@ from django.db import models
 
 class MovieManager(models.Manager):
     def get_random_movie(self):
+        """
+        functionality to select a random object movie or series
+        """
         count = self.aggregate(count=Count('id'))['count']
         random_index = randint(0, count - 1)
         return self.all()[random_index]
