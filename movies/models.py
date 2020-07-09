@@ -6,6 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
+from movies.services.models_manager import MovieManager
 
 
 # create image path for models
@@ -157,6 +158,8 @@ class Movies(models.Model):
     comments = GenericRelation(Comments)
     ratings = GenericRelation(Ratings)
     likes = GenericRelation(Likes)
+
+    objects = MovieManager()
 
     def __str__(self):
         return self.title

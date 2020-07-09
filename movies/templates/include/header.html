@@ -104,7 +104,8 @@
       </li>
         <!-- случайный фильм -->
       <li class="nav-item active">
-          <a class="nav-link random-film" href="#">
+          {% get_random_movie_or_series as random_movie_or_series %}
+          <a class="nav-link random-film" href="{{random_movie_or_series.get_absolute_url}}">
             <i class="fas fa-dice fa-fw mr-1"></i>
             Случайный фильм
           </a>

@@ -2,6 +2,7 @@ from django import template
 from movies.models import Movies, Categories
 from dateutil.relativedelta import relativedelta
 from django.db.models.functions import datetime
+
 register = template.Library()
 
 
@@ -50,3 +51,8 @@ def param_replace(context, **kwargs):
         del d[k]
     return d.urlencode()
 
+
+@register.simple_tag()
+def get_random_movie_or_series():
+    movie = Movies.objects.get_random_movie()
+    return movie
