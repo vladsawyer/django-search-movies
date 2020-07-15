@@ -6,6 +6,8 @@ import django.db.models.deletion
 import movies.models
 import mptt.fields
 
+from movies.utils import get_hashed_path
+
 
 class Migration(migrations.Migration):
 
@@ -42,7 +44,7 @@ class Migration(migrations.Migration):
                 ('total_movies', models.PositiveIntegerField(blank=True, null=True)),
                 ('description', models.TextField(blank=True, null=True)),
                 ('birthday', models.DateField(blank=True, null=True)),
-                ('image', models.ImageField(blank=True, upload_to=movies.models.get_members_image_path)),
+                ('image', models.ImageField(blank=True, upload_to=f"member/{get_hashed_path}")),
                 ('categories', models.ManyToManyField(to='movies.Categories')),
             ],
             options={
@@ -56,7 +58,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=150)),
                 ('description', models.TextField(blank=True, null=True)),
-                ('poster', models.ImageField(blank=True, upload_to=movies.models.get_movie_posters_image_path)),
+                ('poster', models.ImageField(blank=True, upload_to=f"movie_posters/{get_hashed_path}")),
                 ('country', models.CharField(blank=True, max_length=50, null=True)),
                 ('world_premiere', models.DateField(blank=True, null=True)),
                 ('rating_kp', models.FloatField(blank=True, null=True)),
@@ -120,7 +122,7 @@ class Migration(migrations.Migration):
             name='MovieShots',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(upload_to=movies.models.get_movie_shots_image_path)),
+                ('image', models.ImageField(upload_to=f'movie_shots/{get_hashed_path}')),
                 ('movie', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='movies.Movies')),
             ],
             options={

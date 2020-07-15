@@ -23,6 +23,7 @@ class MoviesIndexView(View):
 
 
 class MovieDetailsView(View):
+
     def get(self, request, pk):
         movie = get_object_or_404(Movies, pk=pk)
         context = services.GetMovieDetail.execute({
@@ -32,12 +33,14 @@ class MovieDetailsView(View):
 
 
 class SeriesDetailsView(View):
+
     def get(self, request, pk):
         response = "series %s."
         return HttpResponse(response % pk)
 
 
 class MemberDetailsView(View):
+
     def get(self, request, pk):
         member = get_object_or_404(Members, pk=pk)
         context = services.GetMemberDetail.execute({
@@ -137,7 +140,7 @@ class ExpectedMoviesView(FilteredListView):
 
 
 class InterestingTodayView(FilteredListView):
-    queryset = services.get_new_movies_and_series()
+    queryset = services.get_movies_interesting_today()
     page_title = "Интересное сегодня"
 
 
