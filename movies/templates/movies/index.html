@@ -5,44 +5,44 @@
 {% block content %}
     <!-- slider фильмы главная  -->
     <section class="container-fluid px-0" style="margin-top: 5rem;" >
-             <div class="slider center">
-                 {% for index_slider_movie in index_slider_movies %}
-                    <div class="slider-card">
-                     <div class="movie_card">
-                      <div class="info_section">
-                          <div class="info-content">
-                            <div class="movie_header">
-                              <img class="locandina d-none d-sm-block" src="{{ index_slider_movie.poster.url }}" alt="{{ index_slider_movie.title }}"/>
-                                <a href="{{ index_slider_movie.get_absolute_url }}" class="text-decoration-none"><h2>{{ index_slider_movie.title }}</h2></a>
-                              <h5>{{ index_slider_movie.world_premiere.year }},
-                                  {% for director in index_slider_movie.directors.all %}
-                                    {{ director }}
-                                  {% endfor %}
-                              </h5>
-                              <span class="minutes">125 min</span>
-                                {% for genre in index_slider_movie.categories|genres|slice:":2" %}
-                                    <p class="type">{{ genre|title }}</p>
-                                {% endfor %}
-                            </div>
-                            <div class="movie_desc">
-                                {% if index_slider_movie.description is not None %}
-                                    <p class="text">{{ index_slider_movie.description|truncatechars:300 }}</p>
-                                {% endif %}
-                            </div>
-                            <div class="movie_social">
-                                  <ul>
-                                    <li><a href="{{ index_slider_movie.get_absolute_url }}" class="btn btn-outline-warning btn-sm mb-3">Трейлер</a></li>
-                                    <li><a href="#" class="btn btn-success btn-sm border-0 mb-3">Cмотерь на Wink</a></li>
-                                    <li><a href="#" class="btn btn-kp btn-sm mb-3">Cмотерь на Кинопоиск</a></li>
-                                  </ul>
-                            </div>
-                          </div>
+         <div class="slider center">
+             {% for index_slider_movie in index_slider_movies %}
+                <div class="slider-card">
+                 <div class="movie_card">
+                  <div class="info_section">
+                      <div class="info-content">
+                        <div class="movie_header">
+                          <img class="locandina d-none d-sm-block" src="{{ index_slider_movie.poster.url }}" alt="{{ index_slider_movie.title }}"/>
+                            <a href="{{ index_slider_movie.get_absolute_url }}" class="text-decoration-none"><h2>{{ index_slider_movie.title }}</h2></a>
+                          <h5>{{ index_slider_movie.world_premiere.year }},
+                              {% for director in index_slider_movie.directors.all %}
+                                {{ director }}
+                              {% endfor %}
+                          </h5>
+                          <span class="minutes">125 min</span>
+                            {% for genre in index_slider_movie.categories|genres|slice:":2" %}
+                                <p class="type">{{ genre|title }}</p>
+                            {% endfor %}
+                        </div>
+                        <div class="movie_desc">
+                            {% if index_slider_movie.description is not None %}
+                                <p class="text">{{ index_slider_movie.description|truncatechars:300 }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="movie_social">
+                              <ul>
+                                <li><a href="{{ index_slider_movie.get_absolute_url }}" class="btn btn-outline-warning btn-sm mb-3">Трейлер</a></li>
+                                <li><a href="#" class="btn btn-success btn-sm border-0 mb-3">Cмотерь на Wink</a></li>
+                                <li><a href="#" class="btn btn-kp btn-sm mb-3">Cмотерь на Кинопоиск</a></li>
+                              </ul>
+                        </div>
                       </div>
-                      <div class="blur_back" style='background-image: url({{ index_slider_movie.movieshots_set.first.image.url }});'></div>
-                    </div>
-                 </div>
-                 {% endfor %}
-            </div>
+                  </div>
+                  <div class="blur_back" style='background-image: url({{ index_slider_movie.movieshots_set.first.image.url }});'></div>
+                </div>
+             </div>
+             {% endfor %}
+        </div>
     </section>
     <!-- content -->
     <section class="container">

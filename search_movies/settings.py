@@ -110,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-LANGUAGE_CODE = env('LANGUAGE_CODE')
+LANGUAGE_CODE = env('LANGUAGE_CODE', default="ru-RU")
 
 TIME_ZONE = env('TIME_ZONE')
 
@@ -120,7 +120,7 @@ USE_L10N = False
 
 USE_TZ = False
 
-DATE_FORMAT = env('DATE_FORMAT')
+DATE_FORMAT = env('DATE_FORMAT', default="d E Y")
 
 SITE_ID = 1
 

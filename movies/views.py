@@ -12,8 +12,8 @@ class MoviesIndexView(View):
 
     def get(self, request):
         context = {
-            "movie_premieres": services.get_movies_future_premieres(limit=8),
-            "index_slider_movies": services.get_index_slider_movies(limit=15),
+            "movie_premieres": services.get_movies_and_series_future_premieres(limit=8),
+            "index_slider_movies": services.get_movies_and_series_index_slider(limit=15),
             "movies_now_in_cinema": services.get_movies_now_in_cinema(),
             "new_movies": services.get_new_movies_and_series(limit=16),
             "popular_movies": services.get_popular_movies(limit=16),
@@ -95,22 +95,22 @@ class CartoonView(FilteredListView):
 
 
 class ByRatingImdbView(FilteredListView):
-    queryset = services.get_top_movies_by_rating_imdb()
+    queryset = services.get_top_movies_and_series_by_rating_imdb()
     page_title = "По рейтингу IMDB"
 
 
 class ByRatingKpView(FilteredListView):
-    queryset = services.get_top_movies_by_rating_kp()
+    queryset = services.get_top_movies_and_series_by_rating_kp()
     page_title = "По рейтингу Кинопоиска"
 
 
 class ForeignClassicsView(FilteredListView):
-    queryset = services.get_top_movies_foreign_classics()
+    queryset = services.get_top_movies_and_series_foreign_classics()
     page_title = "Зарубежная классика"
 
 
 class RussianClassicsView(FilteredListView):
-    queryset = services.get_top_movies_russian_classics()
+    queryset = services.get_top_movies_and_series_russian_classics()
     page_title = "Российская классика"
 
 
@@ -120,12 +120,12 @@ class PopularSeriesView(FilteredListView):
 
 
 class FuturePremieresView(FilteredListView):
-    queryset = services.get_movies_future_premieres()
+    queryset = services.get_movies_and_series_future_premieres()
     page_title = "Скоро Премьеры"
 
 
 class RecentPremieresView(FilteredListView):
-    queryset = services.get_movies_recent_premieres()
+    queryset = services.get_movies_and_series_recent_premieres()
     page_title = "Недавние премьеры"
 
 
