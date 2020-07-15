@@ -1,6 +1,10 @@
 from django.db.models import Sum, Count
 from django.forms import ModelChoiceField
-from movies.models import *
+from movies.models import (
+    Movies,
+    Members,
+    Categories
+)
 from dateutil.relativedelta import relativedelta
 import locale
 from django.db.models.functions import datetime
@@ -11,6 +15,9 @@ locale.setlocale(locale.LC_ALL, '')
 
 
 class GetMovieDetail(Service):
+    """
+    We receive and process all the data about the film, then pass it to views
+    """
     movie = ModelChoiceField(queryset=Movies.objects.all())
 
     def process(self):
@@ -102,6 +109,10 @@ class GetMovieDetail(Service):
 
 
 class GetMemberDetail(Service):
+    """
+    We receive and process all the data about the actor or director,
+    then in the finished form we transmit to views
+    """
     member = ModelChoiceField(queryset=Members.objects.all())
 
     def process(self):
@@ -139,7 +150,13 @@ class GetMemberDetail(Service):
         return ', '.join([q.role for q in member.roles.all()])
 
 
-def get_index_slider_movies(limit=None):
+def get_movies_and_series_index_slider(limit=None):
+    """
+    QuerySet films and series for the main slider on the main page.
+    Sampling: films released in the last 4 months and sorted by rating descending Kinopoisk
+    :param limit: int, None
+    :return: QuerySet
+    """
     index_slider_movies = Movies.objects.filter(
         world_premiere__range=(datetime.datetime.today() + relativedelta(months=-4), datetime.datetime.today())) \
         .filter(rating_kp__isnull=False) \
@@ -151,7 +168,13 @@ def get_index_slider_movies(limit=None):
     return index_slider_movies
 
 
-def get_movies_future_premieres(limit=None):
+def get_movies_and_series_future_premieres(limit=None):
+    """
+    QuerySet films and series of future premieres.
+    Sampling: films and series not released until today
+    :param limit: int, None
+    :return: QuerySet
+    """
     movie_premieres = Movies.objects.filter(world_premiere__gt=datetime.datetime.now()).order_by('world_premiere')
 
     if limit:
@@ -161,22 +184,36 @@ def get_movies_future_premieres(limit=None):
 
 
 def get_movies_now_in_cinema():
-    return Movies.objects.filter(
+    """
+    QuerySet of films going to the movies now.
+    Sampling: films released no earlier than 1.5 months ago
+    :return: QuerySet
+    """
+    movies_now_in_cinema = Movies.objects.filter(
         rf_premiere__range=(datetime.datetime.today() + relativedelta(months=-2, days=-15),
                             datetime.datetime.today())
-    ).filter(categories__title='фильмы')
+    ).filter(categories__slug='movies')
+
+    return movies_now_in_cinema
 
 
 def get_popular_movies(limit=None):
+    """
+    QuerySet of popular films according to kinopoisk.
+    Sample: films released no earlier than 5 years ago and no later than 2 months ago,
+    sorted in descending order of Kinopoisk
+    :param limit: int, None
+    :return: QuerySet
+    """
     popular_movies = Movies.objects.filter(
         world_premiere__range=(datetime.datetime.today() + relativedelta(years=-5),
                                datetime.datetime.today() + relativedelta(months=-2))
     ).filter(
         rating_imdb__gte=5,
-        categories__title='фильмы'
+        categories__slug='movies'
     ).order_by(
         '-rating_kp'
-    ).exclude(categories__title='мультфильм')
+    ).exclude(categories__slug='cartoon')
 
     if limit:
         return popular_movies[:limit]
@@ -185,6 +222,13 @@ def get_popular_movies(limit=None):
 
 
 def get_popular_series(limit=None):
+    """
+    QuerySet of popular series according to IMDB.
+    Sample: films released no earlier than 10 years ago and no later than 2 months ago,
+    sorted in descending order of IMDB
+    :param limit: int, None
+    :return: QuerySet
+    """
     popular_series = Movies.objects.filter(
         world_premiere__range=(datetime.datetime.today() + relativedelta(years=-10),
                                datetime.datetime.today() + relativedelta(months=-2))) \
@@ -198,6 +242,13 @@ def get_popular_series(limit=None):
 
 
 def get_new_movies_and_series(limit=None):
+    """
+    New movies and series.
+    Sample: films and series released no earlier than 8 months ago and no later than 2 months ago,
+    IMDB rating more than 5 and sorted by world release date
+    :param limit: int, None
+    :return: QuerySet
+    """
     new_movies = Movies.objects.filter(
         world_premiere__range=(datetime.datetime.today() + relativedelta(months=-8),
                                datetime.datetime.today() + relativedelta(months=-2))) \
@@ -212,23 +263,47 @@ def get_new_movies_and_series(limit=None):
 
 
 def get_movies_list_by_genre(slug: str, category_type: str):
-    # category_type is categories slug "movies" or "series"
+    """
+    All films of a particular genre.
+    :param slug: str
+    :param category_type: is categories slug "movies" or "series"
+    :return: QuerySet
+    """
+
     return Movies.objects.filter(categories__slug=slug).filter(categories__slug=category_type).distinct()
 
 
-def get_movies_list_by_years(year: str, category_type: str):
-    # category_type is categories slug "movies" or "series"
+def get_movies_list_by_years(year: iter, category_type: str):
+    """
+    All films are of the same year or range of years.
+    Examples: 2005, 2010-2020.
+    :param year: list
+    :param category_type: is categories slug "movies" or "series"
+    :return: QuerySet
+    """
+
     return Movies.objects.filter(world_premiere__year__range=(year[0], year[-1]),
                                  categories__slug=category_type).distinct()
 
 
 def get_movies_list_by_country(country: str, category_type: str):
-    # category_type is categories slug "movies" or "series"
+    """
+    All films are in one country.
+    :param country: str
+    :param category_type: is categories slug "movies" or "series"
+    :return: QuerySet
+    """
+
     return Movies.objects.filter(country__icontains=country,
                                  categories__slug=category_type).distinct()
 
 
-def get_movies_recent_premieres():
+def get_movies_and_series_recent_premieres():
+    """
+    Recent movie and series premieres.
+    Sampling: films released no earlier than 6 months ago and sorted by world release date.
+    :return: QuerySet
+    """
     return Movies.objects.filter(
         world_premiere__range=(datetime.datetime.today() + relativedelta(months=-6),
                                datetime.datetime.today())
@@ -252,7 +327,7 @@ def get_expected_movies():
 
 def get_movie_of_month():
     """
-    we sort movies by the number of likes and comments left over the past month
+    We sort movies by the number of likes and comments left over the past month
     :return: QuerySet
     """
     movie_of_month = Movies.objects.filter(
@@ -274,30 +349,49 @@ def get_movies_interesting_today():
     """"""
 
 
-def get_top_movies_russian_classics():
+def get_top_movies_and_series_russian_classics():
+    """
+    Top list of films and series made in Russia and the USSR.
+    Sampling: films released no later than 3 months ago and sorted in descending order of rating of Kinopoisk
+    :return: QuerySet
+    """
     russian_classics = Movies.objects.filter(
         country__icontains=('СССР' and 'Россия')
     ).exclude(
         rf_premiere__gt=datetime.datetime.today() + relativedelta(months=-3)
     ).exclude(
         rating_kp__isnull=True
+    ).exclude(
+        rf_premiere__isnull=True
     ).order_by('-rating_kp').distinct()
 
     return russian_classics
 
 
-def get_top_movies_foreign_classics():
+def get_top_movies_and_series_foreign_classics():
+    """
+    Top list of films and series filmed abroad.
+    Sampling: films released no later than 3 months ago and sorted in descending order of rating IMDB
+    :return: QuerySet
+    """
     foreign_classics = Movies.objects.exclude(
         country='СССР' and 'Россия',
         world_premiere__gt=datetime.datetime.today() + relativedelta(months=-3),
     ).exclude(
         rating_imdb__isnull=True
+    ).exclude(
+        world_premiere__isnull=True
     ).order_by('-rating_imdb').distinct()
 
     return foreign_classics
 
 
-def get_top_movies_by_rating_kp():
+def get_top_movies_and_series_by_rating_kp():
+    """
+    Top list of films and series according to Kinopoisk.
+    Sampling: sorted in descending order of rating Kinopoisk
+    :return: QuerySet
+    """
     movies_by_rating_kp = Movies.objects.exclude(
         rating_kp__isnull=True
     ).order_by('-rating_kp').distinct()
@@ -305,7 +399,12 @@ def get_top_movies_by_rating_kp():
     return movies_by_rating_kp
 
 
-def get_top_movies_by_rating_imdb():
+def get_top_movies_and_series_by_rating_imdb():
+    """
+    Top list of films and series according to IMDB.
+    Sampling: Sorted in descending order of rating IMDB
+    :return: QuerySet
+    """
     movies_by_rating_imdb = Movies.objects.exclude(
         rating_imdb__isnull=True
     ).order_by('-rating_imdb').distinct()
@@ -314,6 +413,11 @@ def get_top_movies_by_rating_imdb():
 
 
 def get_top_cartoon():
+    """
+    Top list of cartoon and animated series.
+    Sampling: Sorted in descending order of rating IMDB
+    :return: QuerySet
+    """
     movies_cartoon = Movies.objects.filter(categories__slug='cartoon')\
         .exclude(rating_imdb__isnull=True)\
         .order_by('-rating_imdb')
@@ -323,6 +427,11 @@ def get_top_cartoon():
 
 # for movie filters
 class DataFilters:
+    """
+    Sample data for the search filter, we suggest that the user select only
+    the item in each filter that is in the database.
+    The output is a list.
+    """
 
     @staticmethod
     def get_categories():
