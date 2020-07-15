@@ -1,5 +1,7 @@
 /.idea/
 media/*
-__pycache__
+__pycache__/
 venv/
 /search_movies/.env
+*.py[cod]
+*$py.class

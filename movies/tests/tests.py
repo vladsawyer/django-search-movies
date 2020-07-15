@@ -1,4 +1,6 @@
 import json
+import random
+
 import dateparser as dateparser
 from django.core import files
 import pytest
@@ -26,7 +28,6 @@ class TestMembers:
     def setup(self):
         parent = Categories.objects.create(title='жанры', slug='geners', parent=None)
         for title, slug in self.categories.items():
-
             Categories.objects.create(
                 title=title,
                 slug=slug,
@@ -48,7 +49,8 @@ class TestMembers:
                 image_path = i.get('photo')
 
                 if birthday is not None:
-                    birthday = dateparser.parse(birthday, ['%B %Y', '%d %B Y%', '%Y'], languages=['ru']).strftime('%Y-%m-%d')
+                    birthday = dateparser.parse(birthday, ['%B %Y', '%d %B Y%', '%Y'], languages=['ru']).strftime(
+                        '%Y-%m-%d')
 
                 image = open('media/данные/' + image_path, 'rb')
                 name_img = image_path.split('/')[-1]
@@ -81,6 +83,7 @@ class TestMembers:
         assert set(categories) == {'драма', 'триллер', 'комедия'}
 
 
+@pytest.mark.skip
 @pytest.mark.django_db
 class TestMovie:
     path = 'media/данные/items.json'
@@ -174,3 +177,14 @@ class TestMovie:
         actors = [item.full_name for item in movie.actors.all()]
         genres = [item.title for item in movie.genres.all()]
         return movie.title, actors, genres
+
+
+
+class TestRandomMovie:
+
+    def test_random_movie(self):
+        movies = Movies.objects.filter(categories__slug='movies')
+        for _ in range(0, 100):
+            i = random.randint(0, movies.count() - 1)
+            random_movie = movies[i]
+            assert random_movie != random_movie
