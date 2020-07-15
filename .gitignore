@@ -1,5 +1,5 @@
 /.idea/
-/search_movies/settings.py
 media/*
 __pycache__
 venv/
+/search_movies/.env
