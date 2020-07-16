@@ -346,7 +346,10 @@ def get_movie_of_month():
 
 
 def get_movies_interesting_today():
-    """"""
+    """
+    Films and series with the highest number of likes and comments for the previous day
+    :return: QuerySet
+    """
 
 
 def get_top_movies_and_series_russian_classics():

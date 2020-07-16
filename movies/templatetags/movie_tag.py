@@ -9,11 +9,19 @@ register = template.Library()
 
 @register.simple_tag()
 def get_genres():
+    """
+    List of genres from the database for header page
+    :return: QuerySet
+    """
     return Categories.objects.filter(parent__slug='genres')
 
 
 @register.simple_tag()
 def get_years():
+    """
+    List of years for header page
+    :return: list
+    """
     years = []
     one_range_date = 2015
     two_range_date = 2020
@@ -31,6 +39,10 @@ def get_years():
 
 @register.simple_tag()
 def get_countries():
+    """
+    List of ountries from the database for header page
+    :return: list
+    """
     return Movies.objects.values_list('country', flat=True).distinct()
 
 
@@ -55,5 +67,9 @@ def param_replace(context, **kwargs):
 
 @register.simple_tag()
 def get_random_movie_or_series():
+    """
+    Random movie or series from the database
+    :return: movie object
+    """
     movie = Movies.objects.get_random_movie()
     return movie

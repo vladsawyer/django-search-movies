@@ -23,7 +23,7 @@ list_urlpatterns = [
 top_urlpatterns = [
     path('russian-classics/', views.RussianClassicsView.as_view(), name='russian-classics'),
     path('foreign-classics/', views.ForeignClassicsView.as_view(), name='foreign-classics'),
-    path('by-rating-kp/', views.ByRatingKpView.as_view(), name='by-rating-kp'),
+    path('by-rating-kp/', views.ByRatingKinopoiskView.as_view(), name='by-rating-kp'),
     path('by-rating-imdb/', views.ByRatingImdbView.as_view(), name='by-rating-imdb'),
     path('cartoon/', views.ByRatingImdbView.as_view(), name='cartoon'),
 ]

@@ -9,7 +9,9 @@ from movies.services.filters import MovieFilter
 
 
 class MoviesIndexView(View):
-
+    """
+    The main page of the "Search Movies" site, only the most important is displayed.
+    """
     def get(self, request):
         context = {
             "movie_premieres": services.get_movies_and_series_future_premieres(limit=8),
@@ -23,7 +25,10 @@ class MoviesIndexView(View):
 
 
 class MovieDetailsView(View):
-
+    """
+    Detailed information about the film, accessed through id in the database,
+    if such an object does not exist, then 404
+    """
     def get(self, request, pk):
         movie = get_object_or_404(Movies, pk=pk)
         context = services.GetMovieDetail.execute({
@@ -33,14 +38,20 @@ class MovieDetailsView(View):
 
 
 class SeriesDetailsView(View):
-
+    """
+    Detailed information about the series, accessed through id in the database,
+    if such an object does not exist, then 404
+    """
     def get(self, request, pk):
         response = "series %s."
         return HttpResponse(response % pk)
 
 
 class MemberDetailsView(View):
-
+    """
+    Detailed information about filming participants, accessed through id in the database,
+    if such an object does not exist, then 404
+    """
     def get(self, request, pk):
         member = get_object_or_404(Members, pk=pk)
         context = services.GetMemberDetail.execute({
@@ -50,6 +61,9 @@ class MemberDetailsView(View):
 
 
 class FilteredListView(FilterView):
+    """
+    Your Base View, to add general functionality, then most of the View is inherited from it.
+    """
     page_title = None
     filterset_class = MovieFilter
     paginate_by = 32
@@ -62,21 +76,30 @@ class FilteredListView(FilterView):
 
 
 class MoviesByYearView(FilteredListView):
+    """
+    List of films released in the year or in the range of years
+    """
     page_title = "Фильмы по годам"
 
     def get_queryset(self):
+        # data extraction
         year = self.kwargs['year'].split('-')
+        # check for length. The year cannot be more or less than four digits
         if (len(year[0]) and len(year[-1])) != 4:
             raise Http404()
         try:
             queryset = services.get_movies_list_by_years(year, category_type='movies')
         except ValueError:
+            # if they try to enter something that does not look like a date, then 404
             raise Http404()
 
         return queryset
 
 
 class MoviesByCountryView(FilteredListView):
+    """
+    list of films released in a particular country
+    """
     page_title = "Фильмы по странам"
 
     def get_queryset(self):
@@ -84,10 +107,14 @@ class MoviesByCountryView(FilteredListView):
             queryset = services.get_movies_list_by_country(self.kwargs['country'], category_type='movies')
         except ValueError:
             raise Http404()
+
         return queryset
 
 
 class MoviesByGenreView(FilteredListView):
+    """
+    list of films with a specific genre
+    """
     page_title = "Фильмы по жанрам"
 
     def get_queryset(self):
@@ -95,77 +122,121 @@ class MoviesByGenreView(FilteredListView):
             queryset = services.get_movies_list_by_genre(self.kwargs['slug'], category_type='movies')
         except ValueError:
             raise Http404()
+
         return queryset
 
 
 class CartoonView(FilteredListView):
+    """
+    Top list of cartoons
+    """
     queryset = services.get_top_cartoon()
     page_title = "Топ мультфильмы"
 
 
 class ByRatingImdbView(FilteredListView):
+    """
+    Top list of movies and series according to IMDB
+    """
     queryset = services.get_top_movies_and_series_by_rating_imdb()
     page_title = "По рейтингу IMDB"
 
 
-class ByRatingKpView(FilteredListView):
+class ByRatingKinopoiskView(FilteredListView):
+    """
+    Top list of movies and series according to Kinopoisk version
+    """
     queryset = services.get_top_movies_and_series_by_rating_kp()
     page_title = "По рейтингу Кинопоиска"
 
 
 class ForeignClassicsView(FilteredListView):
+    """
+    Top list of films and series filmed abroad.
+    """
     queryset = services.get_top_movies_and_series_foreign_classics()
     page_title = "Зарубежная классика"
 
 
 class RussianClassicsView(FilteredListView):
+    """
+    Top list of films and series made in Russia and the USSR.
+    """
     queryset = services.get_top_movies_and_series_russian_classics()
     page_title = "Российская классика"
 
 
 class PopularSeriesView(FilteredListView):
+    """
+    List of popular series according to IMDB.
+    """
     queryset = services.get_popular_series()
     page_title = "Популярные Сериалы"
 
 
 class FuturePremieresView(FilteredListView):
+    """
+    List films and series of future premieres.
+    """
     queryset = services.get_movies_and_series_future_premieres()
     page_title = "Скоро Премьеры"
 
 
 class RecentPremieresView(FilteredListView):
+    """
+    Recent movie and series premieres.
+    """
     queryset = services.get_movies_and_series_recent_premieres()
     page_title = "Недавние премьеры"
 
 
 class PopularMoviesView(FilteredListView):
+    """
+    List of popular films according to kinopoisk.
+    """
     queryset = services.get_popular_movies()
     page_title = "Популярные фильмы"
 
 
 class ExpectedMoviesView(FilteredListView):
+    """
+    List of future premieres with the most likes.
+    """
     queryset = services.get_expected_movies()
     page_title = "Ожидаемые фильмы"
 
 
 class InterestingTodayView(FilteredListView):
+    """
+    List films and series with the highest number of likes and comments for the previous day
+    """
     queryset = services.get_movies_interesting_today()
     page_title = "Интересное сегодня"
 
 
 class NewMoviesSeriesView(FilteredListView):
+    """
+     New movies and series.
+    """
     queryset = services.get_new_movies_and_series()
     page_title = "Новинки"
 
 
 class MoviesMonthView(FilteredListView):
+    """
+    List of the most talked about films of the last month.
+    """
     queryset = services.get_movie_of_month()
     page_title = "Фильмы месяца"
 
 
 def get_filter_countries(request):
-    # get all the countries from the database excluding
-    # null and blank values
+    """
+    Get all the countries from the database excluding
+    null and blank values
+    :param request:
+    :return: JSON
+    """
 
     if request.method == "GET" and request.is_ajax():
         countries = services.DataFilters.get_countries()
@@ -176,8 +247,12 @@ def get_filter_countries(request):
 
 
 def get_filter_categories(request):
-    # get all the categories from the database excluding
-    # null and blank values
+    """
+    Get all the categories from the database excluding
+    null and blank values
+    :param request:
+    :return: JSON
+    """
 
     if request.method == "GET" and request.is_ajax():
         categories = services.DataFilters.get_categories()
@@ -188,8 +263,12 @@ def get_filter_categories(request):
 
 
 def get_filter_year(request):
-    # get all the years from the database excluding
-    # null and blank values
+    """
+    Get all the years from the database excluding
+    null and blank values
+    :param request:
+    :return: JSON
+    """
 
     if request.method == "GET" and request.is_ajax():
         years = services.DataFilters.get_years()
@@ -200,8 +279,12 @@ def get_filter_year(request):
 
 
 def get_filter_genres(request):
-    # get all the genres from the database excluding
-    # null and blank values
+    """
+    Get all the genres from the database excluding
+    null and blank values
+    :param request:
+    :return: JSON
+    """
 
     if request.method == "GET" and request.is_ajax():
         genres = services.DataFilters.get_genres()
