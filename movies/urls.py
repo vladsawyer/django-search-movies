@@ -1,6 +1,7 @@
 from django.urls import path, include
 from . import views
 
+
 list_urlpatterns = [
     # ex: list/category/sci-fi
     path('movie/category/<slug:slug>/', views.MoviesByGenreView.as_view(), name='movies_genre_list'),

@@ -1,6 +1,4 @@
 import json
-import random
-
 import dateparser as dateparser
 from django.core import files
 import pytest
@@ -178,13 +176,3 @@ class TestMovie:
         genres = [item.title for item in movie.genres.all()]
         return movie.title, actors, genres
 
-
-
-class TestRandomMovie:
-
-    def test_random_movie(self):
-        movies = Movies.objects.filter(categories__slug='movies')
-        for _ in range(0, 100):
-            i = random.randint(0, movies.count() - 1)
-            random_movie = movies[i]
-            assert random_movie != random_movie

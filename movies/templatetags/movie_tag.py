@@ -3,6 +3,7 @@ from movies.models import Movies, Categories
 from dateutil.relativedelta import relativedelta
 from django.db.models.functions import datetime
 
+
 register = template.Library()
 
 

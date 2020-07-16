@@ -68,8 +68,11 @@ class MoviesByYearView(FilteredListView):
         year = self.kwargs['year'].split('-')
         if (len(year[0]) and len(year[-1])) != 4:
             raise Http404()
+        try:
+            queryset = services.get_movies_list_by_years(year, category_type='movies')
+        except ValueError:
+            raise Http404()
 
-        queryset = services.get_movies_list_by_years(year, category_type='movies')
         return queryset
 
 
@@ -77,7 +80,10 @@ class MoviesByCountryView(FilteredListView):
     page_title = "Фильмы по странам"
 
     def get_queryset(self):
-        queryset = services.get_movies_list_by_country(self.kwargs['country'], category_type='movies')
+        try:
+            queryset = services.get_movies_list_by_country(self.kwargs['country'], category_type='movies')
+        except ValueError:
+            raise Http404()
         return queryset
 
 
@@ -85,7 +91,10 @@ class MoviesByGenreView(FilteredListView):
     page_title = "Фильмы по жанрам"
 
     def get_queryset(self):
-        queryset = services.get_movies_list_by_genre(self.kwargs['slug'], category_type='movies')
+        try:
+            queryset = services.get_movies_list_by_genre(self.kwargs['slug'], category_type='movies')
+        except ValueError:
+            raise Http404()
         return queryset
 
 
