@@ -1,0 +1,212 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'PT Sans', sans-serif;
+    box-sizing: border-box;
+    background-color: #16151a;
+    line-height: 1.3;
+
+}
+
+   li {
+    list-style-type: none; /* Убираем маркеры */
+   }
+   ul {
+    padding-left: 0; /* Сдвигаем список влево */
+   }
+
+#login_form{
+  height: 100ch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.division {
+ float: none;
+ margin: 2em auto 2em;
+ overflow: hidden;
+ position: relative;
+ text-align: center;
+ width: 100%;
+}
+.division .line {
+ border-top: 1px solid #DFDFDF;
+ position: absolute;
+ top: 10px;
+ width: 34%;
+}
+.division .line.l {
+ left: 0;
+}
+.division .line.r {
+ right: 0;
+}
+.division span {
+ color: #424242;
+ font-size: 17px;
+}
+
+/* Form Style */
+.form-horizontal{
+ background: #fff;
+ padding-bottom: 2em;
+ padding-top: 2em;
+ border-radius: 1rem;
+ text-align: center;
+}
+.form-horizontal .heading{
+ display: block;
+ font-size: 2.2rem;
+ font-weight: 700;
+ /*padding-bottom: 2.18rem;*/
+ margin-bottom: 0;
+}
+.form-horizontal .form-group{
+ padding: 0 40px;
+ margin: 0 0 25px 0;
+ position: relative;
+}
+.form-horizontal .form-control{
+ background: #f0f0f0;
+ border: none;
+ border-radius: 20px;
+ box-shadow: none;
+ padding: 0 20px 0 45px;
+ height: 40px;
+ transition: all 0.3s ease 0s;
+}
+.form-horizontal .form-control:focus{
+ background: #e0e0e0;
+ box-shadow: none;
+ outline: 0 none;
+}
+.form-horizontal .form-group i{
+ position: absolute;
+ top: 0.65rem;
+ left: 60px;
+ font-size: 17px;
+ color: #c8c8c8;
+ transition : all 0.5s ease 0s;
+}
+.form-horizontal .form-control:focus + i{
+ color: #ffc107;
+}
+.form-horizontal .fa-question-circle{
+ display: inline-block;
+ position: absolute;
+ top: 12px;
+ right: 60px;
+ font-size: 20px;
+ color: #808080;
+ transition: all 0.5s ease 0s;
+}
+.form-horizontal .fa-question-circle:hover{
+ color: #000;
+}
+.form-horizontal .main-checkbox{
+ float: left;
+ width: 20px;
+ height: 20px;
+ background: #ffc107;
+ border-radius: 50%;
+ position: relative;
+ margin: 5px 0 0 5px;
+
+}
+.form-horizontal .main-checkbox label{
+ width: 20px;
+ height: 20px;
+ position: absolute;
+ top: 0;
+ left: 0;
+ cursor: pointer;
+}
+.form-horizontal .main-checkbox label:after{
+ content: "";
+ width: 10px;
+ height: 5px;
+ position: absolute;
+ top: 5px;
+ left: 4px;
+ border: 3px solid #fff;
+ border-top: none;
+ border-right: none;
+ background: transparent;
+ opacity: 0;
+ -webkit-transform: rotate(-45deg);
+ transform: rotate(-45deg);
+}
+.form-horizontal .main-checkbox input[type=checkbox]{
+ visibility: hidden;
+}
+.form-horizontal .main-checkbox input[type=checkbox]:checked + label:after{
+ opacity: 1;
+}
+.form-horizontal .text{
+ float: left;
+ margin-left: 7px;
+ line-height: 20px;
+ padding-top: 5px;
+ text-transform: capitalize;
+}
+.form-horizontal .btn{
+ font-size: 14px;
+ color: #fff;
+ background: #ffc107;
+ border-radius: 30px;
+ padding: 10px 55px;
+ border: none;
+ text-transform: capitalize;
+ transition: all 0.5s ease 0s;
+}
+
+.btn-login{
+ float: right;
+}
+@media only screen and (max-width: 479px){
+ .form-horizontal .form-group{
+ padding: 0 25px;
+ }
+ .form-horizontal .form-group i{
+ left: 45px;
+ }
+ .form-horizontal .btn{
+ padding: 10px 20px;
+ }
+}
+
+
+/*social*/
+
+.social {
+ float: none;
+ margin: 30px auto 30px;
+ text-align: center;
+}
+
+.social .circle{
+ background-color: #EEEEEE;
+ color: #FFFFFF;
+ border-radius: 100px;
+ display: inline-block;
+ margin: 0 17px;
+ padding: 15px;
+}
+.social .circle .fa{
+ font-size: 16px;
+}
+.social .facebook{
+ background-color: #455CA8;
+ color: #FFFFFF;
+}
+.social .vk{
+ background-color: #4a76a8;
+}
+
+.login .facebook:hover{
+ background-color: #6E83CD;
+}
+.login .vk:hover{
+ background-color: #3979bd;
+}

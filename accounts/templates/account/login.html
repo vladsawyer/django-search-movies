@@ -1,0 +1,100 @@
+{% extends "account/base.html" %}
+{% load static %}
+{% load account socialaccount %}
+{% load i18n %}
+{% block head_title %}{% trans "Sign In" %} {% endblock %}
+
+{% block content %}
+<span class="heading">АВТОРИЗАЦИЯ</span>
+<div class="social">
+     <a id="vk_login" class="circle vk" href="#">
+        <i class="fa fa-vk fa-fw"></i>
+     </a>
+     <a id="facebook_login" class="circle facebook" href="#">
+         <i class="fa fa-facebook fa-fw"></i>
+     </a>
+
+{#    {% load account socialaccount %}#}
+{#    {% get_providers as socialaccount_providers %}#}
+{#    {% for provider in socialaccount_providers %}#}
+{#        <a title="{{provider.name}}" class="circle {{provider.name}}"#}
+{#         href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">#}
+{#            <i class="fa fa-{{provider.name}} fa-fw" id="social_icon"></i>#}
+{#        </a>#}
+{#    {% endfor %}#}
+</div>
+
+<div class="division">
+ <div class="line l"></div>
+ <span>Или</span>
+ <div class="line r"></div>
+</div>
+
+ {% block messages %}
+ <div class="error">
+    {% if messages %}
+    <div>
+        <ul>
+        {% for message in messages %}
+        <div class="alert alert-warning alert-dismissible  mx-3" role="alert">
+                <strong>{{message}}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+        </div>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+ </div>
+{% endblock %}
+
+{% if form.non_field_errors %}
+    <div class="alert alert-warning mx-3">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+            &times;
+        </button>
+        {{ form.non_field_errors }}
+    </div>
+{% endif %}
+<form class="form-horizontal" action="{% url 'account_login' %}" method="post">
+{% csrf_token %}
+<div class="form-group">
+
+  {% if form.username.errors or form.email.errors %}
+    <div class="alert alert-warning mx-3">{{ form.username.errors }} or {{ form.email.errors }}</div>
+  {% endif %}
+
+  <input type="text" name="login" placeholder="Username или E-mail" autofocus="autofocus" required id="id_login" class="form-control" >
+  <i class="fa fa-user"></i>
+</div>
+
+<div class="form-group help">
+  {% if form.password.errors %}
+    <div class="alert alert-warning mx-3">{{ form.password.errors }}</div>
+  {% endif %}
+  <input type="password" class="form-control" id="id_password" placeholder="Password" required name="password">
+  <i class="fa fa-lock"></i>
+  <a class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="helper on bottom"></a>
+</div>
+<div class="form-group">
+  <div class="main-checkbox">
+    <input type="checkbox" value="none" name="remember" id="id_remember" />
+    <label for="id_remember"></label>
+  </div>
+  <span class="text">Запомнить</span>
+  <button type="submit" class="btn btn-default btn-login">ВХОД</button>
+</div>
+</form>
+
+<div class="d-flex flex-column mt-5">
+  <span>Ещё не зарегистрированы?
+      <a href="{% url 'account_signup' %}">Регистрация.</a>
+  </span>
+
+  <span>
+      <a href="{% url 'account_reset_password' %}">Забыли пароль?</a>
+  </span>
+</div>
+
+{% endblock %}

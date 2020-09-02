@@ -1,7 +1,6 @@
 import os
 import environ
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -31,10 +30,16 @@ INSTALLED_APPS = [
     "rest_framework",
     'django_filters',
     'service_objects',
+    'crispy_forms',
+    'django_inlinecss',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.vk',
+    # 'allauth.socialaccount.providers.facebook',
 
     'movies',
+    'accounts',
 ]
 
 REST_FRAMEWORK = {
@@ -58,8 +63,10 @@ ROOT_URLCONF = 'search_movies.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # 'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'DIRS': [],
+        'DIRS': [
+                 os.path.normpath(os.path.join(BASE_DIR, 'movies', 'templates')),
+                 os.path.normpath(os.path.join(BASE_DIR, 'accounts', 'templates')),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -91,7 +98,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -108,6 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Internationalization
 LANGUAGE_CODE = env('LANGUAGE_CODE', default="ru-RU")
@@ -126,8 +133,30 @@ SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [STATIC_DIR, 'movies/static']
+STATICFILES_DIRS = [STATIC_DIR, 'movies/static', 'accounts/static']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# all-auth registraion settings
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400  # 1 day. This does ot prevent admin login frombeing brut forced.
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'  # or any other page
+LOGIN_REDIRECT_URL = '/'  # redirects to profile page by default
+ACCOUNT_PRESERVE_USERNAME_CASING = False  # reduces the delays in iexact lookups
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_MIN_LENGTH = 5
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_USERNAME_VALIDATORS = None
+
+# Account Signup
+ACCOUNT_FORMS = {}

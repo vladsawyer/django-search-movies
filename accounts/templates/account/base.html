@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static  'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="{% static 'account/Css/main.css' %}" type = "text/css"/>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block head_links %}
+    {% endblock %}
+    <title>{% block head_title %}{% endblock %}</title>
+</head>
+<body>
+
+    <div class="container ">
+        <div class="row" id="login_form">
+            <div class="col-md-offset-3 col-md-6">
+                <div class="form-horizontal">
+                    {% block content %}
+                    {% block messages %}
+                    {% endblock %}
+                    {% endblock %}
+
+                    {% block content_extra %}
+                    {% endblock %}
+
+                    {% block extra_body %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script type="text/javascript" src="{% static 'jquery/jquery.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <!-- Optional JavaScript -->
+    {% block js %}{% endblock %}
+</body>
+</html>
