@@ -7,7 +7,12 @@ class BaseProfileView:
 
 
 class ProfileView(View, BaseProfileView):
-    pass
+
+    def get(self, request):
+        context = {}
+        return render(request=request,
+                      template_name='account/profile/profile.html',
+                      context=context)
 
 
 profile = ProfileView.as_view()
