@@ -7,21 +7,18 @@
 {% block content %}
 <span class="heading">АВТОРИЗАЦИЯ</span>
 <div class="social">
-     <a id="vk_login" class="circle vk" href="#">
-        <i class="fa fa-vk fa-fw"></i>
-     </a>
      <a id="facebook_login" class="circle facebook" href="#">
          <i class="fa fa-facebook fa-fw"></i>
      </a>
 
-{#    {% load account socialaccount %}#}
-{#    {% get_providers as socialaccount_providers %}#}
-{#    {% for provider in socialaccount_providers %}#}
-{#        <a title="{{provider.name}}" class="circle {{provider.name}}"#}
-{#         href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">#}
-{#            <i class="fa fa-{{provider.name}} fa-fw" id="social_icon"></i>#}
-{#        </a>#}
-{#    {% endfor %}#}
+
+    {% get_providers as socialaccount_providers %}
+    {% for provider in socialaccount_providers %}
+        <a title="{{provider.name}}" class="circle {{provider.name|lower}}"
+         href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
+            <i class="fa fa-{{provider.name|lower}} fa-fw" id="social_icon"></i>
+        </a>
+    {% endfor %}
 </div>
 
 <div class="division">
@@ -32,20 +29,14 @@
 
  {% block messages %}
  <div class="error">
-    {% if messages %}
-    <div>
-        <ul>
-        {% for message in messages %}
-        <div class="alert alert-warning alert-dismissible  mx-3" role="alert">
-                <strong>{{message}}</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-        </div>
-        {% endfor %}
-        </ul>
+    {% if form.errors %}
+    <div class="alert alert-warning mx-3">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+            &times;
+        </button>
+        {{ form.errors }}
     </div>
-    {% endif %}
+{% endif %}
  </div>
 {% endblock %}
 
@@ -98,3 +89,20 @@
 </div>
 
 {% endblock %}
+
+
+{# для оповещений событий на будущие #}
+{#{% if messages %}#}
+{#    <div>#}
+{#        <ul>#}
+{#        {% for message in messages %}#}
+{#        <div class="alert alert-warning alert-dismissible  mx-3" role="alert">#}
+{#                <strong>{{message}}</strong>#}
+{#                <button type="button" class="close" data-dismiss="alert" aria-label="Close">#}
+{#                    <span aria-hidden="true">&times;</span>#}
+{#                </button>#}
+{#        </div>#}
+{#        {% endfor %}#}
+{#        </ul>#}
+{#    </div>#}
+{#    {% endif %}#}
