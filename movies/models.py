@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -61,7 +62,6 @@ class Comments(MPTTModel):
     """
     text = models.TextField(verbose_name="Text comments")
     image = models.ImageField(upload_to=f"comments/images/{get_hashed_path}", blank=True)
-    file = models.FileField(upload_to=f"comments/files/{get_hashed_path}", blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)

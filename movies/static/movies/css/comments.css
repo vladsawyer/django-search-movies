@@ -1,0 +1,179 @@
+/* reviews */
+
+nav {
+  display: block;
+}
+
+/*----------------------------
+	The Navigation Menu
+-----------------------------*/
+
+
+
+.file-upload {
+  /* will style only the top level li */
+  list-style: none;
+  display: inline-block;
+  line-height: 1;
+  margin: 1px;
+  position: relative;
+  z-index: 1;
+}
+
+
+.file-upload ul {
+  position: absolute;
+  list-style: none;
+  text-align: center;
+  width: auto;
+  right: -70%;
+  top: 2rem;
+
+  /* This is important for the show/hide CSS animation */
+  max-height: 0px;
+  overflow: hidden;
+  -webkit-transition: max-height 0.4s linear;
+  -moz-transition: max-height 0.4s linear;
+  transition: max-height 0.4s linear;
+}
+
+.file-upload ul li {
+  background-color: #313131;
+  width: 6rem;
+}
+
+.file-upload li .upload {
+  padding: 12px;
+  color: #fff !important;
+  text-decoration: none !important;
+  display: block;
+}
+
+.file-upload ul li:nth-child(odd) {
+  /* zebra stripes */
+  background-color: #363636;
+}
+
+.file-upload ul li:hover {
+  background-color: #444;
+}
+
+.file-upload ul li:first-child {
+  border-radius: 3px 3px 0 0;
+  margin-top: 25px;
+  position: relative;
+}
+
+.file-upload ul li:first-child:before {
+  /* the pointer tip */
+  content: "";
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  border: 5px solid transparent;
+  border-bottom-color: #313131;
+  left: 50%;
+  top: -10px;
+  margin-left: -5px;
+}
+
+.file-upload ul li:last-child {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+/* This will trigger the CSS */
+/* transition animation on hover */
+
+.file-upload:hover ul {
+  max-height: 200px; /* Increase when adding more dropdown items */
+}
+
+/*----------------------------
+	Color Themes
+-----------------------------*/
+
+.file-upload {
+  /* This is the color of the menu item */
+  /*background-color: none;*/
+
+  /* This is the color of the icon */
+  color: #fff;
+}
+
+
+/* my */
+.upload > input
+{
+    display: none;
+}
+
+.upload i:hover
+{
+    cursor: pointer;
+}
+
+.title-upload
+{
+    font-size: 1.1em;
+}
+.upload label {
+  width: 100%
+}
+
+.action-button button{
+  background: none;
+}
+button, [type="submit"]{
+  -webkit-appearance: none;
+}
+
+
+.user-avatar-comment img{
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.user-avatar-comment {
+    width: 3.25rem;
+    height: 3.25rem;
+    background: #16151a;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 1rem;
+}
+
+.datetime{
+    opacity: .4;
+    color: #fff;
+}
+
+.login-link-comment {
+  text-decoration: none;
+  color: #ffc107;
+}
+
+.login-link-comment:hover {
+  text-decoration: none;
+  color: #ffc107;
+  cursor: pointer;
+}
+
+a.share:hover, a.heart:hover{
+  cursor: pointer;
+  color: #ffc107;
+  text-decoration: none;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+}
+
+.comment-send-button{
+  color: #fff;
+}
+
+.comment-send-button:hover{
+  color: #ffc107;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+}

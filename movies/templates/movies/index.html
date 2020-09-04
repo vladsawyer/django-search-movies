@@ -1,6 +1,17 @@
 {% extends "movies/base.html" %}
 {% load movie_tag %}
+{% load static %}
 {% block title %}Search Movies{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/css/slider-index.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/css/home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/css/card-movies.css' %}">
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'movies/js/movie-slider.js' %}"></script>
+{% endblock %}
 
 {% block content %}
     <!-- slider фильмы главная  -->

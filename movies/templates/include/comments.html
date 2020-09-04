@@ -1,0 +1,99 @@
+{# for the form to work, you need to add javascript to the final template. Example: #}
+{#    <script type="text/javascript">#}
+{#        document.getElementById("form-comment").action = "{% url 'patern_name' parametrs %}";#}
+{#    </script>#}
+
+{% load static %}
+
+<div class="row">
+    <div class="col-md-8 col-lg-6 col-12">
+      <h3>Оставить комментарий:</h3>
+    </div>
+  </div>
+{% if user.is_authenticated %}
+  <form action="" method="post" class="d-flex row mt-3" id="form-comment">
+      {% csrf_token %}
+      <input type="hidden" name="user" value="{{ user.id }}">
+      <input type="hidden" name="parent" value="" id="comment-parent">
+    <div class="col-lg-8 col-md-6 col-7">
+      <div class="input-group">
+        <textarea class="form-control" name="text" aria-label="With textarea" required id="contact-comment"></textarea>
+      </div>
+    </div>
+    <div class="col-auto align-self-center">
+      <nav id="colorNav">
+          <div class="file-upload">
+              <a href="#" class="fas fa-paperclip fa-2x fa-fw"></a>
+              <ul>
+                  <li>
+                    <div class="upload">
+                      <label for="file-input">
+                          <i class="fas fa-image fa-fw fa-lg"></i>
+                          <span class="title-upload">Img</span>
+                      </label>
+                      <input type="file" id="file-input" name="image" multiple>
+                    </div>
+                  </li>
+              </ul>
+          </div>
+      </nav>
+    </div>
+      <div class="col-auto align-self-center">
+        <button type="submit" class="btn comment-send-button">
+            <i class="fas fa-paper-plane fa-2x fa-fw"></i>
+        </button>
+    </div>
+  </form>
+  {% else %}
+    <div class="row">
+        <div class="col-10">
+            <span>Аторизируйтесь что бы оставить комментарий. <a href="{% url 'account_login'%}" class="login-link-comment">Авторизоваться</a></span>
+        </div>
+    </div>
+  {% endif %}
+
+{% load mptt_tags %}
+  <div class="row mt-5" id="comments">
+    <div class="col-12 col-md-12 col-lg-12">
+      {% recursetree comments %}
+      <div class="media mt-4">
+        <div class="user-avatar-comment">
+            <img src="{% static 'account/img/97365.jpg' %}">
+        </div>
+        <div class="media-body">
+          <h5 class="mt-0">{{ node.user.username }} <small class="datetime ml-2">{{ node.commented_on }}</small></h5>
+          <span>{{ node.text }}</span>
+          <div class="d-flex mt-3">
+            <div class="like">
+              <a href="#" class="heart">
+                  <i class="far fa-heart fa-fw fa-lg"></i>
+              </a>
+              <span>12</span>
+            </div>
+            {% if user.id != node.user.id %}
+            <a href="#form-comment" class=" mx-3 share" onclick="addComment('{{ node.user.username }}', '{{ node.id }}')">
+                <i class="fas fa-share fa-fw fa-lg"></i>
+            </a>
+            {% endif %}
+          </div>
+
+        {% if not node.is_leaf_node %}
+            <div class="media mt-4">
+                <div class="media-body"><span>{{ children }}</span></div>
+            </div>
+         {% endif %}
+        </div>
+      </div>
+     {% endrecursetree %}
+    </div>
+  </div>
+
+
+{% block js %}
+    <script type="text/javascript">
+    function addComment(name, id) {
+        document.getElementById("comment-parent").value = id;
+        document.getElementById("contact-comment").innerText = `${name}, `
+    }
+    </script>
+{% endblock %}

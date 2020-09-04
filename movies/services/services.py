@@ -9,6 +9,7 @@ from dateutil.relativedelta import relativedelta
 import locale
 from django.db.models.functions import datetime
 from service_objects.services import Service
+from movies.forms import CommentForm
 
 
 locale.setlocale(locale.LC_ALL, '')
@@ -31,23 +32,26 @@ class GetMovieDetail(Service):
         fees_in_usa = self._get_fees_in_usa(movie)
         movie_shot = self._get_movie_shot(movie)
         movie_shots = self._get_movie_shots(movie)
+        comments = movie.comments.all()
 
         context = {
-            "genres": genres,
-            "directors": directors,
-            "actors": actors,
-            "fees_in_world": fees_in_world,
-            "budget": budget,
-            "fees_in_usa": fees_in_usa,
-            "description": movie.description,
-            "movie_shot": movie_shot,
-            "movie_shots": movie_shots,
-            "title": movie.title,
-            "rating_imdb": movie.rating_imdb,
-            "rating_kp": movie.rating_kp,
-            "world_premiere": movie.world_premiere,
-            "rf_premiere": movie.rf_premiere,
-            "country": movie.country,
+                "movie_id": movie.id,
+                "genres": genres,
+                "directors": directors,
+                "actors": actors,
+                "fees_in_world": fees_in_world,
+                "budget": budget,
+                "fees_in_usa": fees_in_usa,
+                "description": movie.description,
+                "movie_shot": movie_shot,
+                "movie_shots": movie_shots,
+                "title": movie.title,
+                "rating_imdb": movie.rating_imdb,
+                "rating_kp": movie.rating_kp,
+                "world_premiere": movie.world_premiere,
+                "rf_premiere": movie.rf_premiere,
+                "country": movie.country,
+                "comments": comments,
         }
 
         return context
@@ -158,7 +162,7 @@ def get_movies_and_series_index_slider(limit=None):
     :return: QuerySet
     """
     index_slider_movies = Movies.objects.filter(
-        world_premiere__range=(datetime.datetime.today() + relativedelta(months=-4), datetime.datetime.today())) \
+        world_premiere__range=(datetime.datetime.today() + relativedelta(months=-10), datetime.datetime.today())) \
         .filter(rating_kp__isnull=False) \
         .order_by('-rating_kp')
 
@@ -474,3 +478,22 @@ class DataFilters:
             .distinct()
 
         return list(genres)
+
+
+def add_comment(request_post, content_object):
+    """
+    Comment form validation and entry into the database
+    :param request_post:
+    :param content_object:
+    :return:
+    """
+    form = CommentForm(request_post)
+    if form.is_valid():
+        form = form.save(commit=False)
+        form.content_object = content_object
+        if request_post.get('parent', None):
+            form.parent_id = int(request_post.get('parent'))
+        form.save()
+    else:
+        # print in log
+        print(form.errors)

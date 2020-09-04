@@ -28,6 +28,10 @@ top_urlpatterns = [
     path('cartoon/', views.ByRatingImdbView.as_view(), name='cartoon'),
 ]
 
+comment_urlpatterns = [
+    # ex:comment/movie/722
+    path('movie/<int:movie_pk>', views.add_comment_to_movie, name='add_comment_to_movie'),
+]
 
 urlpatterns = [
     path('', views.MoviesIndexView.as_view(), name='index'),
@@ -38,6 +42,7 @@ urlpatterns = [
     # ex: /member/5/
     path('member/<int:pk>', views.MemberDetailsView.as_view(), name='member'),
 
+    path('comment/', include(comment_urlpatterns)),
     path('list/', include(list_urlpatterns)),
     path('top/', include(top_urlpatterns)),
 

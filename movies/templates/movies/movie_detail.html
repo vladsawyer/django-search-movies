@@ -3,10 +3,11 @@
 {% block title %}{{ title }}{% endblock %}
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'movies/css/movie_detail.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/css/comments.css' %}">
 {% endblock %}
 
 {% block content %}
-    <div class="wrapper">
+<div class="wrapper">
     <div class="content ">
         <div class="movie" itemscope="" itemtype="https://schema.org/Movie">
             <div class="movie__wrapper">
@@ -169,6 +170,13 @@
     </div>
 </div>
 
+<div class="container my-5">
+    {% include 'include/comments.html' %}
+    {% block action_form_comment %}  {% endblock %}
+
+</div>
+
+
 {% endblock %}
 
 {% block js %}
@@ -185,6 +193,10 @@
             document.getElementById("trailer").style.display="block";
             document.getElementById("trailer-card").style.display="none";
         }
+
+        document.getElementById("form-comment").action = "{% url 'add_comment_to_movie' movie_id %}";
+
     </script>
     <script type="text/javascript" src="{% static 'movies/js/paralax_bg_img.js' %}"></script>
+
 {% endblock %}

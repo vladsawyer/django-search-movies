@@ -1,5 +1,5 @@
 from django.http import HttpResponse, Http404
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.views.generic.base import View
 from django_filters.views import FilterView
@@ -292,3 +292,16 @@ def get_filter_genres(request):
             "genres": genres,
         }
         return JsonResponse(data, status=200)
+
+
+class AddCommentToMovie(View):
+    """
+    Adding comments to movies and series
+    """
+    def post(self, request, movie_pk):
+        movie = get_object_or_404(Movies, pk=movie_pk)
+        services.add_comment(request_post=request.POST, content_object=movie)
+        return redirect(movie.get_absolute_url() + '#comments')
+
+
+add_comment_to_movie = AddCommentToMovie.as_view()
