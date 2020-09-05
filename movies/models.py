@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.db.models import Sum
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
 from movies.services.model_managers import MovieManager
@@ -37,7 +38,7 @@ class Likes(models.Model):
     Like system for comments, additional rating for films, series, actors, directors, collections.
     """
     like = 1
-    dislike = -1
+    dislike = 0
     VALUE_CHOICES = (
         (like, "\U0001F44D"),
         (dislike, "\U0001F44E")
@@ -76,7 +77,8 @@ class Comments(MPTTModel):
 
     @property
     def total_likes(self):
-        return self.likes.count()
+        total_like = self.likes.aggregate(Sum('value'))['value__sum']
+        return 0 if total_like is None else total_like
 
     class Meta:
         verbose_name = "Comment"

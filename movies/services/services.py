@@ -1,9 +1,13 @@
+from django.contrib.contenttypes.models import ContentType
 from django.db.models import Sum, Count
+from django.db.transaction import atomic
 from django.forms import ModelChoiceField
+from django.http import JsonResponse
+
 from movies.models import (
     Movies,
     Members,
-    Categories
+    Categories, Likes
 )
 from dateutil.relativedelta import relativedelta
 import locale
@@ -497,3 +501,30 @@ def add_comment(request_post, content_object):
     else:
         # print in log
         print(form.errors)
+
+
+@atomic
+def add_like(user_object, content_type_model, content_object):
+    content_type = ContentType.objects.get_for_model(content_type_model)
+    is_liked = Likes.objects.filter(user=user_object, value=1, content_type=content_type,
+                                    object_id=content_object.id)
+    is_dislike = Likes.objects.filter(user=user_object, value=0, content_type=content_type,
+                                      object_id=content_object.id)
+    if is_liked.exists():
+        is_liked.update(value=0)
+        total_likes = _total_likes(content_object=content_object)
+        return JsonResponse({'response': 'success', 'total_likes': total_likes})
+    elif is_dislike.exists():
+        is_dislike.update(value=1)
+        total_likes = _total_likes(content_object=content_object)
+        return JsonResponse({'response': 'success', 'total_likes': total_likes})
+    else:
+        like = Likes(user=user_object, value=1, content_object=content_object)
+        like.save()
+        total_likes = _total_likes(content_object=content_object)
+        return JsonResponse({'response': 'success', 'total_likes': total_likes})
+
+
+def _total_likes(content_object):
+    total_like = content_object.likes.aggregate(Sum('value'))['value__sum']
+    return 0 if total_like is None else total_like

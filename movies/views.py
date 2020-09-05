@@ -1,9 +1,11 @@
-from django.http import HttpResponse, Http404
+from django.contrib.auth.models import User
+from django.db.transaction import atomic
+from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import JsonResponse
 from django.views.generic.base import View
 from django_filters.views import FilterView
-from movies.models import Members, Movies
+
+from movies.models import Members, Movies, Comments
 from movies.services import services
 from movies.services.filters import MovieFilter
 
@@ -12,6 +14,7 @@ class MoviesIndexView(View):
     """
     The main page of the "Search Movies" site, only the most important is displayed.
     """
+
     def get(self, request):
         context = {
             "movie_premieres": services.get_movies_and_series_future_premieres(limit=8),
@@ -29,6 +32,7 @@ class MovieDetailsView(View):
     Detailed information about the film, accessed through id in the database,
     if such an object does not exist, then 404
     """
+
     def get(self, request, pk):
         movie = get_object_or_404(Movies, pk=pk)
         context = services.GetMovieDetail.execute({
@@ -42,6 +46,7 @@ class SeriesDetailsView(View):
     Detailed information about the series, accessed through id in the database,
     if such an object does not exist, then 404
     """
+
     def get(self, request, pk):
         response = "series %s."
         return HttpResponse(response % pk)
@@ -52,6 +57,7 @@ class MemberDetailsView(View):
     Detailed information about filming participants, accessed through id in the database,
     if such an object does not exist, then 404
     """
+
     def get(self, request, pk):
         member = get_object_or_404(Members, pk=pk)
         context = services.GetMemberDetail.execute({
@@ -298,6 +304,7 @@ class AddCommentToMovie(View):
     """
     Adding comments to movies and series
     """
+
     def post(self, request, movie_pk):
         movie = get_object_or_404(Movies, pk=movie_pk)
         services.add_comment(request_post=request.POST, content_object=movie)
@@ -305,3 +312,18 @@ class AddCommentToMovie(View):
 
 
 add_comment_to_movie = AddCommentToMovie.as_view()
+
+
+class AddLikeToComment(View):
+
+    def get(self, request):
+        if request.is_ajax():
+            comment_id = request.GET.get('comment_id')
+            user_id = request.GET.get('user_id')
+            comment = get_object_or_404(Comments, pk=comment_id)
+            user = get_object_or_404(User, pk=user_id)
+            return services.add_like(user_object=user, content_type_model=Comments, content_object=comment)
+
+
+add_like_to_comment = AddLikeToComment.as_view()
+

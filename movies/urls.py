@@ -41,6 +41,7 @@ urlpatterns = [
     path('series/<int:pk>', views.SeriesDetailsView.as_view(), name='series_detail'),
     # ex: /member/5/
     path('member/<int:pk>', views.MemberDetailsView.as_view(), name='member'),
+    path('comment/like', views.add_like_to_comment, name='add_like_to_comment'),
 
     path('comment/', include(comment_urlpatterns)),
     path('list/', include(list_urlpatterns)),

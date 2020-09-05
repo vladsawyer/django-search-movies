@@ -65,10 +65,16 @@
           <span>{{ node.text }}</span>
           <div class="d-flex mt-3">
             <div class="like">
-              <a href="#" class="heart">
+            {% if user.is_authenticated %}
+              <button class="heart background-none" data-catid="{{ node.id }}" data-url="{% url 'add_like_to_comment' %}" type="button" id="likebutton">
+                  <i class="far fa-heart fa-fw fa-lg" id="like{{ node.id }}"></i>
+              </button>
+                {% else %}
+                <a href="{% url 'account_login' %}" class="heart" >
                   <i class="far fa-heart fa-fw fa-lg"></i>
               </a>
-              <span>12</span>
+                {% endif %}
+              <span id="total_likes{{ node.id }}">{{ node.total_likes }}</span>
             </div>
             {% if user.id != node.user.id %}
             <a href="#form-comment" class=" mx-3 share" onclick="addComment('{{ node.user.username }}', '{{ node.id }}')">
@@ -87,13 +93,3 @@
      {% endrecursetree %}
     </div>
   </div>
-
-
-{% block js %}
-    <script type="text/javascript">
-    function addComment(name, id) {
-        document.getElementById("comment-parent").value = id;
-        document.getElementById("contact-comment").innerText = `${name}, `
-    }
-    </script>
-{% endblock %}
