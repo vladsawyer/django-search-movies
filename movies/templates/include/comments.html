@@ -13,7 +13,6 @@
 {% if user.is_authenticated %}
   <form action="" method="post" class="d-flex row mt-3" id="form-comment">
       {% csrf_token %}
-      <input type="hidden" name="user" value="{{ user.id }}">
       <input type="hidden" name="parent" value="" id="comment-parent">
     <div class="col-lg-8 col-md-6 col-7">
       <div class="input-group">
@@ -64,19 +63,35 @@
           <h5 class="mt-0">{{ node.user.username }} <small class="datetime ml-2">{{ node.commented_on }}</small></h5>
           <span>{{ node.text }}</span>
           <div class="d-flex mt-3">
+
             <div class="like">
             {% if user.is_authenticated %}
-              <button class="heart background-none" data-catid="{{ node.id }}" data-url="{% url 'add_like_to_comment' %}" type="button" id="likebutton">
-                  <i class="far fa-heart fa-fw fa-lg" id="like{{ node.id }}"></i>
+              <button class="vote background-none" data-id="{{ node.id }}" type="button" data-action="like" data-url="{% url 'comment_like' node.id %}" data-csrf_token="{{ csrf_token }}">
+                  <i class="far fa-thumbs-up fa-fw fa-lg"></i>
               </button>
                 {% else %}
                 <a href="{% url 'account_login' %}" class="heart" >
-                  <i class="far fa-heart fa-fw fa-lg"></i>
+                  <i class="far fa-thumbs-up fa-fw fa-lg"></i>
               </a>
                 {% endif %}
-              <span id="total_likes{{ node.id }}">{{ node.total_likes }}</span>
+              <span id="like{{ node.id }}">{{ node.votes.likes.count }}</span>
             </div>
+
+            <div class="dislike ml-3">
+            {% if user.is_authenticated %}
+              <button class="vote background-none" data-id="{{ node.id }}" type="button" data-action="dislike" data-url="{% url 'comment_dislike' node.id %}" data-csrf_token="{{ csrf_token }}">
+                  <i class="far fa-thumbs-down fa-fw fa-lg"></i>
+              </button>
+                {% else %}
+                <a href="{% url 'account_login' %}" class="heart" >
+                  <i class="far fa-thumbs-down fa-fw fa-lg"></i>
+              </a>
+                {% endif %}
+              <span id="dislike{{ node.id }}">{{ node.votes.dislikes.count }}</span>
+            </div>
+
             {% if user.id != node.user.id %}
+            {# ответ на комментарий #}
             <a href="#form-comment" class=" mx-3 share" onclick="addComment('{{ node.user.username }}', '{{ node.id }}')">
                 <i class="fas fa-share fa-fw fa-lg"></i>
             </a>

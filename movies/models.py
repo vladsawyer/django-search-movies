@@ -3,10 +3,9 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.db.models import Sum
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
-from movies.services.model_managers import MovieManager
+from movies.services.model_managers import MovieManager, VoteManager
 from movies.utils import get_hashed_path
 
 
@@ -33,26 +32,29 @@ class Categories(MPTTModel):
         verbose_name_plural = "Categories"
 
 
-class Likes(models.Model):
+class Vote(models.Model):
     """
-    Like system for comments, additional rating for films, series, actors, directors, collections.
+    Like/Dislike system for comments, additional rating for films, series, actors, directors, collections.
     """
-    like = 1
-    dislike = 0
-    VALUE_CHOICES = (
-        (like, "\U0001F44D"),
-        (dislike, "\U0001F44E")
+    LIKE = 1
+    DISLIKE = -1
+    VOTES = (
+        (DISLIKE, '👎'),
+        (LIKE, '👍')
     )
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    value = models.SmallIntegerField(choices=VALUE_CHOICES, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='User')
+    vote = models.SmallIntegerField(verbose_name="Voice", choices=VOTES, null=True)
+    liked_on = models.DateTimeField(auto_now=True)
+
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField(blank=True)
     content_object = GenericForeignKey('content_type', 'object_id')
-    liked_on = models.DateTimeField(auto_now=True)
+
+    objects = VoteManager()
 
     class Meta:
-        verbose_name = "Like"
-        verbose_name_plural = "Likes"
+        verbose_name = "Vote"
+        verbose_name_plural = "Votes"
         unique_together = ('user', 'content_type', 'object_id')
 
 
@@ -69,16 +71,11 @@ class Comments(MPTTModel):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
-    likes = GenericRelation(Likes)
+    votes = GenericRelation(Vote, related_query_name='comment')
     commented_on = models.DateTimeField(verbose_name="Date publisher", auto_now=True)
 
     def __str__(self):
         return self.text
-
-    @property
-    def total_likes(self):
-        total_like = self.likes.aggregate(Sum('value'))['value__sum']
-        return 0 if total_like is None else total_like
 
     class Meta:
         verbose_name = "Comment"
@@ -135,6 +132,7 @@ class Members(models.Model):
 
     comments = GenericRelation(Comments)
     ratings = GenericRelation(Ratings)
+    votes = GenericRelation(Vote, related_query_name='member')
 
     def __str__(self):
         return self.full_name
@@ -181,7 +179,7 @@ class Movies(models.Model):
 
     comments = GenericRelation(Comments)
     ratings = GenericRelation(Ratings)
-    likes = GenericRelation(Likes)
+    votes = GenericRelation(Vote, related_query_name='movie')
 
     objects = MovieManager()
 
