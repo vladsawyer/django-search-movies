@@ -1,11 +1,9 @@
-from django.contrib.auth.models import User
-from django.db.transaction import atomic
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.base import View
 from django_filters.views import FilterView
-
-from movies.models import Members, Movies, Comments
+from movies.models import Members, Movies, Comments, Vote
 from movies.services import services
 from movies.services.filters import MovieFilter
 
@@ -306,6 +304,12 @@ class AddCommentToMovie(View):
     """
 
     def post(self, request, movie_pk):
+
+        _mutable = request.POST._mutable
+        request.POST._mutable = True
+        request.POST['user'] = request.user
+        request.POST._mutable = _mutable
+
         movie = get_object_or_404(Movies, pk=movie_pk)
         services.add_comment(request_post=request.POST, content_object=movie)
         return redirect(movie.get_absolute_url() + '#comments')
@@ -314,16 +318,18 @@ class AddCommentToMovie(View):
 add_comment_to_movie = AddCommentToMovie.as_view()
 
 
-class AddLikeToComment(View):
+class VoteView(View):
+    model = None  # Model data - Movies or Comments
+    vote_type = None  # Type comments Like/Dislike
 
-    def get(self, request):
+    def post(self, request, pk):
+        obj = get_object_or_404(self.model, pk=pk)
         if request.is_ajax():
-            comment_id = request.GET.get('comment_id')
-            user_id = request.GET.get('user_id')
-            comment = get_object_or_404(Comments, pk=comment_id)
-            user = get_object_or_404(User, pk=user_id)
-            return services.add_like(user_object=user, content_type_model=Comments, content_object=comment)
+            context = services.add_vote(user=request.user,
+                                        vote_type=self.vote_type,
+                                        obj=obj)
+            return JsonResponse(context)
 
 
-add_like_to_comment = AddLikeToComment.as_view()
-
+add_like_to_comment = login_required(VoteView.as_view(model=Comments, vote_type=Vote.LIKE))
+add_dislike_to_comment = login_required(VoteView.as_view(model=Comments, vote_type=Vote.DISLIKE))

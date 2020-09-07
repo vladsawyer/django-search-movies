@@ -33,6 +33,12 @@ comment_urlpatterns = [
     path('movie/<int:movie_pk>', views.add_comment_to_movie, name='add_comment_to_movie'),
 ]
 
+vote_urlpatterns = [
+    path('comment/<int:pk>/like', views.add_like_to_comment, name='comment_like'),
+    path('comment/<int:pk>/dislike', views.add_dislike_to_comment, name='comment_dislike'),
+
+]
+
 urlpatterns = [
     path('', views.MoviesIndexView.as_view(), name='index'),
     # ex: /movie/5/
@@ -41,7 +47,9 @@ urlpatterns = [
     path('series/<int:pk>', views.SeriesDetailsView.as_view(), name='series_detail'),
     # ex: /member/5/
     path('member/<int:pk>', views.MemberDetailsView.as_view(), name='member'),
-    path('comment/like', views.add_like_to_comment, name='add_like_to_comment'),
+
+    # ajax vote
+    path('', include(vote_urlpatterns)),
 
     path('comment/', include(comment_urlpatterns)),
     path('list/', include(list_urlpatterns)),

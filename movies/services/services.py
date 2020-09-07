@@ -2,12 +2,11 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models import Sum, Count
 from django.db.transaction import atomic
 from django.forms import ModelChoiceField
-from django.http import JsonResponse
-
 from movies.models import (
     Movies,
     Members,
-    Categories, Likes
+    Categories,
+    Vote
 )
 from dateutil.relativedelta import relativedelta
 import locale
@@ -321,34 +320,34 @@ def get_movies_and_series_recent_premieres():
 def get_expected_movies():
     """
     We take all movies with future premieres and sort them by
-    descending the number of likes posted by users
+    descending the number of positive votes posted by users
     :return: QuerySet
     """
     expected_movies = Movies.objects.filter(world_premiere__gt=datetime.datetime.now()).annotate(
-        likes_sum=Sum('likes__value'))
+        votes_sum=Sum('votes__vote'))
     # if there are no likes, then we output future premieres without sorting
-    if expected_movies.exclude(likes_sum=None).exists():
-        expected_movies = expected_movies.exclude(likes_sum=None).order_by('-likes_sum').distinct()
+    if expected_movies.exclude(votes_sum=None).exists():
+        expected_movies = expected_movies.exclude(votes_sum=None).order_by('-votes_sum').distinct()
 
     return expected_movies
 
 
 def get_movie_of_month():
     """
-    We sort movies by the number of likes and comments left over the past month
+    We sort movies by the number of positive votes and comments left over the past month
     :return: QuerySet
     """
     movie_of_month = Movies.objects.filter(
-        likes__liked_on__range=(datetime.datetime.today() + relativedelta(months=-1),
+        votes__liked_on__range=(datetime.datetime.today() + relativedelta(months=-1),
                                 datetime.datetime.today()),
         comments__commented_on__range=(datetime.datetime.today() + relativedelta(months=-1),
                                        datetime.datetime.today()),
     ).annotate(
-        likes_sum=Sum('likes__value'),
+        votes_sum=Sum('votes__vote'),
         comments_count=Count('comments__text')
     ).exclude(
-        likes_sum=None
-    ).order_by('-likes_sum', '-comments_count').distinct()
+        votes_sum=None
+    ).order_by('-votes_sum', '-comments_count').distinct()
 
     return movie_of_month
 
@@ -504,27 +503,25 @@ def add_comment(request_post, content_object):
 
 
 @atomic
-def add_like(user_object, content_type_model, content_object):
-    content_type = ContentType.objects.get_for_model(content_type_model)
-    is_liked = Likes.objects.filter(user=user_object, value=1, content_type=content_type,
-                                    object_id=content_object.id)
-    is_dislike = Likes.objects.filter(user=user_object, value=0, content_type=content_type,
-                                      object_id=content_object.id)
-    if is_liked.exists():
-        is_liked.update(value=0)
-        total_likes = _total_likes(content_object=content_object)
-        return JsonResponse({'response': 'success', 'total_likes': total_likes})
-    elif is_dislike.exists():
-        is_dislike.update(value=1)
-        total_likes = _total_likes(content_object=content_object)
-        return JsonResponse({'response': 'success', 'total_likes': total_likes})
-    else:
-        like = Likes(user=user_object, value=1, content_object=content_object)
-        like.save()
-        total_likes = _total_likes(content_object=content_object)
-        return JsonResponse({'response': 'success', 'total_likes': total_likes})
+def add_vote(obj, vote_type: int, user):
+    try:
+        like_dislike = Vote.objects.get(content_type=ContentType.objects.get_for_model(obj), object_id=obj.id,
+                                        user=user)
+        if like_dislike.vote is not vote_type:
+            like_dislike.vote = vote_type
+            like_dislike.save(update_fields=['vote'])
+            result = True
+        else:
+            like_dislike.delete()
+            result = False
+    except Vote.DoesNotExist:
+        obj.votes.create(user=user, vote=vote_type)
+        result = True
 
+    context = {
+        "result": result,
+        "like_count": obj.votes.likes().count(),
+        "dislike_count": obj.votes.dislikes().count(),
+    }
 
-def _total_likes(content_object):
-    total_like = content_object.likes.aggregate(Sum('value'))['value__sum']
-    return 0 if total_like is None else total_like
+    return context
