@@ -298,29 +298,33 @@ def get_filter_genres(request):
         return JsonResponse(data, status=200)
 
 
-class AddCommentToMovie(View):
+class CommentView(View):
     """
     Adding comments to movies and series
     """
+    model = None
 
-    def post(self, request, movie_pk):
+    def post(self, request, pk):
 
         _mutable = request.POST._mutable
         request.POST._mutable = True
         request.POST['user'] = request.user
         request.POST._mutable = _mutable
 
-        movie = get_object_or_404(Movies, pk=movie_pk)
-        services.add_comment(request_post=request.POST, content_object=movie)
-        return redirect(movie.get_absolute_url() + '#comments')
+        obj = get_object_or_404(self.model, pk=pk)
+        services.add_comment(request_post=request.POST, content_object=obj)
+        return redirect(obj.get_absolute_url() + '#comments')
 
 
-add_comment_to_movie = AddCommentToMovie.as_view()
+add_comment_to_movie = CommentView.as_view(model=Movies)
 
 
 class VoteView(View):
-    model = None  # Model data - Movies or Comments
-    vote_type = None  # Type comments Like/Dislike
+    """
+    Like/Dislike system
+    """
+    model = None  # Model data - example: Movies or Comments
+    vote_type = None  # Type vote: Like/Dislike
 
     def post(self, request, pk):
         obj = get_object_or_404(self.model, pk=pk)

@@ -504,6 +504,16 @@ def add_comment(request_post, content_object):
 
 @atomic
 def add_vote(obj, vote_type: int, user):
+    """
+    Adding like or disliking. If the user did not add anything, then create.
+    If the user has already liked or disliked and tries to do it again,
+    the entry is deleted.
+    If the user wants to change his / her own, then we update.
+    :param obj:
+    :param vote_type:
+    :param user:
+    :return:
+    """
     try:
         like_dislike = Vote.objects.get(content_type=ContentType.objects.get_for_model(obj), object_id=obj.id,
                                         user=user)

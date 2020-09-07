@@ -192,7 +192,7 @@
             document.getElementById("trailer-card").style.display="none";
         }
 
-        document.getElementById("form-comment").action = "{% url 'add_comment_to_movie' movie_id %}";
+        document.getElementById("form-comment").action = "{% url 'movie_comment' movie_id %}";
 
     </script>
     <script type="text/javascript" src="{% static 'movies/js/paralax_bg_img.js' %}"></script>

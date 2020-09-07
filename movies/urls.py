@@ -30,7 +30,7 @@ top_urlpatterns = [
 
 comment_urlpatterns = [
     # ex:comment/movie/722
-    path('movie/<int:movie_pk>', views.add_comment_to_movie, name='add_comment_to_movie'),
+    path('movie/<int:pk>', views.add_comment_to_movie, name='movie_comment'),
 ]
 
 vote_urlpatterns = [
