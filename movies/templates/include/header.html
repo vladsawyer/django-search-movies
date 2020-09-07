@@ -126,7 +126,7 @@
         <li class="nav-item active drop d-none d-lg-block">
           <div class="d-flex">
           <div class="user-avatar">
-              <img src="{% static 'account/img/98137.jpg' %}">
+              <img src="{{ user.profile.avatar.url }}">
           </div>
             <a class="nav-link text-white" href="">{{ user.username }}</a>
           </div>

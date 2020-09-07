@@ -57,7 +57,7 @@
       {% recursetree comments %}
       <div class="media mt-4">
         <div class="user-avatar-comment">
-            <img src="{% static 'account/img/97365.jpg' %}">
+            <img src="{{ node.user.profile.avatar.url }}">
         </div>
         <div class="media-body">
           <h5 class="mt-0">{{ node.user.username }} <small class="datetime ml-2">{{ node.commented_on }}</small></h5>
