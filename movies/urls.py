@@ -36,6 +36,8 @@ comment_urlpatterns = [
 vote_urlpatterns = [
     path('comment/<int:pk>/like', views.add_like_to_comment, name='comment_like'),
     path('comment/<int:pk>/dislike', views.add_dislike_to_comment, name='comment_dislike'),
+    path('movie/<int:pk>/like', views.add_like_to_movie, name='movie_like'),
+    path('movie/<int:pk>/dislike', views.add_dislike_to_movie, name='movie_dislike'),
 
 ]
 

@@ -337,3 +337,5 @@ class VoteView(View):
 
 add_like_to_comment = login_required(VoteView.as_view(model=Comments, vote_type=Vote.LIKE))
 add_dislike_to_comment = login_required(VoteView.as_view(model=Comments, vote_type=Vote.DISLIKE))
+add_like_to_movie = login_required(VoteView.as_view(model=Movies, vote_type=Vote.LIKE))
+add_dislike_to_movie = login_required(VoteView.as_view(model=Movies, vote_type=Vote.DISLIKE))

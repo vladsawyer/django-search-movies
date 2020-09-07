@@ -36,6 +36,8 @@ class GetMovieDetail(Service):
         movie_shot = self._get_movie_shot(movie)
         movie_shots = self._get_movie_shots(movie)
         comments = movie.comments.all()
+        likes_count = movie.votes.likes().count()
+        dislikes_count = movie.votes.dislikes().count()
 
         context = {
                 "movie_id": movie.id,
@@ -55,6 +57,8 @@ class GetMovieDetail(Service):
                 "rf_premiere": movie.rf_premiere,
                 "country": movie.country,
                 "comments": comments,
+                "likes_count": likes_count,
+                "dislikes_count": dislikes_count
         }
 
         return context
