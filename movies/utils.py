@@ -1,6 +1,8 @@
 import os
 from hashlib import sha1
+import random
 from django.core.paginator import Paginator
+from search_movies.settings import BASE_DIR
 
 
 def get_pagination(request, queryset, count_show_list):
@@ -21,3 +23,10 @@ def get_hashed_path(instance, filename) -> str:
     """
     hashname = sha1(filename.encode('utf-8')).hexdigest() + '.jpg'
     return os.path.join(hashname[:2], hashname[2:4], hashname)
+
+
+def get_random_default_user_avatar():
+    avatars = ['46035.jpg', '97365.jpg', '98137.jpg', '115127.jpg',
+               '127889.jpg', '154693.jpg', '175680.jpg', '204154.jpg']
+
+    return os.path.join(BASE_DIR, 'accounts/static/account/img', random.choice(avatars))
