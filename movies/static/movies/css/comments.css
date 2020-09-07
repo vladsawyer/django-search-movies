@@ -160,12 +160,12 @@ button, [type="submit"], [type="button"]{
   cursor: pointer;
 }
 
-button.heart{
+button.vote{
   color: #fff;
   background: none;
 }
 
-a.share:hover, button.heart:hover{
+a.share:hover, button.vote:hover{
   cursor: pointer;
   color: #ffc107;
   background: none;
