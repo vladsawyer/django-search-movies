@@ -13,9 +13,11 @@ import locale
 from django.db.models.functions import datetime
 from service_objects.services import Service
 from movies.forms import CommentForm
+import logging
 
 
 locale.setlocale(locale.LC_ALL, '')
+logger = logging.getLogger(__name__)
 
 
 class GetMovieDetail(Service):
@@ -510,8 +512,7 @@ def add_comment(request_post, content_object):
             form.parent_id = int(request_post.get('parent'))
         form.save()
     else:
-        # print in log
-        print(form.errors)
+        logger.error(form.errors)
 
 
 @atomic

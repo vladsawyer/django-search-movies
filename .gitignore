@@ -5,3 +5,4 @@ venv/
 /search_movies/.env
 *.py[cod]
 *$py.class
+/logs/search_movies_logs.log
