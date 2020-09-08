@@ -13,10 +13,12 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'console': {
-            'format': '%(name)-12s %(levelname)-8s %(message)s'
+            'format': '{levelname} {asctime} {module} {process:d} {message}',
+            'style': '{'
         },
         'file': {
-            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
+            'format': '{levelname} {asctime} {module} {process:d} {message}',
+            'style': '{'
         }
     },
     'handlers': {
