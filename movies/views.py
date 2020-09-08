@@ -1,14 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic.base import View
+from core.views import BaseView
 from django_filters.views import FilterView
 from movies.models import Members, Movies, Comments, Vote
 from movies.services import services
 from movies.services.filters import MovieFilter
 
 
-class MoviesIndexView(View):
+class MoviesIndexView(BaseView):
     """
     The main page of the "Search Movies" site, only the most important is displayed.
     """
@@ -25,7 +25,7 @@ class MoviesIndexView(View):
         return render(request, "movies/index.html", context)
 
 
-class MovieDetailsView(View):
+class MovieDetailsView(BaseView):
     """
     Detailed information about the film, accessed through id in the database,
     if such an object does not exist, then 404
@@ -39,7 +39,7 @@ class MovieDetailsView(View):
         return render(request, "movies/movie_detail.html", context)
 
 
-class SeriesDetailsView(View):
+class SeriesDetailsView(BaseView):
     """
     Detailed information about the series, accessed through id in the database,
     if such an object does not exist, then 404
@@ -50,7 +50,7 @@ class SeriesDetailsView(View):
         return HttpResponse(response % pk)
 
 
-class MemberDetailsView(View):
+class MemberDetailsView(BaseView):
     """
     Detailed information about filming participants, accessed through id in the database,
     if such an object does not exist, then 404
@@ -64,7 +64,7 @@ class MemberDetailsView(View):
         return render(request, "movies/member.html", context)
 
 
-class FilteredListView(FilterView):
+class FilteredListView(FilterView, BaseView):
     """
     Your Base View, to add general functionality, then most of the View is inherited from it.
     """
@@ -298,7 +298,7 @@ def get_filter_genres(request):
         return JsonResponse(data, status=200)
 
 
-class CommentView(View):
+class CommentView(BaseView):
     """
     Adding comments to movies and series
     """
@@ -320,7 +320,7 @@ add_comment_to_movie = CommentView.as_view(model=Movies)
 add_comment_to_member = CommentView.as_view(model=Members)
 
 
-class VoteView(View):
+class VoteView(BaseView):
     """
     Like/Dislike system
     """
