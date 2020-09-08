@@ -1,12 +1,8 @@
 from django.shortcuts import render
-from django.views.generic.base import View
+from core.views import BaseView
 
 
-class BaseProfileView:
-    pass
-
-
-class ProfileView(View, BaseProfileView):
+class ProfileView(BaseView):
 
     def get(self, request):
         context = {}
@@ -18,14 +14,14 @@ class ProfileView(View, BaseProfileView):
 profile = ProfileView.as_view()
 
 
-class FavoritesView(View, BaseProfileView):
+class FavoritesView(BaseView):
     pass
 
 
 favorites = ProfileView.as_view()
 
 
-class SettingsView(View, BaseProfileView):
+class SettingsView(BaseView):
     pass
 
 
