@@ -6,7 +6,11 @@ from django.db import models
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
 from movies.services.model_managers import MovieManager, VoteManager
-from movies.utils import get_hashed_path
+from movies.utils import (
+    get_comment_hashed_path,
+    get_member_hashed_path,
+    get_movie_hashed_path
+)
 
 
 class Categories(MPTTModel):
@@ -64,7 +68,7 @@ class Comments(MPTTModel):
     Tree structure, for convenient display of comments tree on the page
     """
     text = models.TextField(verbose_name="Text comments")
-    image = models.ImageField(upload_to=f"comments/images/{get_hashed_path}", blank=True)
+    image = models.ImageField(upload_to=get_comment_hashed_path, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
@@ -128,7 +132,7 @@ class Members(models.Model):
     birthday = models.DateField(null=True, blank=True)
     categories = models.ManyToManyField(Categories)
     roles = models.ManyToManyField(Roles, verbose_name="Career")
-    image = models.ImageField(upload_to=f"member/{get_hashed_path}", blank=True)
+    image = models.ImageField(upload_to=get_member_hashed_path, blank=True)
 
     comments = GenericRelation(Comments)
     ratings = GenericRelation(Ratings)
@@ -151,7 +155,7 @@ class Movies(models.Model):
     """
     title = models.CharField(verbose_name="Title movie", max_length=150)
     description = models.TextField(null=True, blank=True)
-    poster = models.ImageField(blank=True, upload_to=f"movie_posters/{get_hashed_path}")
+    poster = models.ImageField(blank=True, upload_to=get_movie_hashed_path)
     country = models.CharField(max_length=50, null=True, blank=True)
     directors = models.ManyToManyField(Members, related_name='film_director')
     actors = models.ManyToManyField(Members, related_name='film_actor')
@@ -222,7 +226,7 @@ class PartnerUrls(models.Model):
 
 
 class MovieShots(models.Model):
-    image = models.ImageField(upload_to=f'movie_shots/{get_hashed_path}')
+    image = models.ImageField(upload_to=get_movie_hashed_path)
     movie = models.ForeignKey(Movies, on_delete=models.CASCADE)
 
     def __str__(self):

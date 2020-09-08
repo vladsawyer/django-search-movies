@@ -13,16 +13,40 @@ def get_pagination(request, queryset, count_show_list):
     return page_obj
 
 
-def get_hashed_path(instance, filename) -> str:
+def get_member_hashed_path(instance, filename) -> str:
     """
     create image, file path for ImageField and FileField in models
-    example: movie_shots/b3/6d/b36d70c244cbc1858e3afa474ad279ace31dd518.jpg
-    :param instance:
-    :param filename:
-    :return: path
+    example: movie/b3/6d/b36d70c244cbc1858e3afa474ad279ace31dd518.jpg
     """
-    hashname = sha1(filename.encode('utf-8')).hexdigest() + '.jpg'
-    return os.path.join(hashname[:2], hashname[2:4], hashname)
+    hashname = sha1(filename.encode('utf-8')).hexdigest() + '.jpg' or '.png'
+    return os.path.join('member', hashname[:2], hashname[2:4], hashname)
+
+
+def get_movie_hashed_path(instance, filename) -> str:
+    """
+    create image, file path for ImageField and FileField in models
+    example: movie/b3/6d/b36d70c244cbc1858e3afa474ad279ace31dd518.jpg
+    """
+    hashname = sha1(filename.encode('utf-8')).hexdigest() + '.jpg' or '.png'
+    return os.path.join('movie', hashname[:2], hashname[2:4], hashname)
+
+
+def get_profile_hashed_path(instance, filename) -> str:
+    """
+    create image, file path for ImageField and FileField in models
+    example: movie/b3/6d/b36d70c244cbc1858e3afa474ad279ace31dd518.jpg
+    """
+    hashname = sha1(filename.encode('utf-8')).hexdigest() + '.jpg' or '.png'
+    return os.path.join('users/avatars', hashname[:2], hashname[2:4], hashname)
+
+
+def get_comment_hashed_path(instance, filename) -> str:
+    """
+    create image, file path for ImageField and FileField in models
+    example: movie/b3/6d/b36d70c244cbc1858e3afa474ad279ace31dd518.jpg
+    """
+    hashname = sha1(filename.encode('utf-8')).hexdigest() + '.jpg' or '.png'
+    return os.path.join('users/comments', hashname[:2], hashname[2:4], hashname)
 
 
 def get_random_default_user_avatar():

@@ -1,5 +1,5 @@
 from django.db import models
-from movies.utils import get_hashed_path, get_random_default_user_avatar
+from movies.utils import get_profile_hashed_path, get_random_default_user_avatar
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
@@ -8,7 +8,7 @@ from movies.models import Movies
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to=f'users/avatars/{get_hashed_path}',
+    avatar = models.ImageField(upload_to=get_profile_hashed_path,
                                verbose_name='Avatar',
                                default=get_random_default_user_avatar())
     favorites = models.ManyToManyField(Movies, verbose_name='Favorite movies', blank=True)
