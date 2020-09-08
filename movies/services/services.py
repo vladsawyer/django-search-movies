@@ -137,8 +137,12 @@ class GetMemberDetail(Service):
         roles = self._get_roles(member)
         movies_actors = member.film_actor.all()
         movies_directors = member.film_director.all()
+        comments = member.comments.all()
+        likes_count = member.votes.likes().count()
+        dislikes_count = member.votes.dislikes().count()
 
         context = {
+            "member_id": member.id,
             "name": name,
             "total_movies": total_movies,
             "description": description,
@@ -148,6 +152,9 @@ class GetMemberDetail(Service):
             "roles": roles,
             "movies_actors": movies_actors,
             "movies_directors": movies_directors,
+            "comments": comments,
+            "likes_count": likes_count,
+            "dislikes_count": dislikes_count
         }
 
         return context
@@ -389,8 +396,9 @@ def get_top_movies_and_series_foreign_classics():
     :return: QuerySet
     """
     foreign_classics = Movies.objects.exclude(
-        country='СССР' and 'Россия',
-        world_premiere__gt=datetime.datetime.today() + relativedelta(months=-3),
+        country='СССР' and 'Россия'
+    ).exclude(
+        world_premiere__gt=datetime.datetime.today() + relativedelta(months=-3)
     ).exclude(
         rating_imdb__isnull=True
     ).exclude(

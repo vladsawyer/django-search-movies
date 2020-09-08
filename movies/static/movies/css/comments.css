@@ -30,7 +30,7 @@ nav {
   top: 2rem;
 
   /* This is important for the show/hide CSS animation */
-  max-height: 0px;
+  max-height: 0;
   overflow: hidden;
   -webkit-transition: max-height 0.4s linear;
   -moz-transition: max-height 0.4s linear;
@@ -121,9 +121,7 @@ nav {
   width: 100%
 }
 
-.action-button button{
-  background: none;
-}
+
 button, [type="submit"], [type="button"]{
   -webkit-appearance: none;
 }
@@ -163,6 +161,7 @@ button, [type="submit"], [type="button"]{
 button.vote{
   color: #fff;
   background: none;
+  text-decoration: none;
 }
 
 a.share:hover, button.vote:hover{

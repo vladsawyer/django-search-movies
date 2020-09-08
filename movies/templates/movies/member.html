@@ -1,41 +1,222 @@
 {% extends "movies/base.html" %}
+{% load movie_tag %}
+{% load static %}
 
 {% block title %}{{ name }}{% endblock %}
 
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/css/members.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/css/comments.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/css/card-movies.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/css/movie_slider.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/css/comments.css' %}">
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'movies/js/member.js' %}"></script>
+    <script type="text/javascript" src="{% static 'movies/js/movie-slider.js' %}"></script>
+    <script type="text/javascript" src="{% static 'movies/js/comments.js' %}"></script>
+    <script type="text/javascript" src="{% static 'movies/js/votes.js' %}"></script>
+    <script type="text/javascript">
+    document.getElementById("form-comment").action = "{% url 'member_comment' member_id %}";
+    </script>
+{% endblock %}
+
 {% block content %}
-    <div class="mx-5">
-        <h2 class="text-warning" style="margin-top: 5rem;">{{ name }}</h2>
-    <br>
-    <div class="clearfix">
-      <img class="float-left" src="{{ image }}" alt="{{ name }}">
-      <div class="text-warning float-right">
-          <table class="table text-warning">
-              <tbody>
-                <tr>
-                  <th scope="row">Жанры</th>
-                  <td class="text-white">{{ categories }}</td>
-                </tr>
-                <tr>
-                  <th scope="row">День рождения</th>
-                  <td class="text-white">{{ birthday }}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Роли</th>
-                  <td class="text-white">{{ roles }}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Всего фильмов</th>
-                  <td class="text-white">{{ total_movies }}</td>
-                </tr>
-                <tr>
-              </tbody>
-            </table>
-            <br>
-            <div class="description">
-            <h5>Забавные факты</h5>
-            <span class="text-white">{{ description }}</span>
+    <div class="container" style="margin-top: 7rem;">
+        <!-- Основная информация -->
+        <div class="row d-flex mb-5">
+            <div class="col-lg-4">
+                <div class="image__wrapper">
+                    <img src="{{ image }}" alt="" class="minimized rounded">
+                </div>
+                <div class="d-flex mt-4">
+                    <div class="like">
+                    {% if user.is_authenticated %}
+                      <button class="vote background-none" data-id="{{ member_id }}" type="button"
+                              data-action="like"
+                              data-csrf_token="{{ csrf_token }}"
+                              data-toggle="tooltip" data-placement="bottom"
+                              title="Нравится актер/режиссер" data-url="{% url 'member_like' member_id %}">
+
+                          <i class="far fa-thumbs-up fa-fw fa-lg"></i>
+                      </button>
+                        {% else %}
+                        <a href="{% url 'account_login' %}" class="heart" >
+                          <i class="far fa-thumbs-up fa-fw fa-lg"></i>
+                      </a>
+                        {% endif %}
+                      <span id="like{{ member_id }}">{{ likes_count }}</span>
+                    </div>
+
+                    <div class="dislike mx-3">
+                    {% if user.is_authenticated %}
+                      <button class="vote background-none" data-id="{{ member_id }}" type="button"
+                              data-action="dislike"
+                              data-csrf_token="{{ csrf_token }}"
+                              data-toggle="tooltip" data-placement="bottom"
+                              title="Не нравится актер/режиссер" data-url="{% url 'member_dislike' member_id %}">
+
+                          <i class="far fa-thumbs-down fa-fw fa-lg"></i>
+                      </button>
+                        {% else %}
+                        <a href="{% url 'account_login' %}" class="heart" >
+                          <i class="far fa-thumbs-down fa-fw fa-lg"></i>
+                      </a>
+                        {% endif %}
+                      <span id="dislike{{ member_id }}">{{ dislikes_count }}</span>
+                    </div>
+                </div>
             </div>
-      </div>
-    </div>
+
+            <div class="col-lg-8">
+                <h2 class="member__name">{{ name }}</h2>
+                <div class="persons-detail member__data-wrapper mt-4">
+                    {% if birthday %}
+                        <div class="member__data-col member__data-col_title">День рождения:</div>
+                        <div class="member__data-col movie__data-col_content">{{ birthday }}</div>
+                    {% endif %}
+
+                    {% if roles %}
+                        <div class="member__data-col member__data-col_title">Карьера:</div>
+                        <div class="member__data-col movie__data-col_content">{{ roles }}</div>
+                    {% endif %}
+
+                    {% if categories %}
+                        <div class="member__data-col member__data-col_title">Жанры:</div>
+                        <div class="member__data-col movie__data-col_content">{{ categories|title }}</div>
+                    {% endif %}
+
+                    {% if total_movies %}
+                        <div class="member__data-col member__data-col_title">Всего фильмов:</div>
+                        <div class="member__data-col movie__data-col_content">{{ total_movies }}</div>
+                    {% endif %}
+                </div>
+
+                {% if description %}
+                <div class="member_description text-white mt-5">
+                    <h4 class="description_title">Забавные факты:</h4>
+                    <span>{{ description }}</span>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+        <!-- Актерское мастерство -->
+        {% if  movies_actors %}
+        <div class="row mb-4 align-items-center">
+            <div class="col-auto">
+                <span class="title-section">
+                   Актерское мастерство
+                </span>
+            </div>
+            <div class="col">
+                <div class="line mt-2"></div>
+            </div>
+        </div>
+        <div class="row mb-5 slider-movies p-0 mx-auto col-12">
+            {% for movie_actor in movies_actors %}
+                <div class=" item-movie border-0">
+                    <div class="card card-movie">
+                        <div class="poster">
+                            <img src="{{ movie_actor.poster.url }}" alt="{{ movie_actor.title }}">
+                        </div>
+
+                        <div class="details">
+                            <a href="{{movie_actor.get_absolute_url}}" class="title text-decoration-none"><h2>{{ movie_actor.title }}</h2></a>
+                            {% for director in movie_actor.directors.all %}
+                                <a href="{{director.get_absolute_url}}" class="director text-decoration-none"><span>{{director}}</span></a>
+                            {% endfor %}
+
+                            <div class="tags">
+                                {% for genre in movie_actor.categories|genres|slice:":2" %}
+                                    <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title|title }}</span></a>
+                                {% endfor %}
+                            </div>
+
+                            <div class="hover-derails p-0 m-0">
+                              <div class="info">
+                                {% if movie_actor.description is not None %}
+                                    <p>{{ movie_actor.description|truncatechars:150 }}</p>
+                                {% endif %}
+                              </div>
+
+                              <div class="star">
+                                {% if movie_actor.actors.all.exists %}
+                                <h4>Актеры</h4>
+                                <ul>
+                                    {% for actor in movie_actor.actors.all %}
+                                        <li><a href="{{actor.get_absolute_url}}" title="{{actor.full_name}}"><img src="{{ actor.image.url }}" alt="{{actor.full_name}}"></a></li>
+                                    {% endfor %}
+                                </ul>
+                              {% endif %}
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <!-- Режиссура -->
+        {% if movies_directors %}
+        <div class="row mb-4 align-items-center">
+            <div class="col-auto">
+                <span class="title-section">
+                   Режиссура
+                </span>
+            </div>
+            <div class="col">
+                <div class="line mt-2"></div>
+            </div>
+        </div>
+        <div class="row mb-5 slider-movies p-0 mx-auto col-12">
+            {% for movie_director in movies_directors %}
+                <div class=" item-movie border-0">
+                    <div class="card card-movie">
+                        <div class="poster">
+                            <img src="{{ movie_director.poster.url }}" alt="{{ movie_director.title }}">
+                        </div>
+
+                        <div class="details">
+                            <a href="{{movie_director.get_absolute_url}}" class="title text-decoration-none"><h2>{{ movie_director.title }}</h2></a>
+                            {% for director in movie_director.directors.all %}
+                                <a href="{{director.get_absolute_url}}" class="director text-decoration-none"><span>{{director}}</span></a>
+                            {% endfor %}
+
+                            <div class="tags">
+                                {% for genre in movie_director.categories|genres|slice:":2" %}
+                                    <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title|title }}</span></a>
+                                {% endfor %}
+                            </div>
+
+                            <div class="hover-derails p-0 m-0">
+                              <div class="info">
+                                {% if movie_director.description is not None %}
+                                    <p>{{ movie_director.description|truncatechars:150 }}</p>
+                                {% endif %}
+                              </div>
+
+                              <div class="star">
+                                {% if movie_director.actors.all.exists %}
+                                <h4>Актеры</h4>
+                                <ul>
+                                    {% for actor in movie_director.actors.all %}
+                                        <li><a href="{{actor.get_absolute_url}}" title="{{actor.full_name}}"><img src="{{ actor.image.url }}" alt="{{actor.full_name}}"></a></li>
+                                    {% endfor %}
+                                </ul>
+                              {% endif %}
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <!-- Комментарии -->
+        {% include 'include/comments.html' %}
+
     </div>
 {% endblock %}
+

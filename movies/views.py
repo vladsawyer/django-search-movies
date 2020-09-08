@@ -317,6 +317,7 @@ class CommentView(View):
 
 
 add_comment_to_movie = CommentView.as_view(model=Movies)
+add_comment_to_member = CommentView.as_view(model=Members)
 
 
 class VoteView(View):
@@ -339,3 +340,5 @@ add_like_to_comment = login_required(VoteView.as_view(model=Comments, vote_type=
 add_dislike_to_comment = login_required(VoteView.as_view(model=Comments, vote_type=Vote.DISLIKE))
 add_like_to_movie = login_required(VoteView.as_view(model=Movies, vote_type=Vote.LIKE))
 add_dislike_to_movie = login_required(VoteView.as_view(model=Movies, vote_type=Vote.DISLIKE))
+add_like_to_member = login_required(VoteView.as_view(model=Members, vote_type=Vote.LIKE))
+add_dislike_to_member = login_required(VoteView.as_view(model=Members, vote_type=Vote.DISLIKE))

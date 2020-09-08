@@ -1,0 +1,50 @@
+.title-section, .title-section:hover{
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.75em;
+    font-weight: 500;
+}
+
+ div.line {
+    height: 0.1rem;
+    width: 100%;
+    background-color: #ffc107;
+}
+
+ .item-movie {
+    background: none;
+}
+
+.item-movie .card-movie {
+    margin: 0 0.5rem;
+}
+
+.item-movie .card-movie:hover {
+    transform: none;
+}
+
+button.slick-next, button.slick-next:hover {
+  position: absolute;
+  top: 50%;
+  right: -3.5%;
+  width: 2rem;
+  height: 2.5rem;
+  background-image: url('../img/right-arrow.svg');
+  background-size: 2.5rem;
+  background-repeat: no-repeat;
+}
+button.slick-prev, button.slick-prev:hover {
+  position: absolute;
+  top: 50%;
+  left: -5%;
+  z-index: 1;
+  width: 2rem;
+  height: 2.5rem;
+  background-image: url('../img/left-arrow.svg');
+  background-size: 2.5rem;
+  background-repeat: no-repeat;
+
+}
+.slick-prev:before, .slick-next:before {
+    content: '';
+}

@@ -31,6 +31,7 @@ top_urlpatterns = [
 comment_urlpatterns = [
     # ex:comment/movie/722
     path('movie/<int:pk>', views.add_comment_to_movie, name='movie_comment'),
+    path('member/<int:pk>', views.add_comment_to_member, name='member_comment'),
 ]
 
 vote_urlpatterns = [
@@ -38,6 +39,8 @@ vote_urlpatterns = [
     path('comment/<int:pk>/dislike', views.add_dislike_to_comment, name='comment_dislike'),
     path('movie/<int:pk>/like', views.add_like_to_movie, name='movie_like'),
     path('movie/<int:pk>/dislike', views.add_dislike_to_movie, name='movie_dislike'),
+    path('member/<int:pk>/like', views.add_like_to_member, name='member_like'),
+    path('member/<int:pk>/dislike', views.add_dislike_to_member, name='member_dislike'),
 
 ]
 

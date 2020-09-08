@@ -2,7 +2,9 @@
   margin: 0;
   padding: 0;
   border: 0;
-  vertical-align: baseline; }
+  vertical-align: baseline;
+      outline: none;
+}
 
 body {
   background-color: #16151a;
@@ -11,6 +13,7 @@ body {
           backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+
 }
 
 .person:hover{
