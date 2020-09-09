@@ -235,3 +235,19 @@ class MovieShots(models.Model):
     class Meta:
         verbose_name = "Movie shot"
         verbose_name_plural = "Movie shots"
+
+
+class Collection(models.Model):
+    """
+    Collections movies
+    """
+    title = models.CharField(verbose_name="Name of collection", max_length=150)
+    image = models.ImageField(upload_to=get_movie_hashed_path, blank=True)
+    movies = models.ManyToManyField(Movies, verbose_name='Movies in collection', blank=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Collection"
+        verbose_name_plural = "Collections"
