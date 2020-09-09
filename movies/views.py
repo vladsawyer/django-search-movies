@@ -1,5 +1,4 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from core.views import BaseView
@@ -22,6 +21,7 @@ class MoviesIndexView(BaseView):
             "new_movies": services.get_new_movies_and_series(limit=16),
             "popular_movies": services.get_popular_movies(limit=16),
             "popular_series": services.get_popular_series(limit=16),
+            "collections": services.get_popular_collection(),
         }
         return render(request, "movies/index.html", context)
 
@@ -317,8 +317,8 @@ class CommentView(BaseView):
         return redirect(obj.get_absolute_url() + '#comments')
 
 
-add_comment_to_movie = CommentView.as_view(model=Movies)
-add_comment_to_member = CommentView.as_view(model=Members)
+add_comment_to_movie = login_required(CommentView.as_view(model=Movies))
+add_comment_to_member = login_required(CommentView.as_view(model=Members))
 
 
 class VoteView(BaseView):
@@ -351,10 +351,24 @@ class AddFavoriteMovieView(BaseView):
     """
     def post(self, request, pk):
         if request.is_ajax():
-            movie = get_object_or_404(Movies, pk)
-            user = get_object_or_404(User, request.user.id)
-            services.add_favorite_movies(movie=movie, user=user)
+            services.add_favorite_movies(movie_id=pk, user_id=request.user.id)
             return HttpResponse('success')
 
 
 add_movie_to_user_favorite_list = AddFavoriteMovieView.as_view()
+
+
+class MoviesOfCollectionView(BaseView):
+    """
+    Displaying a list of films of a certain collection
+    """
+    def get(self, request, pk):
+        movies = services.get_movies_of_collection(collection_id=pk)
+        context = {
+            "object_list": movies
+        }
+
+        return render(request=request, template_name='movies/collection.html', context=context)
+
+
+movies_of_collection = MoviesOfCollectionView.as_view()

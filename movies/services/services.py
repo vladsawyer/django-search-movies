@@ -1,12 +1,15 @@
+from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Sum, Count
 from django.db.transaction import atomic
 from django.forms import ModelChoiceField
+from django.shortcuts import get_object_or_404
+
 from movies.models import (
     Movies,
     Members,
     Categories,
-    Vote
+    Vote, Collection
 )
 from dateutil.relativedelta import relativedelta
 import locale
@@ -550,14 +553,42 @@ def add_vote(obj, vote_type: int, user):
     return context
 
 
-def add_favorite_movies(movie, user):
+def add_favorite_movies(movie_id, user_id):
     """
     Add movies in User favorite list.
-    :param movie:
-    :param user:
+    :param movie_id:
+    :param user_id:
     :return:
     """
+    movie = get_object_or_404(Movies, movie_id)
+    user = get_object_or_404(User, user_id)
     if user.profile.favorites.filter(pk=movie.id).exists():
         user.profile.favorites.remove(movie)
     else:
         user.profile.favorites.add(movie)
+
+
+def get_popular_collection():
+    """
+    Collections of films and serials.
+    Sample: sorted in descending order by the number of positive votes.
+    :return: qs
+    """
+    collections = Collection.objects.exclude(
+        movies__isnull=False
+    ).annotate(
+        votes_sum=Sum('votes__vote')
+    ).order_by('-votes_sum')
+
+    return collections
+
+
+def get_movies_of_collection(collection_id):
+    """
+    Get all the films in the collection.
+    :param collection_id:
+    :return: qs
+    """
+    collection = get_object_or_404(Collection, collection_id)
+    movies = collection.movies.all().prefetch_related()
+    return movies

@@ -243,7 +243,9 @@ class Collection(models.Model):
     """
     title = models.CharField(verbose_name="Name of collection", max_length=150)
     image = models.ImageField(upload_to=get_movie_hashed_path, blank=True)
-    movies = models.ManyToManyField(Movies, verbose_name='Movies in collection', blank=True)
+    movies = models.ManyToManyField(Movies, verbose_name='Movies in collection',
+                                    blank=True, related_query_name='collection')
+    votes = GenericRelation(Vote, related_query_name='collection')
 
     def __str__(self):
         return self.title
