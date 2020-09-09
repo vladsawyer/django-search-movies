@@ -19,7 +19,16 @@ LOGGING = {
         'file': {
             'format': '{levelname} {asctime} {module} {process:d} {message}',
             'style': '{'
-        }
+        },
+        'mail_admins': {
+            'format': '{levelname} {asctime} {module} {process:d} {message}',
+            'style': '{'
+        },
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
     },
     'handlers': {
         'console': {
@@ -31,23 +40,33 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'formatter': 'file',
             'filename': os.path.join(BASE_DIR, 'logs/search_movies_logs.log')
-        }
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'formatter': 'mail_admins',
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
     },
     'loggers': {
-        '': {
+        'django': {
             'level': 'WARNING',
             'handlers': ['console', 'file'],
             'propagate': True
         },
         'django.request': {
-            'level': 'WARNING',
-            'handlers': ['console', 'file']
-        },
-        'mail_admins': {
             'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler',
-            'include_html': True,
+            'handlers': ['mail_admins', 'file']
+        },
+        'movies': {
+            'level': 'ERROR',
+            'handlers': ['mail_admins', 'file'],
+            'propagate': True
+        },
+        'accounts': {
+            'level': 'ERROR',
+            'handlers': ['mail_admins', 'file'],
+            'propagate': True
         },
     }
 }
@@ -205,10 +224,12 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 ADMINS = (
     ('admin', env('EMAIL_HOST_ADMIN')),
 )
+EMAIL_SUBJECT_PREFIX = '[SuperService] '
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
