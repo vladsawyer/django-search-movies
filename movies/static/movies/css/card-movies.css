@@ -1,4 +1,15 @@
+.title-section, .title-section:hover{
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.75em;
+    font-weight: 500;
+}
 
+ div.line {
+    height: 0.1rem;
+    width: 100%;
+    background-color: #ffc107;
+}
 
 .card-movie {
   border: none;
