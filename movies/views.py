@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from core.views import BaseView
@@ -342,3 +343,18 @@ add_like_to_movie = login_required(VoteView.as_view(model=Movies, vote_type=Vote
 add_dislike_to_movie = login_required(VoteView.as_view(model=Movies, vote_type=Vote.DISLIKE))
 add_like_to_member = login_required(VoteView.as_view(model=Members, vote_type=Vote.LIKE))
 add_dislike_to_member = login_required(VoteView.as_view(model=Members, vote_type=Vote.DISLIKE))
+
+
+class AddFavoriteMovieView(BaseView):
+    """
+    Add movie in User favorite list
+    """
+    def post(self, request, pk):
+        if request.is_ajax():
+            movie = get_object_or_404(Movies, pk)
+            user = get_object_or_404(User, request.user.id)
+            services.add_favorite_movies(movie=movie, user=user)
+            return HttpResponse('success')
+
+
+add_movie_to_user_favorite_list = AddFavoriteMovieView.as_view()

@@ -52,6 +52,7 @@ urlpatterns = [
     path('series/<int:pk>', views.SeriesDetailsView.as_view(), name='series_detail'),
     # ex: /member/5/
     path('member/<int:pk>', views.MemberDetailsView.as_view(), name='member'),
+    path('favorite/<int:pk>', views.add_movie_to_user_favorite_list, name='movie_favorite'),
 
     # ajax vote
     path('', include(vote_urlpatterns)),

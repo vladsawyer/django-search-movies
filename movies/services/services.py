@@ -548,3 +548,16 @@ def add_vote(obj, vote_type: int, user):
     }
 
     return context
+
+
+def add_favorite_movies(movie, user):
+    """
+    Add movies in User favorite list.
+    :param movie:
+    :param user:
+    :return:
+    """
+    if user.profile.favorites.filter(pk=movie.id).exists():
+        user.profile.favorites.remove(movie)
+    else:
+        user.profile.favorites.add(movie)
