@@ -584,12 +584,11 @@ def get_popular_collection():
     return collections
 
 
-def get_movies_of_collection(collection_id):
+def get_movies_of_collection(collection):
     """
     Get all the films in the collection.
-    :param collection_id:
+    :param collection:
     :return: qs
     """
-    collection = get_object_or_404(Collection, pk=collection_id)
     movies = collection.movies.all().prefetch_related()
     return movies

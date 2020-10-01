@@ -5,12 +5,12 @@ from django.views.generic.base import View
 
 from core.views import BaseView
 from django_filters.views import FilterView
-from movies.models import Members, Movies, Comments, Vote
+from movies.models import Members, Movies, Comments, Vote, Collection
 from movies.services import services
 from movies.services.filters import MovieFilter
 
 
-class MoviesIndexView(BaseView):
+class MoviesIndexView(View):
     """
     The main page of the "Search Movies" site, only the most important is displayed.
     """
@@ -28,7 +28,7 @@ class MoviesIndexView(BaseView):
         return render(request, "movies/index.html", context)
 
 
-class MovieDetailsView(BaseView):
+class MovieDetailsView(View):
     """
     Detailed information about the film, accessed through id in the database,
     if such an object does not exist, then 404
@@ -42,7 +42,7 @@ class MovieDetailsView(BaseView):
         return render(request, "movies/movie_detail.html", context)
 
 
-class SeriesDetailsView(BaseView):
+class SeriesDetailsView(View):
     """
     Detailed information about the series, accessed through id in the database,
     if such an object does not exist, then 404
@@ -53,7 +53,7 @@ class SeriesDetailsView(BaseView):
         return HttpResponse(response % pk)
 
 
-class MemberDetailsView(BaseView):
+class MemberDetailsView(View):
     """
     Detailed information about filming participants, accessed through id in the database,
     if such an object does not exist, then 404
@@ -67,7 +67,7 @@ class MemberDetailsView(BaseView):
         return render(request, "movies/member.html", context)
 
 
-class FilteredListView(FilterView, BaseView):
+class FilteredListView(FilterView):
     """
     Your Base View, to add general functionality, then most of the View is inherited from it.
     """
@@ -301,7 +301,7 @@ def get_filter_genres(request):
         return JsonResponse(data, status=200)
 
 
-class CommentView(BaseView):
+class CommentView(View):
     """
     Adding comments to movies and series
     """
@@ -323,7 +323,7 @@ add_comment_to_movie = login_required(CommentView.as_view(model=Movies))
 add_comment_to_member = login_required(CommentView.as_view(model=Members))
 
 
-class VoteView(BaseView):
+class VoteView(View):
     """
     Like/Dislike system
     """
@@ -360,17 +360,28 @@ class AddFavoriteMovieView(View):
 add_movie_to_user_favorite_list = AddFavoriteMovieView.as_view()
 
 
-class MoviesOfCollectionView(BaseView):
+class MoviesOfCollectionView(FilterView):
     """
     Displaying a list of films of a certain collection
     """
-    def get(self, request, pk):
-        movies = services.get_movies_of_collection(collection_id=pk)
-        context = {
-            "object_list": movies
-        }
+    filterset_class = MovieFilter
+    paginate_by = 32
+    template_name = "movies/collection.html"
 
-        return render(request=request, template_name='movies/collection.html', context=context)
+    def get_collection(self):
+        return get_object_or_404(Collection, pk=self.kwargs['pk'])
+
+    def get_queryset(self):
+        collection = self.get_collection()
+        queryset = services.get_movies_of_collection(collection=collection)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        collection = self.get_collection()
+        context['title_collection'] = collection.title
+        context['img_collection'] = collection.image.url
+        return context
 
 
 movies_of_collection = MoviesOfCollectionView.as_view()
