@@ -73,3 +73,11 @@ def get_random_movie_or_series():
     """
     movie = Movies.objects.get_random_movie()
     return movie
+
+
+@register.simple_tag
+def movie_is_favorite_of_current_user(user, movie_id):
+    if user.profile.favorites.filter(pk=movie_id).exists():
+        return 1
+    return 0
+

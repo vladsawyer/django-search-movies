@@ -1,5 +1,6 @@
 {% extends "movies/base.html" %}
 {% load static %}
+{% load movie_tag %}
 {% block title %}{{ title }}{% endblock %}
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'movies/css/movie_detail.css' %}">
@@ -114,13 +115,16 @@
 
                                 <div class="favorites">
                                 {% if user.is_authenticated %}
-                                  <button class="vote background-none" data-id="{{ movie_id }}" type="button"
-                                          data-action="favorite"
+                                  <button class="favorite background-none" type="button"
+                                          data-action="add-favorite"
                                           data-csrf_token="{{ csrf_token }}"
                                           data-toggle="tooltip" data-placement="bottom"
-                                          title="Добавить в избранное">
+                                          data-url="{% url 'movie_favorite' movie_id %}"
+                                          title="Добавить в избранное"
+                                          id="favorite_button">
                                       <i class="far fa-star fa-fw fa-lg"></i>
                                   </button>
+
                                     {% else %}
                                     <a href="{% url 'account_login' %}" class="vote" >
                                       <i class="far fa-star fa-fw fa-lg"></i>
@@ -246,9 +250,21 @@
 
         document.getElementById("form-comment").action = "{% url 'movie_comment' movie_id %}";
 
+
+        {% if user.is_authenticated %}
+        if({% movie_is_favorite_of_current_user user movie_id %}) {
+            $(".favorites>button>i").removeClass("far")
+            $(".favorites>button>i").addClass("fas")
+            document.getElementById("favorite_button").style.color = "#ffc107";
+            document.getElementById("favorite_button").title = "Убрать из избранного"
+            $("#favorite_button").attr("data-action", "remove-favorite").data("data-action", "remove-favorite")
+        }
+        {% endif %}
+
     </script>
     <script type="text/javascript" src="{% static 'movies/js/paralax_bg_img.js' %}"></script>
     <script type="text/javascript" src="{% static 'movies/js/comments.js' %}"></script>
     <script type="text/javascript" src="{% static 'movies/js/votes.js' %}"></script>
+    <script type="text/javascript" src="{% static 'movies/js/movie_favorite.js' %}"></script>
 
 {% endblock %}

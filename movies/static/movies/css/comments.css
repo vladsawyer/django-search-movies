@@ -158,13 +158,13 @@ button, [type="submit"], [type="button"]{
   cursor: pointer;
 }
 
-button.vote{
+button.vote, button.favorite{
   color: #fff;
   background: none;
   text-decoration: none;
 }
 
-a.share:hover, button.vote:hover{
+a.share:hover, button.vote:hover, button.favorite:hover{
   cursor: pointer;
   color: #ffc107;
   background: none;

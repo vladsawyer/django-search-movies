@@ -1,6 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic.base import View
+
 from core.views import BaseView
 from django_filters.views import FilterView
 from movies.models import Members, Movies, Comments, Vote
@@ -345,7 +347,7 @@ add_like_to_member = login_required(VoteView.as_view(model=Members, vote_type=Vo
 add_dislike_to_member = login_required(VoteView.as_view(model=Members, vote_type=Vote.DISLIKE))
 
 
-class AddFavoriteMovieView(BaseView):
+class AddFavoriteMovieView(View):
     """
     Add movie in User favorite list
     """

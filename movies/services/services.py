@@ -560,8 +560,9 @@ def add_favorite_movies(movie_id, user_id):
     :param user_id:
     :return:
     """
-    movie = get_object_or_404(Movies, movie_id)
-    user = get_object_or_404(User, user_id)
+
+    movie = get_object_or_404(Movies, pk=movie_id)
+    user = get_object_or_404(User, pk=user_id)
     if user.profile.favorites.filter(pk=movie.id).exists():
         user.profile.favorites.remove(movie)
     else:
@@ -589,6 +590,6 @@ def get_movies_of_collection(collection_id):
     :param collection_id:
     :return: qs
     """
-    collection = get_object_or_404(Collection, collection_id)
+    collection = get_object_or_404(Collection, pk=collection_id)
     movies = collection.movies.all().prefetch_related()
     return movies

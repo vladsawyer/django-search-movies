@@ -9,7 +9,6 @@ function like()
         url : url,
         type : 'POST',
         data : {
-            'pk' : pk,
             'csrfmiddlewaretoken': csrf
         },
 
@@ -34,7 +33,6 @@ function dislike()
         url : url,
         type : 'POST',
         data : {
-            'pk' : pk,
             'csrfmiddlewaretoken': csrf
         },
 
