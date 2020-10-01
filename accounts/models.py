@@ -11,7 +11,8 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to=get_profile_hashed_path,
                                verbose_name='Avatar',
                                default=get_random_default_user_avatar())
-    favorites = models.ManyToManyField(Movies, verbose_name='Favorite movies', blank=True)
+    favorites = models.ManyToManyField(Movies, verbose_name='Favorite movies',
+                                       blank=True, related_query_name='profile')
 
     def __str__(self):
         return self.user.username
@@ -30,3 +31,4 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+

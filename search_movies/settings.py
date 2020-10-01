@@ -93,7 +93,6 @@ INSTALLED_APPS = [
     "rest_framework",
     'django_filters',
     'service_objects',
-    'crispy_forms',
     'django_inlinecss',
     'allauth',
     'allauth.account',

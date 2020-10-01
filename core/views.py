@@ -16,7 +16,7 @@ class BaseView(View):
         try:
             response = super().dispatch(request, *args, **kwargs)
         except Exception as e:
-            return self._response({'errorMessage': e.message}, status=400)
+            return self._response({'errorMessage': str(e)}, status=400)
 
         if isinstance(response, (dict, list)):
             return self._response(response)
