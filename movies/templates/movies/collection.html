@@ -1,0 +1,198 @@
+{% extends "movies/base.html" %}
+{% load static %}
+{% load movie_tag %}
+{% block title %}SM | {{ title_collection }}{% endblock %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/css/home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/css/card-movies.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'movies/css/collection.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="movie__bg">
+        <img src="{{ img_collection }}" class="movie__bg-image" alt="{{ title_collection }}">
+        <div class="movie__bg-shade"></div>
+    </div>
+
+    <section class="container content" style="">
+
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <a class="btn btn-outline-warning text-decoration-none" onclick="javascript:history.back(); return false;" href="">&larr;</a>
+            </div>
+            <div class="col-auto">
+                <span class="title-section">{{ title_collection }}</span>
+            </div>
+            <div class="col">
+                <div class="line mt-2"></div>
+            </div>
+        </div>
+
+        <form method="get" action="">
+        <div class="row my-5">
+            <div class="col-xl-2 col-sm-6 col-12">
+                <div class="form-group">
+                    <label for="categories"></label>
+                    <select class="form-control custom-select" id="categories" name="categories"
+                        url = "{% url 'get_categories' %}">
+                    </select>
+                </div>
+            </div>
+            <div class="col-xl-2 col-sm-6 col-12">
+                <div class="form-group">
+                    <label for="years"></label>
+                    <select class="form-control custom-select" id="years" name="year"
+                            url = "{% url 'get_years' %}">
+                    </select>
+                </div>
+            </div>
+            <div class="col-xl-2 col-sm-6 col-12">
+                <div class="form-group">
+                    <label for="genres"></label>
+                    <select class="form-control custom-select" id="genres" name="genres"
+                        url = "{% url 'get_genres' %}">
+                    </select>
+                </div>
+            </div>
+            <div class="col-xl-2 col-sm-6 col-12">
+                <div class="form-group">
+                    <label for="countries"></label>
+                    <select class="form-control custom-select" id="countries" name="country"
+                            url = "{% url 'get_countries' %}">
+                    </select>
+                </div>
+            </div>
+            <div class="col-xl-2 col-sm-6 col-12">
+                <div class="form-group">
+                    <label for="sort_by"></label>
+                    <select class="form-control custom-select" id="sort_by" name="sort_by">
+                        <option selected value = "">По умолчанию</option>
+                        <option value='-rating_kp'>По Кинопоиску</option>
+                        <option value='-rating_imdb'>По IMDB</option>
+                        <option value='-year'>По году</option>
+                        <option value='-comments'>По комментариям</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row justify-content-center align-self-center"
+                    style="margin-top: 19px;">
+                    <a class="btn btn-outline-warning py-2" id="display_all">
+                        <i class="fas fa-eraser"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row justify-content-center align-self-center"
+                    style="margin-top: 19px;">
+                    <button type="submit" class="btn btn-outline-warning py-2" id="filter-search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+        <div class="row my-5">
+
+        </div>
+
+        <div class="row mb-2 row-cols-sm-3 row-cols-lg-3 row-cols-xl-4  row-cols-2 infinite-container" id="movie_list" >
+            {% for movie in object_list %}
+                <div class="col mb-4 infinite-item">
+                    <div class="card card-movie">
+                        <div class="poster">
+                            <img src="{{movie.poster.url}}" alt="{{ movie.title }}">
+                        </div>
+
+                        <div class="rating">
+                            {% if movie.rating_imdb %}
+                                <div class="imsp" title="IMDb">
+                                    <i class="fab fa-imdb"></i>
+                                    <label class="pl-1 m-0">{{ movie.rating_imdb }}</label>
+                                </div>
+                            {% endif %}
+
+                            {% if movie.rating_kp %}
+                                <div class="kpsp" title="Kinopoisk">
+                                    <span class="kp_sp"></span>
+                                    <label class="m-0">{{ movie.rating_kp }}</label>
+                                </div>
+                            {% endif %}
+                         </div>
+
+                        <div class="year text-white bg-success">
+                            {{ movie.world_premiere.year }}
+                        </div>
+
+                        <div class="details">
+                            <a href="{{ movie.get_absolute_url }}" class="title text-decoration-none"><h2>{{ movie.title }}</h2></a>
+                            {% for director in movie.directors.all %}
+                                <a href="{{director.get_absolute_url}}" class="director text-decoration-none"><span>{{director}}</span></a>
+                            {% endfor %}
+
+                            <div class="tags">
+                                {% for genre in movie.categories|genres|slice:":2" %}
+                                    <a href="{{genre.get_absolute_url}}"><span class="badge badge-success">{{ genre.title|title }}</span></a>
+                                {% endfor %}
+                            </div>
+
+                            <div class="hover-derails p-0 m-0">
+                              <div class="info">
+                                {% if movie.description is not None %}
+                                    <p>{{ movie.description|truncatechars:180 }}</p>
+                                {% endif %}
+                              </div>
+
+                              <div class="star">
+                              {% if movie.actors.all.exists %}
+                                <h4>Актеры</h4>
+                                <ul>
+                                    {% for actor in movie.actors.all %}
+                                        <li><a href="{{actor.get_absolute_url}}" title="{{actor.full_name}}"><img src="{{ actor.image.url }}" alt="{{actor.full_name}}"></a></li>
+                                    {% endfor %}
+                                </ul>
+                              {% endif %}
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div id="no_results" class="mb-5 mx-auto">
+                    <h5 class="text-warning">Не нашли никаких результатов</h5>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if page_obj.has_next %}
+            <div class="justify-content-center loading my-4">
+              <div class="spinner-grow text-warning" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+
+            <a class="infinite-more-link mb-3" href="?{% param_replace page=page_obj.next_page_number %}"></a>
+        {% endif %}
+    </section>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'waypoints/jquery.waypoints.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'waypoints/infinite.min.js' %}"></script>
+    <script type="text/javascript">
+        let infinite = new Waypoint.Infinite({
+            element: $('.infinite-container')[0],
+            onBeforePageLoad: function () {
+            $('.loading').show();
+          },
+            onAfterPageLoad: function ($items) {
+            $('.loading').hide();
+          }
+        });
+    </script>
+    <script src="{% static 'movies/js/filter_list_0.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'movies/js/paralax_bg_img.js' %}"></script>
+
+{% endblock %}

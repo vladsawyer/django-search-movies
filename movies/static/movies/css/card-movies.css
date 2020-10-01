@@ -222,6 +222,10 @@
     .card {
         font-size: 12px;
     }
+
+    div.line{
+        display: none;
+    }
 }
 
 @media screen and (max-width: 1024px){

@@ -1,0 +1,70 @@
+.movie__bg {
+  width: 100%;
+  max-height: 660px;
+  overflow: hidden;
+  position: relative; }
+
+.movie__bg-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.movie__bg-shade {
+  position: absolute;
+  background-image: linear-gradient(to bottom, rgba(30, 31, 35, 0) 0%, #16151a 80%);
+  width: 100%;
+  height: 660px;
+  bottom: 0;
+  left: 0;
+  z-index: 1; }
+
+
+@media (max-width: 500px) {
+  .movie__bg-image{
+    height: 230px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .movie__bg-shade{
+    height: 80%;
+  }
+   .movie__bg-image{
+    height: 330px;
+  }
+
+  .content{
+  position: relative;
+  top: -8rem;
+  z-index: 2;
+  box-sizing: border-box;
+}
+}
+
+@media (max-width: 767px) {
+  .movie__bg-shade {
+    height: 100%; }
+
+   .movie__bg-image{
+    height: 330px;
+  }
+
+  .content{
+  position: relative;
+  top: -10rem;
+  z-index: 2;
+  box-sizing: border-box;
+}
+}
+
+
+@media (min-width: 1024px) {
+  .content{
+  position: relative;
+  top: -20rem;
+  z-index: 2;
+  box-sizing: border-box;
+}
+}
