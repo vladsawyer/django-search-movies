@@ -2,7 +2,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.base import View
-
 from core.views import BaseView
 from django_filters.views import FilterView
 from movies.models import Members, Movies, Comments, Vote, Collection
@@ -23,7 +22,7 @@ class MoviesIndexView(View):
             "new_movies": services.get_new_movies_and_series(limit=16),
             "popular_movies": services.get_popular_movies(limit=16),
             "popular_series": services.get_popular_series(limit=16),
-            "collections": services.get_popular_collection(),
+            "collections": services.get_index_collection(),
         }
         return render(request, "movies/index.html", context)
 

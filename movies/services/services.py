@@ -569,19 +569,13 @@ def add_favorite_movies(movie_id, user_id):
         user.profile.favorites.add(movie)
 
 
-def get_popular_collection():
+def get_index_collection():
     """
-    Collections of films and serials.
-    Sample: sorted in descending order by the number of positive votes.
+    Collections of films and serials for index page.
     :return: qs
     """
-    collections = Collection.objects.exclude(
-        movies__isnull=False
-    ).annotate(
-        votes_sum=Sum('votes__vote')
-    ).order_by('-votes_sum')
 
-    return collections
+    return Collection.objects.filter(is_active=True)
 
 
 def get_movies_of_collection(collection):

@@ -302,62 +302,16 @@
             </div>
             <div class="row mb-4">
                 <div class="col-12 slider-collections card-deck p-0 mx-auto">
+                    {% for collection in collections %}
                     <div class="item-collections card border-0">
                         <div class="item-inner-collection">
-                            <img src="https://images.iptv.rt.ru/images/bmkqakdoldaup73kblqg.jpg?height=480&width=752&progressive=true" class="card-img" alt="...">
+                            <img src="{{ collection.image.url }}" class="card-img" alt="...">
                             <div class="card-img-overlay text-white">
-                                <a href="#" class="title text-decoration-none"><h2>Фильмы про путешествия</h2></a>
+                                <a href="{% url 'movies_collection' collection.id %}" class="title text-decoration-none stretched-link"><h2>{{ collection.title }}</h2></a>
                             </div>
                         </div>
                     </div>
-                    <div class="item-collections card border-0">
-                        <div class="item-inner-collection">
-                            <img src="https://images.iptv.rt.ru/images/bp6m10jmgcjaev0mn9sg.jpg?height=480&width=752&progressive=true" class="card-img" alt="...">
-                            <div class="card-img-overlay text-white">
-                                <a href="#" class="title text-decoration-none"><h2>Фильмы про футбол</h2></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item-collections card border-0">
-                        <div class="item-inner-collection">
-                            <img src="https://images.iptv.rt.ru/images/bq1mvqrmgcj81mvmof3g.jpg?height=480&width=752&progressive=true" class="card-img" alt="...">
-                            <div class="card-img-overlay text-white">
-                                <a href="#" class="title text-decoration-none"><h2>Обоятельные плохиши</h2></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item-collections card border-0">
-                        <div class="item-inner-collection">
-                            <img src="https://images.iptv.rt.ru/images/bpv4ipjmgcj81mvmoedg.jpg?height=480&width=752&progressive=true" class="card-img" alt="...">
-                            <div class="card-img-overlay text-white">
-                                <a href="#" class="title text-decoration-none"><h2>Историческое кино</h2></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item-collections card border-0">
-                        <div class="item-inner-collection">
-                            <img src="https://images.iptv.rt.ru/images/bnodeu5oldasi4kc2fb0.jpg?height=480&width=752&progressive=true" class="card-img" alt="...">
-                            <div class="card-img-overlay text-white">
-                                <a href="#" class="title text-decoration-none"><h2>Фантастические миры</h2></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item-collections card border-0">
-                        <div class="item-inner-collection">
-                            <img src="https://images.iptv.rt.ru/images/bpot58jmgcj8jo300170.jpg?height=480&width=752&progressive=true" class="card-img" alt="...">
-                            <div class="card-img-overlay text-white">
-                                <a href="#" class="title text-decoration-none"><h2>Когда все дома</h2></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item-collections card border-0">
-                        <div class="item-inner-collection">
-                            <img src="https://images.iptv.rt.ru/images/bogp9cbmgcjfs8pf0aug.jpg?height=480&width=752&progressive=true" class="card-img" alt="...">
-                            <div class="card-img-overlay text-white ">
-                                <a href="#" class="title text-decoration-none"><h2>Истории о принцессах</h2></a>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
             <!-- Популярные фильмы 16 шт -->

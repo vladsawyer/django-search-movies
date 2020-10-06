@@ -245,7 +245,7 @@ class Collection(models.Model):
     image = models.ImageField(upload_to=get_movie_hashed_path, blank=True)
     movies = models.ManyToManyField(Movies, verbose_name='Movies in collection',
                                     blank=True, related_query_name='collection')
-    votes = GenericRelation(Vote, related_query_name='collection')
+    is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
