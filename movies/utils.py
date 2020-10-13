@@ -2,7 +2,7 @@ import os
 from hashlib import sha1
 import random
 from django.core.paginator import Paginator
-from search_movies.settings import BASE_DIR
+from config.settings import BASE_DIR
 
 
 def get_pagination(request, queryset, count_show_list):
