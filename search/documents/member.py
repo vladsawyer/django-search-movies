@@ -3,7 +3,6 @@ from search.utils import html_strip, add_index_settings
 from movies.models import Members
 from django_elasticsearch_dsl_drf.compat import KeywordField, StringField
 
-
 member_index = Index('member')
 add_index_settings(member_index)
 
@@ -16,11 +15,18 @@ class MemberDocument(Document):
         analyzer=html_strip,
         fields={
             'raw': KeywordField(),
+            'suggest': fields.CompletionField(),
         }
     )
     birthday = fields.DateField()
     roles = fields.NestedField(properties={
-        'title': fields.TextField(analyzer=html_strip, attr='role'),
+        'title': fields.TextField(
+            analyzer=html_strip,
+            attr='role',
+            fields={
+                'raw': KeywordField(),
+            }
+        ),
     })
     member_url = fields.TextField(attr='get_absolute_url')
     image = fields.FileField(attr="image")

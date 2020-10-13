@@ -3,7 +3,6 @@ from search.utils import html_strip, add_index_settings
 from movies.models import Movies
 from django_elasticsearch_dsl_drf.compat import KeywordField, StringField
 
-
 movie_index = Index('movie')
 add_index_settings(movie_index)
 
@@ -17,6 +16,7 @@ class MovieDocument(Document):
         analyzer=html_strip,
         fields={
             'raw': KeywordField(),
+            'suggest': fields.CompletionField(),
         }
     )
     world_premiere = fields.DateField()
@@ -28,7 +28,13 @@ class MovieDocument(Document):
     )
     rf_premiere = fields.DateField()
     categories = fields.NestedField(properties={
-        'title': fields.TextField(analyzer=html_strip),
+        'title': fields.TextField(
+            analyzer=html_strip,
+            fields={
+                'raw': KeywordField(),
+            }
+
+        ),
     })
     rating_kp = fields.FloatField()
     rating_imdb = fields.FloatField()

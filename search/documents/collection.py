@@ -16,6 +16,7 @@ class CollectionDocument(Document):
         analyzer=html_strip,
         fields={
             'raw': KeywordField(),
+            'suggest': fields.CompletionField(),
         }
     )
     collection_url = fields.TextField(attr='get_absolute_url')

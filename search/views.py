@@ -9,13 +9,14 @@ from django_elasticsearch_dsl_drf.constants import (
     LOOKUP_QUERY_LT,
     LOOKUP_QUERY_LTE,
     LOOKUP_QUERY_EXCLUDE,
+    SUGGESTER_COMPLETION,
 )
 from django_elasticsearch_dsl_drf.filter_backends import (
     FilteringFilterBackend,
     IdsFilterBackend,
     OrderingFilterBackend,
     DefaultOrderingFilterBackend,
-    SearchFilterBackend,
+    SuggesterFilterBackend,
 )
 from django_elasticsearch_dsl_drf.viewsets import DocumentViewSet
 from search.documents import (
@@ -32,17 +33,11 @@ class SearchMovieViewSet(DocumentViewSet):
     lookup_field = 'id'
     filter_backends = [
         FilteringFilterBackend,
-        IdsFilterBackend,
         OrderingFilterBackend,
         DefaultOrderingFilterBackend,
-        SearchFilterBackend,
+        SuggesterFilterBackend
     ]
-    # Define search fields
-    search_fields = (
-        "title",
-        "world_premiere__year",
-        "categories__title",
-    )
+
     # Define filter fields
     filter_fields = {
         'country': 'country.raw',
@@ -70,11 +65,24 @@ class SearchMovieViewSet(DocumentViewSet):
             ],
         },
     }
-    # Define ordering fields
+
     ordering_fields = {
         '_score': '_score',
         'title': 'title.raw',
         'world_premiere': 'world_premiere__year',
+    }
+
+    suggester_fields = {
+        'title': {
+            'field': 'title.suggest',
+            'suggesters': [
+                SUGGESTER_COMPLETION,
+            ],
+            'options': {
+                'size': 5,  # Override default number of suggestions
+            },
+        },
+
     }
 
 
@@ -84,25 +92,30 @@ class SearchMemberViewSet(DocumentViewSet):
     lookup_field = 'id'
     filter_backends = [
         FilteringFilterBackend,
-        IdsFilterBackend,
         OrderingFilterBackend,
         DefaultOrderingFilterBackend,
-        SearchFilterBackend,
+        SuggesterFilterBackend,
     ]
-    # Define search fields
-    search_fields = (
-        "full_name",
-        "roles__role",
-    )
 
     filter_fields = {
-        'full_name': 'full_name.raw',
         'birthday': 'birthday__year',
         'roles': 'roles__role',
     }
     ordering_fields = {
         '_score': '_score',
         'birthday': 'birthday__year',
+    }
+
+    suggester_fields = {
+        'full_name': {
+            'field': 'full_name.suggest',
+            'suggesters': [
+                SUGGESTER_COMPLETION,
+            ],
+            'options': {
+                'size': 5,  # Override default number of suggestions
+            },
+        },
     }
 
 
@@ -114,13 +127,22 @@ class SearchCollectionViewSet(DocumentViewSet):
         IdsFilterBackend,
         OrderingFilterBackend,
         DefaultOrderingFilterBackend,
-        SearchFilterBackend,
+        SuggesterFilterBackend,
     ]
-    # Define search fields
-    search_fields = (
-        "title"
-    )
+
     ordering_fields = {
         'title': 'title.raw',
+    }
+
+    suggester_fields = {
+        'title': {
+            'field': 'title.suggest',
+            'suggesters': [
+                SUGGESTER_COMPLETION,
+            ],
+            'options': {
+                'size': 5,  # Override default number of suggestions
+            },
+        },
     }
 
