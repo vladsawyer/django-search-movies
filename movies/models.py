@@ -250,6 +250,9 @@ class Collection(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('movies_collection', kwargs={"pk": self.id})
+
     class Meta:
         verbose_name = "Collection"
         verbose_name_plural = "Collections"
