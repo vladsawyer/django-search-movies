@@ -2,7 +2,7 @@
 media/*
 __pycache__/
 venv/
-/search_movies/.env
+/config/.env
 *.py[cod]
 *$py.class
 /logs/search_movies_logs.log
