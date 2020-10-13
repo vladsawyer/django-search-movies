@@ -8,69 +8,6 @@ env = environ.Env()
 # reading .env file
 environ.Env.read_env()
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'console': {
-            'format': '{levelname} {asctime} {module} {process:d} {message}',
-            'style': '{'
-        },
-        'file': {
-            'format': '{levelname} {asctime} {module} {process:d} {message}',
-            'style': '{'
-        },
-        'mail_admins': {
-            'format': '{levelname} {asctime} {module} {process:d} {message}',
-            'style': '{'
-        },
-    },
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse',
-        },
-    },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'console'
-        },
-        'file': {
-            'level': 'WARNING',
-            'class': 'logging.FileHandler',
-            'formatter': 'file',
-            'filename': os.path.join(BASE_DIR, 'logs/search_movies_logs.log')
-        },
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'formatter': 'mail_admins',
-            'class': 'django.utils.log.AdminEmailHandler',
-        },
-    },
-    'loggers': {
-        'django': {
-            'level': 'WARNING',
-            'handlers': ['console', 'file'],
-            'propagate': True
-        },
-        'django.request': {
-            'level': 'ERROR',
-            'handlers': ['mail_admins', 'file']
-        },
-        'movies': {
-            'level': 'ERROR',
-            'handlers': ['mail_admins', 'file'],
-            'propagate': True
-        },
-        'accounts': {
-            'level': 'ERROR',
-            'handlers': ['mail_admins', 'file'],
-            'propagate': True
-        },
-    }
-}
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
@@ -94,6 +31,9 @@ INSTALLED_APPS = [
     'django_filters',
     'service_objects',
     'django_inlinecss',
+    'django_elasticsearch_dsl',
+    'django_elasticsearch_dsl_drf',
+    'djcelery',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -102,12 +42,34 @@ INSTALLED_APPS = [
 
     'movies',
     'accounts',
+    'search',
 ]
+
+# Elasticsearch configuration
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}
+
+ELASTICSEARCH_INDEX_NAMES = {
+    'search.documents.movie': 'movie',
+    'search.documents.member': 'member',
+    'search.documents.collection': 'collection',
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100,
+    'ORDERING_PARAM': 'ordering',
 }
 
 MIDDLEWARE = [
@@ -176,7 +138,69 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            'format': '{levelname} {asctime} {module} {process:d} {message}',
+            'style': '{'
+        },
+        'file': {
+            'format': '{levelname} {asctime} {module} {process:d} {message}',
+            'style': '{'
+        },
+        'mail_admins': {
+            'format': '{levelname} {asctime} {module} {process:d} {message}',
+            'style': '{'
+        },
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console'
+        },
+        'file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'formatter': 'file',
+            'filename': os.path.join(BASE_DIR, 'logs/search_movies_logs.log')
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'formatter': 'mail_admins',
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'level': 'WARNING',
+            'handlers': ['console', 'file'],
+            'propagate': True
+        },
+        'django.request': {
+            'level': 'ERROR',
+            'handlers': ['mail_admins', 'file']
+        },
+        'movies': {
+            'level': 'ERROR',
+            'handlers': ['mail_admins', 'file'],
+            'propagate': True
+        },
+        'accounts': {
+            'level': 'ERROR',
+            'handlers': ['mail_admins', 'file'],
+            'propagate': True
+        },
+    }
+}
+
 
 # Internationalization
 LANGUAGE_CODE = env('LANGUAGE_CODE', default="ru-RU")
@@ -232,3 +256,12 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+# CELERY related settings
+BROKER_URL = env('BROKER_URL')
+CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = env('TIME_ZONE')

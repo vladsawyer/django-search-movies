@@ -5,7 +5,8 @@ import pytest
 import locale
 from django.core.exceptions import MultipleObjectsReturned
 from movies.models import *
-
+import string
+import random
 
 @pytest.mark.skip
 @pytest.mark.django_db
