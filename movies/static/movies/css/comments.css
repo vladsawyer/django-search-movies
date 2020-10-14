@@ -187,3 +187,26 @@ a.share:hover, button.vote:hover, button.favorite:hover{
   text-decoration: none;
   color: #fff;
 }
+
+  span.header_comment {
+    font-size: 2em;
+  }
+
+@media screen and (max-width: 768px){
+  span.header_comment {
+    font-size: 1.3em;
+  }
+  #contact-comment{
+    height: 3rem;
+  }
+
+  .file-upload ul{
+    right: -130%;
+  }
+
+  .comment-send-button > i, .file-upload > a{
+    font-size: 1.33em;
+    vertical-align: -25%;
+  }
+
+}

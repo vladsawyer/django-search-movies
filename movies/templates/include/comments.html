@@ -7,22 +7,22 @@
 
 <div class="row">
     <div class="col-md-8 col-lg-6 col-12">
-      <h3>Оставить комментарий:</h3>
+      <span class="header_comment">Оставить комментарий:</span>
     </div>
   </div>
 {% if user.is_authenticated %}
   <form action="" method="post" class="d-flex row mt-3" id="form-comment">
       {% csrf_token %}
       <input type="hidden" name="parent" value="" id="comment-parent">
-    <div class="col-lg-8 col-md-6 col-7">
+    <div class="col-lg-8 col-md-10 col-7">
       <div class="input-group">
         <textarea class="form-control" name="text" aria-label="With textarea" required id="contact-comment"></textarea>
       </div>
     </div>
-    <div class="col-auto align-self-center">
+    <div class="col-lg-auto col-xl-auto col-1 align-self-center">
       <nav id="colorNav">
           <div class="file-upload">
-              <a href="#" class="fas fa-paperclip fa-2x fa-fw"></a>
+              <a class="fas fa-paperclip fa-2x fa-fw"></a>
               <ul>
                   <li>
                     <div class="upload">
@@ -37,7 +37,7 @@
           </div>
       </nav>
     </div>
-      <div class="col-auto align-self-center">
+      <div class="col-lg-auto col-xl-auto col-1 align-self-center">
         <button type="submit" class="btn comment-send-button">
             <i class="fas fa-paper-plane fa-2x fa-fw"></i>
         </button>

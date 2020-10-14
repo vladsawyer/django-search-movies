@@ -70,6 +70,9 @@ a.breadcrumbs__href {
   .movie__title-text h1 {
   font-size: 3rem;
 }
+  .movie_social{
+    margin-bottom: 1rem;
+  }
 }
 @media only screen and (max-width: 1919.97px) {
   .breadcrumbs {
@@ -94,7 +97,12 @@ a.breadcrumbs__href {
     margin-bottom: 8px; }
   .breadcrumbs__item,
   a.breadcrumbs__href {
-    font-size: 12px; } }
+    font-size: 12px; }
+  .movie__description{
+   margin-bottom: 0;
+  padding-bottom: 0;
+  }
+}
 
 @media only screen and (max-width: 767.97px) {
   .breadcrumbs {
@@ -336,7 +344,6 @@ margin-bottom: 3rem;}
 
 .movie__description-trailer_title {
   font-size: 1.5rem;
-  font-weight: bold;
   font-family: 'PT Sans', sans-serif; }
 
 .movie__description-trailer_subtitle {
@@ -531,7 +538,7 @@ margin-bottom: 3rem;}
   }
 }
 
-@media (min-width: 1920px) {
+@media only screen and (min-width: 1920px) {
   .movie__content {
     padding: 0 100px; }
   .movie__header {
@@ -712,6 +719,11 @@ margin-bottom: 3rem;}
   .movie__content {
     padding: 0 24px;
   }
+
+  .container_comment{
+    margin: 0 24px;
+    padding: 0;
+  }
   .movie__bg-shade{
     height: 80%;
   }
@@ -733,17 +745,15 @@ margin-bottom: 3rem;}
     }
   .movie__description-trailer {
     margin-right: 40px; }
-  .movie__description-trailer_header {
-    margin-bottom: 12px; }
   .movie__description-trailer_title {
-    font-size: 16px;
-    line-height: 14px; }
+    font-size: 1.3rem;
+ }
   .movie__description-trailer_desciption-duration {
     font-size: 16px;
     line-height: 1.4; }
   .movie__description-data_text,
   .movie .description-persons {
-    font-size: 12px;
+    font-size: 16px;
     line-height: 1.5;
     margin-bottom: 24px; }
   .movie__recommendations {
@@ -801,6 +811,10 @@ margin-bottom: 3rem;}
     padding: 0 16px 24px 16px;
     margin-top: -3rem;
   }
+  .container_comment{
+    margin: 0 16px 24px 16px;
+    padding: 0;
+  }
 
   .movie__description-additional_no-trailer {
     flex-direction: column;
@@ -808,13 +822,13 @@ margin-bottom: 3rem;}
     padding: 0; }
   .movie .movie__description-data_text {
     width: 100%;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 1.5;
     margin-bottom: 24px;
     padding: 0; }
   .movie .description-persons {
     width: 100%;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 1.5;
     -ms-grid-columns: 90px auto;
     grid-template-columns: 90px auto;
@@ -839,8 +853,9 @@ margin-bottom: 3rem;}
     line-height: 28px;
     margin-right: 4px; }
   .movie__description-trailer_title {
-    font-size: 14px;
-    line-height: 20px; }
+    font-size: 1.3em;
+    font-weight: normal;
+  }
   .movie__description-trailer_subtitle {
     display: none; }
   .movie__description-trailer_desciption {
@@ -849,9 +864,7 @@ margin-bottom: 3rem;}
   .movie__description-trailer_desciption-title {
     font-size: 12px;
     line-height: 17px; }
-  .movie__description-trailer_header {
-    font-size: 16px;
-    margin-bottom: 6px; }
+
   .movie__description-trailer_desciption-duration {
     font-size: 12px;
     line-height: 15px; }
@@ -876,8 +889,8 @@ margin-bottom: 3rem;}
   .movie__play-favorites_img {
     width: 24px; }
   .movie__data-wrapper.description-persons {
-    -ms-grid-columns: 90px auto;
-    grid-template-columns: 90px auto;
+    -ms-grid-columns: 110px auto;
+    grid-template-columns: 110px auto;
     margin-bottom: 16px; }
   .movie__seasons {
     margin-bottom: 16px; }
@@ -955,16 +968,16 @@ margin-bottom: 3rem;}
       height: 26px;
       width: auto; }
   .movie__description-rating_text {
-    font-size: 12px;
+    font-size: 1rem;
     line-height: 15px; }
   .movie__description-rating_item {
     margin-right: 12px; }
   .movie__description-rating_a {
-    width: 17px; }
+    width: 20px; }
   .movie__description-rating_i {
-    width: 26px; }
+    width: 36px; }
   .movie__description-rating_k {
-    width: 18px; } }
+    width: 20px; } }
 
 @media (max-width: 1024px) {
   .movie__description {
@@ -1185,9 +1198,14 @@ h3.roll-up {
   height:100%;
 }
 
-@media (max-width: 767px) {
+@media screen and (max-width: 767px) {
   #trailer {
     height: 200px;
+  }
+
+  .movie__description{
+    margin-bottom: 0;
+    padding-bottom: 0;
   }
 }
 
