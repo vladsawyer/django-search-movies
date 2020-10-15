@@ -172,14 +172,52 @@
 </nav>
 <!-- collapse форма поиска -->
 <section class="container">
-   <div class="row">
-       <div class="col-lg-12 col-xl-12">
+   <div class="row justify-content-center">
+       <div class="col-lg-8 col-xl-8 col-12 col-md-12">
            <div class="collapse" id="collapseSearch">
                <div class="card-body border-0 nav-search">
-                   <form method="post" role="search">
-                       <input class="form-control bg-dark border-dark position-relative" type="search" placeholder="Поиск" aria-label="Search">
-                       <a class="btn btn-search position-absolute" type="submit"><i class="fa fa-search search-icon" ></i></a>
-                   </form>
+                   <form class="search-form">
+                      <input type="search" value="" placeholder="Фильмы, Сериалы, Персоны, Подборки" class="search-input">
+                      <button type="submit" class="search-button">
+                        <svg viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                          <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                        </svg>
+                      </button>
+
+                      <div class="search-option">
+                        <div>
+                          <input name="type" type="radio" value="type-members" id="type-members">
+                          <label for="type-members">
+                            <svg viewBox="0 0 16 16" class="bi bi-people-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+                            </svg>
+                            <span>Персоны</span>
+                          </label>
+                        </div>
+
+                        <div>
+                          <input name="type" type="radio" value="type-movies" id="type-movies" checked>
+                          <label for="type-movies">
+                            <svg viewBox="0 0 16 16" class="bi bi-film" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0h8v6H4V1zm8 8H4v6h8V9zM1 1h2v2H1V1zm2 3H1v2h2V4zM1 7h2v2H1V7zm2 3H1v2h2v-2zm-2 3h2v2H1v-2zM15 1h-2v2h2V1zm-2 3h2v2h-2V4zm2 3h-2v2h2V7zm-2 3h2v2h-2v-2zm2 3h-2v2h2v-2z"/>
+                            </svg>
+                            <span>Фильмы</span>
+                          </label>
+                        </div>
+
+                        <div>
+                          <input name="type" type="radio" value="type-collection" id="type-collection">
+                          <label for="type-collection">
+                            <svg viewBox="0 0 16 16" class="bi bi-collection-play-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" d="M1.5 14.5A1.5 1.5 0 0 1 0 13V6a1.5 1.5 0 0 1 1.5-1.5h13A1.5 1.5 0 0 1 16 6v7a1.5 1.5 0 0 1-1.5 1.5h-13zm5.265-7.924A.5.5 0 0 0 6 7v5a.5.5 0 0 0 .765.424l4-2.5a.5.5 0 0 0 0-.848l-4-2.5zM2 3a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1h-11A.5.5 0 0 0 2 3zm2-2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7A.5.5 0 0 0 4 1z"/>
+                            </svg>
+                            <span>Подборки</span>
+                          </label>
+                        </div>
+                      </div>
+
+                    </form>
                </div>
            </div>
        </div>

@@ -1,19 +1,21 @@
 @import url('https://fonts.googleapis.com/css?family=PT+Sans');
 *{
-      vertical-align: baseline;
-      outline: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  outline: none;
 }
 body {
-    margin: 0;
-    padding: 0;
     font-family: 'PT Sans', sans-serif;
     box-sizing: border-box;
     background-color: #16151a;
+    color: #fff;
     line-height: 1.3;
-      -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
 
 }
 
@@ -169,10 +171,6 @@ ul li:hover .dropOut {
     -webkit-text-fill-color: transparent;
 }
 
-/*.nav-item {*/
-/*    font-size: 1.125em;*/
-/*}*/
-
 .search-icon{
     color: #fff;
 }
@@ -245,7 +243,7 @@ footer {
 
 /* media */
 
-@media (max-width: 1024px) {
+@media screen and (max-width: 1024px) {
 
     .footer-info, .footer-links, .social-media {
         display: flex;
@@ -259,7 +257,7 @@ footer {
 
 }
 
-@media (min-width: 1024px) {
+@media screen and (min-width: 1024px) {
 
     .navbar-brand {
         font-size: 2em;
@@ -301,3 +299,155 @@ footer {
         }
 }
 
+
+/* search form */
+
+.search-form {
+
+  height: 40px;
+  border-radius: 40px;
+  -webkit-transform: translate(0%, 0%);
+          transform: translate(0%, 0%);
+  background: #282c34;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.search-input {
+  position: absolute;
+  top: 10px;
+  left: 38px;
+  font-size: 14px;
+  background: none;
+  color: #fff;
+  width: 75%;
+  height: 20px;
+  border: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  outline: none;
+}
+
+@media screen and (max-width: 359px) {
+  .search-input {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 360px) and (max-width: 560px) {
+  .search-input {
+    width: 60%;
+  }
+}
+
+.search-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+          appearance: none;
+}
+
+.search-button {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  height: 20px;
+  width: 20px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  outline: none !important;
+  cursor: pointer;
+}
+.search-button svg {
+  width: 16px;
+  height: 16px;
+  fill: #5a6674;
+}
+
+.search-option {
+  position: absolute;
+  text-align: right;
+  top: 10px;
+  right: 15px;
+}
+.search-option div {
+  position: relative;
+  display: inline-block;
+  margin: 0 3px;
+  cursor: pointer;
+}
+.search-option div input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.01;
+  cursor: pointer;
+}
+.search-option div span {
+  position: absolute;
+  display: block;
+  text-align: center;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  opacity: 0;
+  background: #929aa3;
+  color: #fff;
+  font-size: 9px;
+  letter-spacing: 1px;
+  line-height: 1;
+  text-transform: uppercase;
+  padding: 4px 7px;
+  border-radius: 12px;
+  top: -18px;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+.search-option div span::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  border-top: 4px solid #929aa3;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+.search-option div:hover span {
+  opacity: 1;
+  top: -21px;
+}
+.search-option div label {
+  display: block;
+  cursor: pointer;
+}
+
+.search-option div svg {
+  height: 20px;
+  width: 20px;
+  fill: #929aa3;
+  opacity: 0.6;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  pointer-events: none;
+}
+.search-option div:hover svg {
+  opacity: 1;
+}
+.search-option div input:checked + label svg {
+  fill: #ffc107;
+  opacity: 0.9;
+}
+.search-option div input:checked + label span {
+  background: #ffc107;
+  color: #000
+}
+.search-option div input:checked + label span::after {
+  border-top-color: #ffc107;
+}
+
+/* end search form */
