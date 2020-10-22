@@ -88,7 +88,7 @@
                                       <i class="far fa-thumbs-up fa-fw fa-lg"></i>
                                   </button>
                                     {% else %}
-                                    <a href="{% url 'account_login' %}" class="heart" >
+                                    <a href="{% url 'account_login' %}" class="vote" >
                                       <i class="far fa-thumbs-up fa-fw fa-lg"></i>
                                   </a>
                                     {% endif %}
@@ -106,7 +106,7 @@
                                       <i class="far fa-thumbs-down fa-fw fa-lg"></i>
                                   </button>
                                     {% else %}
-                                    <a href="{% url 'account_login' %}" class="heart" >
+                                    <a href="{% url 'account_login' %}" class="vote" >
                                       <i class="far fa-thumbs-down fa-fw fa-lg"></i>
                                   </a>
                                     {% endif %}
@@ -126,7 +126,7 @@
                                   </button>
 
                                     {% else %}
-                                    <a href="{% url 'account_login' %}" class="vote" >
+                                    <a href="{% url 'account_login' %}" class="favorite" >
                                       <i class="far fa-star fa-fw fa-lg"></i>
                                   </a>
                                     {% endif %}
