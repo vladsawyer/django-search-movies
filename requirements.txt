@@ -11,7 +11,7 @@ click==7.1.2
 click-didyoumean==0.0.3
 click-repl==0.1.6
 constantly==15.1.0
-cryptography==2.9.2
+cryptography==3.2
 cssutils==1.0.2
 dateparser==0.7.4
 defusedxml==0.6.0
