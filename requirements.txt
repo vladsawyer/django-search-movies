@@ -27,7 +27,7 @@ django-js-asset==1.2.2
 django-mptt==0.11.0
 django-nine==0.2.3
 django-service-objects==0.7.0
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 elasticsearch==7.9.1
 elasticsearch-dsl==7.3.0
 future==0.18.2
