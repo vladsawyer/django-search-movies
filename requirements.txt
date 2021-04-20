@@ -42,7 +42,7 @@ Pillow==7.1.2
 pluggy==0.13.1
 prompt-toolkit==3.0.7
 psycopg2==2.8.5
-py==1.8.1
+py==1.10.0
 pycparser==2.20
 PyHamcrest==2.0.2
 pynliner==0.8.0
