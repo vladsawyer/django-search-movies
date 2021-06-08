@@ -38,7 +38,7 @@ kombu==3.0.37
 more-itertools==8.3.0
 oauthlib==3.1.0
 packaging==20.3
-Pillow==7.1.2
+Pillow==8.2.0
 pluggy==0.13.1
 prompt-toolkit==3.0.7
 psycopg2==2.8.5
